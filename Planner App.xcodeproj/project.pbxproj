@@ -30,6 +30,8 @@
 		0134A9AF2BACC7A900D5BB5C /* MiniMonthCalendarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0134A9AE2BACC7A900D5BB5C /* MiniMonthCalendarView.swift */; };
 		0134A9B42BAD1AA700D5BB5C /* AddModuleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0134A9B32BAD1AA700D5BB5C /* AddModuleView.swift */; };
 		0134A9B62BAD1B4900D5BB5C /* ModuleNames.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0134A9B52BAD1B4900D5BB5C /* ModuleNames.swift */; };
+		0135C3BC2BAF68C600D60E30 /* CircleSlider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0135C3BB2BAF68C600D60E30 /* CircleSlider.swift */; };
+		0135C3BE2BAF7C2300D60E30 /* Slider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0135C3BD2BAF7C2300D60E30 /* Slider.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -77,6 +79,8 @@
 		0134A9AE2BACC7A900D5BB5C /* MiniMonthCalendarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MiniMonthCalendarView.swift; sourceTree = "<group>"; };
 		0134A9B32BAD1AA700D5BB5C /* AddModuleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddModuleView.swift; sourceTree = "<group>"; };
 		0134A9B52BAD1B4900D5BB5C /* ModuleNames.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModuleNames.swift; sourceTree = "<group>"; };
+		0135C3BB2BAF68C600D60E30 /* CircleSlider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircleSlider.swift; sourceTree = "<group>"; };
+		0135C3BD2BAF7C2300D60E30 /* Slider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Slider.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -178,6 +182,8 @@
 				011DEC5B2BAF0C7200B2249F /* WeatherView.swift */,
 				011DEC5D2BAF0C7B00B2249F /* GratitudeView.swift */,
 				011DEC5F2BAF0C9A00B2249F /* NotesView.swift */,
+				0135C3BB2BAF68C600D60E30 /* CircleSlider.swift */,
+				0135C3BD2BAF7C2300D60E30 /* Slider.swift */,
 				011DEC612BAF0CE200B2249F /* WaterView.swift */,
 				011DEC632BAF0CEC00B2249F /* MealsView.swift */,
 				011DEC652BAF2E3800B2249F /* Modules.swift */,
@@ -329,7 +335,9 @@
 				011DEC602BAF0C9A00B2249F /* NotesView.swift in Sources */,
 				0134A97E2BACA44300D5BB5C /* ContentView.swift in Sources */,
 				0134A9A92BACAB4C00D5BB5C /* TodayView.swift in Sources */,
+				0135C3BE2BAF7C2300D60E30 /* Slider.swift in Sources */,
 				011DEC642BAF0CEC00B2249F /* MealsView.swift in Sources */,
+				0135C3BC2BAF68C600D60E30 /* CircleSlider.swift in Sources */,
 				011DEC582BAF0C0D00B2249F /* ScheduleView.swift in Sources */,
 				011DEC5A2BAF0C5600B2249F /* TasksView.swift in Sources */,
 				0134A97C2BACA44300D5BB5C /* Planner_AppApp.swift in Sources */,

@@ -23,47 +23,66 @@ struct SpaceView: View {
 
     var body: some View {
         GeometryReader { geometry in
-            VStack {
-                if type != "Calendar" {
-                    Text(type.uppercased()).font(.headline).padding(.top)
-                } else {
-
-                        Text(currentMonthName())
-                            .textCase(.uppercase).font(.headline).padding(.top)
-                }
+            ZStack {
+               
                 
-                if type == "Calendar" {
-                    MiniMonthCalendarView(scale: scale)
-                } else if type == "Tasks" {
-                    TasksView()
-                } else {
-                    Text("No view to display")
+                VStack {
+                    
+                    HStack {
+                        if type != "Calendar" {
+                            Text(type.uppercased()).font(.headline)
+                        } else {
+                            
+                            Text(currentMonthName())
+                                .textCase(.uppercase).font(.headline)
+                        }
+                    }.padding(.top, 12.0)
+                    
+                    if type == "Calendar" {
+                        MiniMonthCalendarView(scale: scale)
+                    } else if type == "Notes" {
+                        NotesView()
+                    } else if type == "Mood" {
+                        MoodView()
+                    } else if type == "Weather" {
+                        WeatherView()
+                    } else if type == "Tasks" {
+                        TasksView()
+                    } else if type == "Schedule" {
+                        ScheduleView()
+                    } else if type == "Gratitude" {
+                        GratitudeView()
+                    } else if type == "Water" {
+                        WaterView()
+                    } else if type == "Meals" {
+                        MealsView()
+                    } else {
+                        Text("No view to display")
+                    }
+                    Spacer()
+                }
+                .frame(maxWidth: geometry.size.width, maxHeight: geometry.size.height)
+                .clipShape(RoundedRectangle(cornerRadius: 10))
+                .background(.gray)
+                .cornerRadius(20)
+                .shadow(radius: 10, x:5,y:5)
+                .onTapGesture {
                     
                 }
-                Spacer()
-                HStack{
-                    Spacer()
-                    Button("Settings", systemImage: "gearshape.fill", action: {
-                        showingAssignView = true
-                    }).labelStyle(.iconOnly).padding().foregroundColor(.black)
+                .sheet(isPresented: $showingAssignView) {
+                    AddModuleView(type: $type).onDisappear()
                 }
-                
+                VStack{
+                    HStack{
+                        Spacer()
+                        Button("Settings", systemImage: "gearshape.fill", action: {
+                            showingAssignView = true
+                        }).labelStyle(.iconOnly).padding([.top, .trailing]).foregroundColor(.black).font(.caption2)
+                    }
+                    Spacer()
+                }
             }
-            .frame(maxWidth: geometry.size.width, maxHeight: geometry.size.height)
-            .clipShape(RoundedRectangle(cornerRadius: 10))
-            .background(.gray)
-            .cornerRadius(20)
-            .shadow(radius: 10, x:5,y:5)
-            
-            .onTapGesture {
-                
-            }
-            .sheet(isPresented: $showingAssignView) {
-                AddModuleView(type: $type).onDisappear()
-            }
-                
         }
-        
     }
 
     func currentMonthName() -> String {

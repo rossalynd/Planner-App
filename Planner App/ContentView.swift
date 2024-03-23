@@ -39,8 +39,15 @@ struct ContentView: View {
                     .toolbar {
                         ToolbarItem(placement: .principal) {
                             HStack {
-                                Text(Date().formatted(date: .complete, time: .omitted)).font(.largeTitle)
-                            }
+                                Spacer()
+                                Text(Date().formatted(date: .complete, time: .omitted).uppercased()).font(.title).padding(5)
+                                Spacer()
+                            }.background(.gray).cornerRadius(20).shadow(radius: 10, x: 5, y: 5)
+                        }
+                        ToolbarItem(placement: .topBarTrailing) {
+                            Button("Edit", systemImage: "slider.horizontal.3", action: {
+                                
+                            })
                         }
                     }
                 
@@ -49,7 +56,7 @@ struct ContentView: View {
            
             
             
-        }
+        } 
        
         
     }

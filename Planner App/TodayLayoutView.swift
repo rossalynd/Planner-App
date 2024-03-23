@@ -14,7 +14,7 @@ struct TodayLayoutView: View {
     private var smallSpaceMiddleTop: String = "Schedule"
     private var smallSpaceMiddleBottom: String = "Tasks"
     private var smallSpaceBottom: String = "Mood"
-    private var largeSpaceTop: String = "default"
+    private var largeSpaceTop: String = "Notes"
     private var largeSpaceBottom: String = "default"
     private var mediumSpaceLeft: String = "default"
     private var mediumSpaceRight: String = "default"
@@ -28,7 +28,7 @@ struct TodayLayoutView: View {
                 VStack(spacing: 20) {
                     VStack {
                         SpaceView(type: smallSpaceTop, scale: .small) 
-                    }.frame(maxWidth: .infinity)
+                    }
                     VStack {
                         SpaceView(type: smallSpaceMiddleTop, scale: .small)
                     }
