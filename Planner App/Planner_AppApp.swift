@@ -9,8 +9,8 @@ import SwiftUI
 import SwiftData
 
 @main
-struct Planner_AppApp: App {
-
+struct Planner_App: App {
+   
 
 
     var body: some Scene {

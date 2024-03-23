@@ -7,11 +7,13 @@
 import Foundation
 import SwiftData
 
-
-struct TodayBox: Identifiable, Hashable, Equatable {
-    let id: UUID
+@Model
+final class TodayBox: Identifiable {
+    
+    @Attribute(.unique) var id: UUID
     var type: String
     var size: Scale
+
     
     init(type: String, size: Scale) {
         self.id = UUID()

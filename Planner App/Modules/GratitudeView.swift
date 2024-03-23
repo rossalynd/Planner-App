@@ -1,19 +1,18 @@
 //
-//  ToDoView.swift
+//  GratitudeView.swift
 //  Planner App
 //
-//  Created by Rosie O'Marrow on 3/21/24.
+//  Created by Rosie O'Marrow on 3/23/24.
 //
 
 import SwiftUI
 
-struct ToDoView: View {
+struct GratitudeView: View {
     var body: some View {
         Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
-        
     }
 }
 
 #Preview {
-    ToDoView()
+    GratitudeView()
 }

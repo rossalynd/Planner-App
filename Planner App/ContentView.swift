@@ -21,6 +21,8 @@ struct ContentView: View {
             
 #if os(macOS)
             .navigationSplitViewColumnWidth(min: 180, ideal: 200)
+#else
+            .navigationSplitViewColumnWidth(min: 235, ideal: 235)
 #endif
             .toolbar {
                 ToolbarItem {
@@ -28,7 +30,24 @@ struct ContentView: View {
                 }
             }
         } detail: {
-            TodayView().padding()
+            
+            
+           
+               
+                TodayView()
+                    .navigationBarTitleDisplayMode(.inline)
+                    .toolbar {
+                        ToolbarItem(placement: .principal) {
+                            HStack {
+                                Text(Date().formatted(date: .complete, time: .omitted)).font(.largeTitle)
+                            }
+                        }
+                    }
+                
+                
+            
+           
+            
             
         }
        

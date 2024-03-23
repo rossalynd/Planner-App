@@ -10,17 +10,17 @@ import SwiftUI
 struct TodayBoxView: View {
     @State var showingAddView: Bool = false
     @State var showingReplaceView: Bool = false
-    @State var todayBoxType: String
-    var scale: Scale
+    @State var type: String
+    var scale: SpaceView.Scale
     
     var body: some View {
         VStack {
             
             
-            if todayBoxType == "Cal" {
+            if type == "Cal" {
                 MiniMonthCalendarView(scale: scale)
-            } else if todayBoxType == "ToDo" {
-                ToDoView()
+            } else if type == "Tasks" {
+                TasksView()
             } else {
                 Text("No views to display")
                 
@@ -79,6 +79,3 @@ struct TodayBoxView: View {
 
 
 
-#Preview {
-    TodayBoxView(todayBoxType: "", scale: .small)
-}
