@@ -7,6 +7,17 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		011DEC502BAF048100B2249F /* TodayLayoutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 011DEC4F2BAF048100B2249F /* TodayLayoutView.swift */; };
+		011DEC542BAF0A9D00B2249F /* SpaceView2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 011DEC532BAF0A9D00B2249F /* SpaceView2.swift */; };
+		011DEC562BAF0BFC00B2249F /* MoodView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 011DEC552BAF0BFC00B2249F /* MoodView.swift */; };
+		011DEC582BAF0C0D00B2249F /* ScheduleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 011DEC572BAF0C0D00B2249F /* ScheduleView.swift */; };
+		011DEC5A2BAF0C5600B2249F /* TasksView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 011DEC592BAF0C5600B2249F /* TasksView.swift */; };
+		011DEC5C2BAF0C7200B2249F /* WeatherView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 011DEC5B2BAF0C7200B2249F /* WeatherView.swift */; };
+		011DEC5E2BAF0C7B00B2249F /* GratitudeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 011DEC5D2BAF0C7B00B2249F /* GratitudeView.swift */; };
+		011DEC602BAF0C9A00B2249F /* NotesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 011DEC5F2BAF0C9A00B2249F /* NotesView.swift */; };
+		011DEC622BAF0CE200B2249F /* WaterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 011DEC612BAF0CE200B2249F /* WaterView.swift */; };
+		011DEC642BAF0CEC00B2249F /* MealsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 011DEC632BAF0CEC00B2249F /* MealsView.swift */; };
+		011DEC662BAF2E3800B2249F /* Modules.swift in Sources */ = {isa = PBXBuildFile; fileRef = 011DEC652BAF2E3800B2249F /* Modules.swift */; };
 		0134A97C2BACA44300D5BB5C /* Planner_AppApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0134A97B2BACA44300D5BB5C /* Planner_AppApp.swift */; };
 		0134A97E2BACA44300D5BB5C /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0134A97D2BACA44300D5BB5C /* ContentView.swift */; };
 		0134A9822BACA44400D5BB5C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0134A9812BACA44400D5BB5C /* Assets.xcassets */; };
@@ -17,11 +28,8 @@
 		0134A9A92BACAB4C00D5BB5C /* TodayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0134A9A82BACAB4C00D5BB5C /* TodayView.swift */; };
 		0134A9AD2BACC6DE00D5BB5C /* TodayBoxView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0134A9AC2BACC6DE00D5BB5C /* TodayBoxView.swift */; };
 		0134A9AF2BACC7A900D5BB5C /* MiniMonthCalendarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0134A9AE2BACC7A900D5BB5C /* MiniMonthCalendarView.swift */; };
-		0134A9B22BACFD4900D5BB5C /* ToDoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0134A9B12BACFD4900D5BB5C /* ToDoView.swift */; };
 		0134A9B42BAD1AA700D5BB5C /* AddModuleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0134A9B32BAD1AA700D5BB5C /* AddModuleView.swift */; };
 		0134A9B62BAD1B4900D5BB5C /* ModuleNames.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0134A9B52BAD1B4900D5BB5C /* ModuleNames.swift */; };
-		0134A9BA2BAD4AEA00D5BB5C /* TodayBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0134A9B92BAD4AEA00D5BB5C /* TodayBox.swift */; };
-		0134A9F52BAD74EA00D5BB5C /* File.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0134A9F42BAD74EA00D5BB5C /* File.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -42,6 +50,17 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		011DEC4F2BAF048100B2249F /* TodayLayoutView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayLayoutView.swift; sourceTree = "<group>"; };
+		011DEC532BAF0A9D00B2249F /* SpaceView2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpaceView2.swift; sourceTree = "<group>"; };
+		011DEC552BAF0BFC00B2249F /* MoodView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoodView.swift; sourceTree = "<group>"; };
+		011DEC572BAF0C0D00B2249F /* ScheduleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleView.swift; sourceTree = "<group>"; };
+		011DEC592BAF0C5600B2249F /* TasksView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TasksView.swift; sourceTree = "<group>"; };
+		011DEC5B2BAF0C7200B2249F /* WeatherView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherView.swift; sourceTree = "<group>"; };
+		011DEC5D2BAF0C7B00B2249F /* GratitudeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GratitudeView.swift; sourceTree = "<group>"; };
+		011DEC5F2BAF0C9A00B2249F /* NotesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotesView.swift; sourceTree = "<group>"; };
+		011DEC612BAF0CE200B2249F /* WaterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WaterView.swift; sourceTree = "<group>"; };
+		011DEC632BAF0CEC00B2249F /* MealsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MealsView.swift; sourceTree = "<group>"; };
+		011DEC652BAF2E3800B2249F /* Modules.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Modules.swift; sourceTree = "<group>"; };
 		0134A9782BACA44300D5BB5C /* Planner App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Planner App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		0134A97B2BACA44300D5BB5C /* Planner_AppApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Planner_AppApp.swift; sourceTree = "<group>"; };
 		0134A97D2BACA44300D5BB5C /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -56,11 +75,8 @@
 		0134A9A82BACAB4C00D5BB5C /* TodayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayView.swift; sourceTree = "<group>"; };
 		0134A9AC2BACC6DE00D5BB5C /* TodayBoxView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayBoxView.swift; sourceTree = "<group>"; };
 		0134A9AE2BACC7A900D5BB5C /* MiniMonthCalendarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MiniMonthCalendarView.swift; sourceTree = "<group>"; };
-		0134A9B12BACFD4900D5BB5C /* ToDoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToDoView.swift; sourceTree = "<group>"; };
 		0134A9B32BAD1AA700D5BB5C /* AddModuleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddModuleView.swift; sourceTree = "<group>"; };
 		0134A9B52BAD1B4900D5BB5C /* ModuleNames.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModuleNames.swift; sourceTree = "<group>"; };
-		0134A9B92BAD4AEA00D5BB5C /* TodayBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayBox.swift; sourceTree = "<group>"; };
-		0134A9F42BAD74EA00D5BB5C /* File.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = File.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -114,9 +130,9 @@
 				0134A97B2BACA44300D5BB5C /* Planner_AppApp.swift */,
 				0134A97D2BACA44300D5BB5C /* ContentView.swift */,
 				0134A9A82BACAB4C00D5BB5C /* TodayView.swift */,
-				0134A9F42BAD74EA00D5BB5C /* File.swift */,
+				011DEC4F2BAF048100B2249F /* TodayLayoutView.swift */,
+				011DEC532BAF0A9D00B2249F /* SpaceView2.swift */,
 				0134A9AC2BACC6DE00D5BB5C /* TodayBoxView.swift */,
-				0134A9B92BAD4AEA00D5BB5C /* TodayBox.swift */,
 				0134A9B02BACFD2700D5BB5C /* Modules */,
 				0134A9812BACA44400D5BB5C /* Assets.xcassets */,
 				0134A9832BACA44400D5BB5C /* Planner_App.entitlements */,
@@ -155,8 +171,16 @@
 			children = (
 				0134A9B32BAD1AA700D5BB5C /* AddModuleView.swift */,
 				0134A9B52BAD1B4900D5BB5C /* ModuleNames.swift */,
-				0134A9B12BACFD4900D5BB5C /* ToDoView.swift */,
 				0134A9AE2BACC7A900D5BB5C /* MiniMonthCalendarView.swift */,
+				011DEC552BAF0BFC00B2249F /* MoodView.swift */,
+				011DEC572BAF0C0D00B2249F /* ScheduleView.swift */,
+				011DEC592BAF0C5600B2249F /* TasksView.swift */,
+				011DEC5B2BAF0C7200B2249F /* WeatherView.swift */,
+				011DEC5D2BAF0C7B00B2249F /* GratitudeView.swift */,
+				011DEC5F2BAF0C9A00B2249F /* NotesView.swift */,
+				011DEC612BAF0CE200B2249F /* WaterView.swift */,
+				011DEC632BAF0CEC00B2249F /* MealsView.swift */,
+				011DEC652BAF2E3800B2249F /* Modules.swift */,
 			);
 			path = Modules;
 			sourceTree = "<group>";
@@ -291,15 +315,23 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0134A9BA2BAD4AEA00D5BB5C /* TodayBox.swift in Sources */,
+				011DEC5C2BAF0C7200B2249F /* WeatherView.swift in Sources */,
+				011DEC662BAF2E3800B2249F /* Modules.swift in Sources */,
+				011DEC502BAF048100B2249F /* TodayLayoutView.swift in Sources */,
+				011DEC5E2BAF0C7B00B2249F /* GratitudeView.swift in Sources */,
+				011DEC622BAF0CE200B2249F /* WaterView.swift in Sources */,
 				0134A9B62BAD1B4900D5BB5C /* ModuleNames.swift in Sources */,
 				0134A9AD2BACC6DE00D5BB5C /* TodayBoxView.swift in Sources */,
 				0134A9AF2BACC7A900D5BB5C /* MiniMonthCalendarView.swift in Sources */,
-				0134A9B22BACFD4900D5BB5C /* ToDoView.swift in Sources */,
-				0134A9F52BAD74EA00D5BB5C /* File.swift in Sources */,
+				011DEC542BAF0A9D00B2249F /* SpaceView2.swift in Sources */,
+				011DEC562BAF0BFC00B2249F /* MoodView.swift in Sources */,
 				0134A9B42BAD1AA700D5BB5C /* AddModuleView.swift in Sources */,
+				011DEC602BAF0C9A00B2249F /* NotesView.swift in Sources */,
 				0134A97E2BACA44300D5BB5C /* ContentView.swift in Sources */,
 				0134A9A92BACAB4C00D5BB5C /* TodayView.swift in Sources */,
+				011DEC642BAF0CEC00B2249F /* MealsView.swift in Sources */,
+				011DEC582BAF0C0D00B2249F /* ScheduleView.swift in Sources */,
+				011DEC5A2BAF0C5600B2249F /* TasksView.swift in Sources */,
 				0134A97C2BACA44300D5BB5C /* Planner_AppApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -9,11 +9,11 @@ import SwiftUI
 
 struct MiniMonthCalendarView: View {
     @ObservedObject var viewModel = CalendarViewModel()
-    var scale: TodayBoxView.Scale
+    var scale: SpaceView.Scale
 
     private var baseFontSize: CGFloat {
         switch scale {
-        case .small: return 10 // Smaller parent view
+        case .small: return 12 // Smaller parent view
         case .medium: return 14 // Medium parent view
         case .large: return 18 // Larger parent view
         }
@@ -37,10 +37,7 @@ struct MiniMonthCalendarView: View {
 
     var body: some View {
         VStack(spacing: spacingScale) { // Use spacingScale for Vstack spacing
-            Text(viewModel.currentMonthName())
-                .textCase(.uppercase)
-                .font(.system(size: baseFontSize))
-                .padding(.bottom, paddingScale)
+           
 
             HStack(spacing: 0) {
                 ForEach(viewModel.daysOfWeek, id: \.self) { day in
@@ -51,7 +48,7 @@ struct MiniMonthCalendarView: View {
                         .padding(paddingScale) // Use paddingScale for internal padding
                 }
             }
-            .background(Color.blue)
+            .background(Color.black)
             .foregroundColor(.white)
 
             let columns = Array(repeating: GridItem(.flexible(), spacing: spacingScale), count: 7) // Use spacingScale for grid spacing
@@ -60,15 +57,14 @@ struct MiniMonthCalendarView: View {
                     Text("\(day.number)")
                         .font(.system(size: baseFontSize))
                         .padding(paddingScale) // Adjust padding to scale with the text
-                        .background(day.isCurrentDay ? Color.blue : Color.clear)
+                        .background(day.isCurrentDay ? Color.black : Color.clear)
                         .clipShape(Circle())
                         .foregroundColor(day.color)
                 }
             }
-        }
-        .padding() // And for the horizontal padding of the outer VStack
-        .background(Color.white)
-        .clipShape(RoundedRectangle(cornerRadius: 10))
+        }.padding(.horizontal)
+      
+        
         
     }
     
@@ -109,12 +105,7 @@ class CalendarViewModel: ObservableObject {
         
         return days
     }
-    func currentMonthName() -> String {
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "MMMM" // "MMMM" is the format string for the full month name.
-        let monthName = dateFormatter.string(from: Date())
-        return monthName
-    }
+    
 }
 
 struct Day: Identifiable, Hashable {
