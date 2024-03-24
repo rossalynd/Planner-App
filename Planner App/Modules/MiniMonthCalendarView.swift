@@ -9,29 +9,30 @@ import SwiftUI
 
 struct MiniMonthCalendarView: View {
     @ObservedObject var viewModel = CalendarViewModel()
+    @EnvironmentObject var dateHolder: DateHolder
     var scale: SpaceView.Scale
 
     private var baseFontSize: CGFloat {
         switch scale {
-        case .small: return 12 // Smaller parent view
-        case .medium: return 14 // Medium parent view
+        case .small: return 14 // Smaller parent view
+        case .medium: return 16 // Medium parent view
         case .large: return 18 // Larger parent view
         }
     }
     
     private var paddingScale: CGFloat {
         switch scale {
-        case .small: return 4 // Reduced padding for smaller view
-        case .medium: return 8 // Standard padding for medium view
-        case .large: return 12 // Increased padding for larger view
+        case .small: return 2 // Reduced padding for smaller view
+        case .medium: return 3 // Standard padding for medium view
+        case .large: return 6 // Increased padding for larger view
         }
     }
     
     private var spacingScale: CGFloat {
         switch scale {
-        case .small: return 2 // Tighter spacing for smaller view
-        case .medium: return 4 // Standard spacing for medium view
-        case .large: return 6 // Looser spacing for larger view
+        case .small: return 1 // Tighter spacing for smaller view
+        case .medium: return 3 // Standard spacing for medium view
+        case .large: return 4 // Looser spacing for larger view
         }
     }
 
@@ -45,10 +46,10 @@ struct MiniMonthCalendarView: View {
                         .textCase(.uppercase)
                         .font(.system(size: baseFontSize * 0.85))
                         .frame(maxWidth: .infinity)
-                        .padding(paddingScale) // Use paddingScale for internal padding
+                        .padding(.vertical, paddingScale) // Use paddingScale for internal padding
                 }
             }
-            .background(Color.black)
+            .background(Color.black).clipShape(RoundedRectangle(cornerRadius: 20))
             .foregroundColor(.white)
 
             let columns = Array(repeating: GridItem(.flexible(), spacing: spacingScale), count: 7) // Use spacingScale for grid spacing
@@ -57,12 +58,26 @@ struct MiniMonthCalendarView: View {
                     Text("\(day.number)")
                         .font(.system(size: baseFontSize))
                         .padding(paddingScale) // Adjust padding to scale with the text
-                        .background(day.isCurrentDay ? Color.black : Color.clear)
+                        .background(day.isCurrentDay ? Color("DefaultBlack") : Color.clear)
                         .clipShape(Circle())
                         .foregroundColor(day.color)
+                        .onTapGesture {
+                            let calendar = Calendar.current
+                            var dateComponents = DateComponents()
+                            dateComponents.year = day.year
+                            dateComponents.month = day.month
+                            dateComponents.day = day.number
+
+                            if let date = calendar.date(from: dateComponents) {
+                                dateHolder.displayedDate = date
+                            }
+                        }
                 }
             }
-        }.padding(.horizontal)
+            
+            
+               
+        }.padding(10)
       
         
         
@@ -93,15 +108,24 @@ class CalendarViewModel: ObservableObject {
         let daysInPreviousMonthToShow = weekday - 1
         let startDayOfPreviousMonthToShow = previousMonthRange.count - daysInPreviousMonthToShow + 1
         
+        let components = Calendar.current.dateComponents([.year, .month], from: previousMonth)
+        let previousMonthYear = components.year!
+        let previousMonthIndex = components.month!
+
         for day in startDayOfPreviousMonthToShow...previousMonthRange.count {
-            days.append(Day(number: day, color: .gray))
+            days.append(Day(number: day, year: previousMonthYear, month: previousMonthIndex, color: .gray))
         }
+
         
         for day in 1...range.count {
             let date = calendar.date(byAdding: .day, value: day - 1, to: startOfMonth)!
             let isCurrentDay = calendar.isDateInToday(date)
-            days.append(Day(number: day, isCurrentDay: isCurrentDay, color: isCurrentDay ? .white : .black))
+            let components = calendar.dateComponents([.year, .month], from: date)
+            if let year = components.year, let month = components.month {
+                days.append(Day(number: day, year: year, month: month, isCurrentDay: isCurrentDay, color: isCurrentDay ? .white : Color("DefaultBlack")))
+            }
         }
+
         
         return days
     }
@@ -111,12 +135,18 @@ class CalendarViewModel: ObservableObject {
 struct Day: Identifiable, Hashable {
     let id = UUID()
     let number: Int
+    let year: Int
+    let month: Int
     let isCurrentDay: Bool
+    let isDisplayedDate: Bool
     let color: Color
-    
-    init(number: Int, isCurrentDay: Bool = false, color: Color = .black) {
+
+    init(number: Int, year: Int, month: Int, isCurrentDay: Bool = false, isDisplayedDate: Bool = false, color: Color = .black) {
         self.number = number
+        self.year = year
+        self.month = month
         self.isCurrentDay = isCurrentDay
+        self.isDisplayedDate = isDisplayedDate
         self.color = color
     }
 }
@@ -128,5 +158,6 @@ struct Day: Identifiable, Hashable {
 
 
 #Preview {
-    MiniMonthCalendarView(scale: .small)
+    ContentView()
+        .environmentObject(DateHolder())
 }

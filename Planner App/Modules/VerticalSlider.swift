@@ -12,27 +12,28 @@ struct VerticalSlider: View {
     var range: ClosedRange<CGFloat> // The range of values the slider can adjust
     var onEditingChanged: (Bool) -> Void
 
-    var sliderLength: CGFloat = 200 // Define the vertical slider's length
-    var sliderWidth: CGFloat = 20 // Define the slider's width for the touchable area
+    var sliderLength: CGFloat = 150 // Define the vertical slider's length
+    var sliderWidth: CGFloat = 100 // Define the slider's width for the touchable area
 
     var body: some View {
         ZStack {
             // The actual slider track
             Rectangle()
                 .fill(Color.white)
-                .frame(width: 5, height: sliderLength) // Use sliderLength for dynamic sizing
+                .frame(width: 10, height: sliderLength) // Use sliderLength for dynamic sizing
                 .cornerRadius(2.5)
                 
             // The draggable slider "handle"
             Circle()
                 .fill(Color.blue)
-                .frame(width: 20, height: 20) // Circle dimensions
+                .frame(width: 50, height: 50) 
+                    // Circle dimensions
                 .offset(y: self.valueToY(value: value, height: sliderLength, range: range) - sliderLength / 2)
                 .gesture(
                     DragGesture()
                         .onChanged { gesture in
                             // Adjust for the offset
-                            let adjustedLocationY = gesture.location.y + 100 // Adjusting for the top of the slider being at -100
+                            let adjustedLocationY = gesture.location.y + 50 // Adjusting for the top of the slider being at -50
                             
                             self.onEditingChanged(true)
                             let newHeight = adjustedLocationY

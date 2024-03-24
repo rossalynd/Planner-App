@@ -10,10 +10,12 @@
 import SwiftUI
 
 struct SpaceView: View {
+    @EnvironmentObject var dateHolder: DateHolder
     @State var type: String
     @State var showingAssignView = false
     var scale: Scale
     var maxHeight = 0.0
+   
     
     enum Scale {
         case small, medium, large
@@ -49,7 +51,7 @@ struct SpaceView: View {
                     } else if type == "Tasks" {
                         TasksView()
                     } else if type == "Schedule" {
-                        ScheduleView()
+                        ScheduleView(scale: scale)
                     } else if type == "Gratitude" {
                         GratitudeView()
                     } else if type == "Water" {
@@ -63,26 +65,20 @@ struct SpaceView: View {
                 }
                 .frame(maxWidth: geometry.size.width, maxHeight: geometry.size.height)
                 .clipShape(RoundedRectangle(cornerRadius: 10))
-                .background(.gray)
-                .cornerRadius(20)
-                .shadow(radius: 10, x:5,y:5)
+                .background(Color("DefaultWhite"))
+                .clipShape(RoundedRectangle(cornerRadius: 20))
                 .onTapGesture {
                     
                 }
                 .sheet(isPresented: $showingAssignView) {
                     AddModuleView(type: $type).onDisappear()
                 }
-                VStack{
-                    HStack{
-                        Spacer()
-                        Button("Settings", systemImage: "gearshape.fill", action: {
-                            showingAssignView = true
-                        }).labelStyle(.iconOnly).padding([.top, .trailing]).foregroundColor(.black).font(.caption2)
-                    }
-                    Spacer()
-                }
+                
+               
+                
             }
         }
+        .onLongPressGesture(perform:{ showingAssignView = true})
     }
 
     func currentMonthName() -> String {

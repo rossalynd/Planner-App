@@ -25,7 +25,8 @@ struct CanvasView: UIViewRepresentable {
     func makeUIView(context: Context) -> PKCanvasView {
         let canvasView = PKCanvasView()
         canvasView.drawingPolicy = .anyInput
-        canvasView.backgroundColor = .systemGray // Set the background color to gray
+        canvasView.backgroundColor = UIColor.clear // Set the background color to gray
+        
         canvasView.delegate = context.coordinator
         return canvasView
     }
@@ -54,113 +55,118 @@ struct CanvasView: UIViewRepresentable {
     }
 }
 
-import SwiftUI
-import UIKit
-import PencilKit
 
-// PKDrawing extension and CanvasView code remains unchanged
+
 
 struct NotesView: View {
     @State private var drawing = PKDrawing()
-    @State private var tool: PKTool = PKInkingTool(.monoline, color: .black, width: 2) // Default tool
-    @State private var penWidth: CGFloat = 2
+    @State private var tool: PKTool = PKInkingTool(.monoline, color: .black, width: 1) // Default tool
+    @State private var penWidth: CGFloat = 1
     @State private var eraserWidth: CGFloat = 20
     @State private var showPenMenu = false
     @State private var showEraserMenu = false
     @State private var isMenuVisible = false
 
     var body: some View {
-        ZStack {
-            CanvasView(drawing: $drawing, tool: $tool, isMenuVisible: $isMenuVisible)
-                            .edgesIgnoringSafeArea(.all)
+        GeometryReader { geometry in
+            ZStack {
+                CanvasView(drawing: $drawing, tool: $tool, isMenuVisible: $isMenuVisible)
+                    .edgesIgnoringSafeArea(.all)
                 
-            VStack {
-                
-                HStack {
+                VStack {
                     Spacer()
-                    VStack {
-                        
-                        Button(action: {
+                    // Pencil Slider
+                    if showPenMenu {
+                        VStack {
+                            HorizontalSlider(
+                                value: $penWidth,
+                                range: 1...50,
+                                onEditingChanged: { editing in
+                                    showPenMenu = editing
+                                }
+                            )
+                            
+                            
+                        }
+                        .transition(.slide)
+                        .animation(.easeOut, value: showPenMenu)
+                        .onDisappear {
                             if tool is PKInkingTool {
-                                showPenMenu.toggle() // Toggle pen menu visibility
-                            } else {
-                                // Switch to pen and show its menu
                                 self.tool = PKInkingTool(.monoline, color: .black, width: penWidth)
-                                
-                            }
-                        }) {
-                            
-                            Image(systemName: "pencil.circle.fill").foregroundColor(.white)
-                        }
-                        // Pen size adjustment menu
-                        if showPenMenu {
-                            VStack {
-                                VerticalSlider(
-                                    value: $penWidth,
-                                    range: 2...100,
-                                    onEditingChanged: { editing in
-                                        showPenMenu = editing
-                                    }
-                                )
-                                
-                                
-                            }
-                            .transition(.slide)
-                            .animation(.easeOut, value: showPenMenu)
-                            .onDisappear {
-                                // Update the pen tool with the new width when the menu is closed
-                                if tool is PKInkingTool {
-                                    self.tool = PKInkingTool(.monoline, color: .black, width: penWidth)
-                                }
                             }
                         }
-                        
-                        Spacer()
                     }
-                    VStack {
-                        
-                        Button(action: {
+                    //End Pencil Slider
+                    // Eraser Slider
+                    if showEraserMenu {
+                        VStack {
+                            HorizontalSlider(
+                                value: $eraserWidth,
+                                range: 20...500,
+                                onEditingChanged: { editing in
+                                    showEraserMenu = editing
+                                }
+                            )
+                        }
+                        .onDisappear {
+                            // Update the eraser tool with the new width when the menu is closed
                             if tool is PKEraserTool {
-                                showEraserMenu.toggle() // Toggle eraser menu visibility
-                            } else {
-                                // Switch to eraser and show its menu
                                 self.tool = PKEraserTool(.bitmap, width: eraserWidth)
-                                
                             }
-                        }) {
-                            Image(systemName: "eraser.fill").foregroundColor(.white)
                         }
-                        // Eraser size adjustment menu
-                        if showEraserMenu {
-                            VStack {
-                                VerticalSlider(
-                                    value: $eraserWidth,
-                                    range: 20...500,
-                                    onEditingChanged: { editing in
-                                        showEraserMenu = editing
-                                    }
-                                )
-                               
-                                
-                            }
-                            .transition(.slide)
-                            .animation(.easeOut, value: showEraserMenu)
-                            .onDisappear {
-                                // Update the eraser tool with the new width when the menu is closed
-                                if tool is PKEraserTool {
-                                    self.tool = PKEraserTool(.bitmap, width: eraserWidth)
+                        
+                    }
+                    //End Eraser Slider
+                    
+
+                    HStack {
+                        
+                        
+                            
+                            
+                            
+                            // Pencil Button
+                            Button(action: {
+                                if tool is PKInkingTool {
+                                    showPenMenu.toggle() // Toggle pen menu visibility
+                                } else {
+                                    // Switch to pen and show its menu
+                                    showEraserMenu = false
+                                    self.tool = PKInkingTool(.monoline, color: .black, width: penWidth)
+                                    
                                 }
+                            }) {
+                                
+                                Image(systemName: "pencil.circle.fill").foregroundColor(Color("DefaultBlack")).font(.title).background(.white).clipShape(Circle()).shadow(radius: 2, x: 3, y: 3)
+                            }
+                            //End Pencil Button
+
+                        
+
+                        //Between two Buttons
+
+                            
+                            //Eraser Button
+                            Button(action: {
+                                if tool is PKEraserTool {
+                                    showEraserMenu.toggle() // Toggle eraser menu visibility
+                                } else {
+                                    // Switch to eraser and show its menu
+                                    showPenMenu = false
+                                    self.tool = PKEraserTool(.bitmap, width: eraserWidth)
+                                    
+                                }
+                            }) {
+                                Image(systemName: "eraser.fill").foregroundColor(Color("DefaultBlack")).font(.title).background(.white).clipShape(Circle()).shadow(radius: 2, x: 3, y: 3)
                             }
                             
-                        }
-                        Spacer()
-                    }
-                 
-                    }.padding()
+                        }.padding(.horizontal)
+                        
                     
-                Spacer()
+                    
+                    
+                }
             }
-
         }
         
     }
@@ -168,5 +174,6 @@ struct NotesView: View {
 
 
 #Preview {
-    NotesView()
+    ContentView()
+        .environmentObject(DateHolder())
 }

@@ -16,6 +16,7 @@ import SwiftData
 
 struct TodayView: View {
     @Environment(\.modelContext) private var modelContext
+    @EnvironmentObject var dateHolder: DateHolder
 
     var body: some View {
         

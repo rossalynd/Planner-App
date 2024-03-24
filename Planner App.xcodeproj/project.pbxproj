@@ -26,12 +26,13 @@
 		0134A99A2BACA44400D5BB5C /* Planner_AppUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0134A9992BACA44400D5BB5C /* Planner_AppUITests.swift */; };
 		0134A99C2BACA44400D5BB5C /* Planner_AppUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0134A99B2BACA44400D5BB5C /* Planner_AppUITestsLaunchTests.swift */; };
 		0134A9A92BACAB4C00D5BB5C /* TodayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0134A9A82BACAB4C00D5BB5C /* TodayView.swift */; };
-		0134A9AD2BACC6DE00D5BB5C /* TodayBoxView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0134A9AC2BACC6DE00D5BB5C /* TodayBoxView.swift */; };
 		0134A9AF2BACC7A900D5BB5C /* MiniMonthCalendarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0134A9AE2BACC7A900D5BB5C /* MiniMonthCalendarView.swift */; };
 		0134A9B42BAD1AA700D5BB5C /* AddModuleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0134A9B32BAD1AA700D5BB5C /* AddModuleView.swift */; };
 		0134A9B62BAD1B4900D5BB5C /* ModuleNames.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0134A9B52BAD1B4900D5BB5C /* ModuleNames.swift */; };
 		0135C3BC2BAF68C600D60E30 /* CircleSlider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0135C3BB2BAF68C600D60E30 /* CircleSlider.swift */; };
-		0135C3BE2BAF7C2300D60E30 /* Slider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0135C3BD2BAF7C2300D60E30 /* Slider.swift */; };
+		0135C3BE2BAF7C2300D60E30 /* VerticalSlider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0135C3BD2BAF7C2300D60E30 /* VerticalSlider.swift */; };
+		01D23BC02BAFA159009F364A /* Colors.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 01D23BBF2BAFA159009F364A /* Colors.xcassets */; };
+		DC0FB8412BB090F600DB4ABB /* HorizontalSlider.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC0FB8402BB090F600DB4ABB /* HorizontalSlider.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -75,12 +76,14 @@
 		0134A9992BACA44400D5BB5C /* Planner_AppUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Planner_AppUITests.swift; sourceTree = "<group>"; };
 		0134A99B2BACA44400D5BB5C /* Planner_AppUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Planner_AppUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		0134A9A82BACAB4C00D5BB5C /* TodayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayView.swift; sourceTree = "<group>"; };
-		0134A9AC2BACC6DE00D5BB5C /* TodayBoxView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayBoxView.swift; sourceTree = "<group>"; };
 		0134A9AE2BACC7A900D5BB5C /* MiniMonthCalendarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MiniMonthCalendarView.swift; sourceTree = "<group>"; };
 		0134A9B32BAD1AA700D5BB5C /* AddModuleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddModuleView.swift; sourceTree = "<group>"; };
 		0134A9B52BAD1B4900D5BB5C /* ModuleNames.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModuleNames.swift; sourceTree = "<group>"; };
 		0135C3BB2BAF68C600D60E30 /* CircleSlider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircleSlider.swift; sourceTree = "<group>"; };
-		0135C3BD2BAF7C2300D60E30 /* Slider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Slider.swift; sourceTree = "<group>"; };
+		0135C3BD2BAF7C2300D60E30 /* VerticalSlider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerticalSlider.swift; sourceTree = "<group>"; };
+		01D23BBE2BAF99FA009F364A /* Planner-App-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "Planner-App-Info.plist"; sourceTree = SOURCE_ROOT; };
+		01D23BBF2BAFA159009F364A /* Colors.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Colors.xcassets; sourceTree = "<group>"; };
+		DC0FB8402BB090F600DB4ABB /* HorizontalSlider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HorizontalSlider.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -131,14 +134,15 @@
 		0134A97A2BACA44300D5BB5C /* Planner App */ = {
 			isa = PBXGroup;
 			children = (
+				01D23BBE2BAF99FA009F364A /* Planner-App-Info.plist */,
 				0134A97B2BACA44300D5BB5C /* Planner_AppApp.swift */,
 				0134A97D2BACA44300D5BB5C /* ContentView.swift */,
 				0134A9A82BACAB4C00D5BB5C /* TodayView.swift */,
 				011DEC4F2BAF048100B2249F /* TodayLayoutView.swift */,
 				011DEC532BAF0A9D00B2249F /* SpaceView2.swift */,
-				0134A9AC2BACC6DE00D5BB5C /* TodayBoxView.swift */,
 				0134A9B02BACFD2700D5BB5C /* Modules */,
 				0134A9812BACA44400D5BB5C /* Assets.xcassets */,
+				01D23BBF2BAFA159009F364A /* Colors.xcassets */,
 				0134A9832BACA44400D5BB5C /* Planner_App.entitlements */,
 				0134A9842BACA44400D5BB5C /* Preview Content */,
 			);
@@ -174,19 +178,20 @@
 			isa = PBXGroup;
 			children = (
 				0134A9B32BAD1AA700D5BB5C /* AddModuleView.swift */,
-				0134A9B52BAD1B4900D5BB5C /* ModuleNames.swift */,
-				0134A9AE2BACC7A900D5BB5C /* MiniMonthCalendarView.swift */,
-				011DEC552BAF0BFC00B2249F /* MoodView.swift */,
-				011DEC572BAF0C0D00B2249F /* ScheduleView.swift */,
-				011DEC592BAF0C5600B2249F /* TasksView.swift */,
-				011DEC5B2BAF0C7200B2249F /* WeatherView.swift */,
-				011DEC5D2BAF0C7B00B2249F /* GratitudeView.swift */,
-				011DEC5F2BAF0C9A00B2249F /* NotesView.swift */,
 				0135C3BB2BAF68C600D60E30 /* CircleSlider.swift */,
-				0135C3BD2BAF7C2300D60E30 /* Slider.swift */,
-				011DEC612BAF0CE200B2249F /* WaterView.swift */,
+				011DEC5D2BAF0C7B00B2249F /* GratitudeView.swift */,
 				011DEC632BAF0CEC00B2249F /* MealsView.swift */,
+				0134A9AE2BACC7A900D5BB5C /* MiniMonthCalendarView.swift */,
+				0134A9B52BAD1B4900D5BB5C /* ModuleNames.swift */,
 				011DEC652BAF2E3800B2249F /* Modules.swift */,
+				011DEC552BAF0BFC00B2249F /* MoodView.swift */,
+				011DEC5F2BAF0C9A00B2249F /* NotesView.swift */,
+				011DEC572BAF0C0D00B2249F /* ScheduleView.swift */,
+				0135C3BD2BAF7C2300D60E30 /* VerticalSlider.swift */,
+				DC0FB8402BB090F600DB4ABB /* HorizontalSlider.swift */,
+				011DEC592BAF0C5600B2249F /* TasksView.swift */,
+				011DEC612BAF0CE200B2249F /* WaterView.swift */,
+				011DEC5B2BAF0C7200B2249F /* WeatherView.swift */,
 			);
 			path = Modules;
 			sourceTree = "<group>";
@@ -295,6 +300,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				01D23BC02BAFA159009F364A /* Colors.xcassets in Resources */,
 				0134A9862BACA44400D5BB5C /* Preview Assets.xcassets in Resources */,
 				0134A9822BACA44400D5BB5C /* Assets.xcassets in Resources */,
 			);
@@ -327,7 +333,6 @@
 				011DEC5E2BAF0C7B00B2249F /* GratitudeView.swift in Sources */,
 				011DEC622BAF0CE200B2249F /* WaterView.swift in Sources */,
 				0134A9B62BAD1B4900D5BB5C /* ModuleNames.swift in Sources */,
-				0134A9AD2BACC6DE00D5BB5C /* TodayBoxView.swift in Sources */,
 				0134A9AF2BACC7A900D5BB5C /* MiniMonthCalendarView.swift in Sources */,
 				011DEC542BAF0A9D00B2249F /* SpaceView2.swift in Sources */,
 				011DEC562BAF0BFC00B2249F /* MoodView.swift in Sources */,
@@ -335,11 +340,12 @@
 				011DEC602BAF0C9A00B2249F /* NotesView.swift in Sources */,
 				0134A97E2BACA44300D5BB5C /* ContentView.swift in Sources */,
 				0134A9A92BACAB4C00D5BB5C /* TodayView.swift in Sources */,
-				0135C3BE2BAF7C2300D60E30 /* Slider.swift in Sources */,
+				0135C3BE2BAF7C2300D60E30 /* VerticalSlider.swift in Sources */,
 				011DEC642BAF0CEC00B2249F /* MealsView.swift in Sources */,
 				0135C3BC2BAF68C600D60E30 /* CircleSlider.swift in Sources */,
 				011DEC582BAF0C0D00B2249F /* ScheduleView.swift in Sources */,
 				011DEC5A2BAF0C5600B2249F /* TasksView.swift in Sources */,
+				DC0FB8412BB090F600DB4ABB /* HorizontalSlider.swift in Sources */,
 				0134A97C2BACA44300D5BB5C /* Planner_AppApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -504,6 +510,7 @@
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "Planner-App-Info.plist";
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphoneos*]" = YES;
@@ -542,6 +549,7 @@
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "Planner-App-Info.plist";
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphoneos*]" = YES;
