@@ -9,8 +9,15 @@ import Foundation
 
 struct ModuleViews {
     let names = [
-        "Cal":"Calendar",
-        "ToDo":"To Do List"
+        "Calendar":"Calendar",
+        "Tasks":"Tasks",
+        "Schedule":"Schedule",
+        "Mood":"Mood",
+        "Weather":"Weather",
+        "Gratitude":"Gratitude",
+        "Water":"Water",
+        "Meals":"Meals",
+        "Notes":"Notes"
 ]
     
 }

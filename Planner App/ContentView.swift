@@ -10,37 +10,75 @@ import SwiftData
 
 struct ContentView: View {
     @Environment(\.modelContext) private var modelContext
+    @EnvironmentObject var dateHolder: DateHolder
     
 
     var body: some View {
-        NavigationSplitView {
-            //Menu
-            Text("Hello World")
+        
+
+        NavigationStack {
             
             
-            
-#if os(macOS)
-            .navigationSplitViewColumnWidth(min: 180, ideal: 200)
-#endif
-            .toolbar {
-                ToolbarItem {
+            ZStack {
+                VStack {
+                    // Gradient Background
+                    LinearGradient(gradient: Gradient(colors: [.blue, .purple]), startPoint: .top, endPoint: .bottom)
+                        .edgesIgnoringSafeArea(.all)
                     
                 }
+                TodayView()
+                    .navigationBarTitleDisplayMode(.inline)
+                    .toolbar {
+                        ToolbarItem(placement: .principal) {
+                            HStack {
+                                
+                                    Button("Edit", systemImage: "slider.horizontal.3", action: {
+                                        
+                                    }).foregroundStyle(Color("DefaultBlack")).background(Color("DefaultWhite")).cornerRadius(20).shadow(radius: 5, x: 5, y: 5)
+                                HStack {
+                                    Button("Previous Day", systemImage: "arrowshape.backward.circle.fill", action: {
+                                        dateHolder.displayedDate = Calendar.current.date(byAdding: .day, value: -1, to: dateHolder.displayedDate)!
+                                    }).foregroundStyle(Color("DefaultBlack"))
+                                    Spacer()
+                                    Button("\(dateHolder.displayedDate.formatted(date: .complete, time: .omitted).uppercased())", action: {
+                                        dateHolder.displayedDate = Date()
+                                    }).font(.title2).foregroundColor((Color("DefaultBlack")))
+                                    Spacer()
+                                    Button("Next Day", systemImage: "arrowshape.forward.circle.fill", action: {
+                                        dateHolder.displayedDate = Calendar.current.date(byAdding: .day, value: 1, to: dateHolder.displayedDate)!
+                                    }).foregroundStyle(Color("DefaultBlack"))
+                                }.background(Color("DefaultWhite")).cornerRadius(20).shadow(radius: 5, x: 5, y: 5)
+                                
+                                Button("Edit", systemImage: "slider.horizontal.3", action: {
+                                    
+                                }).foregroundStyle(Color("DefaultBlack")).background(Color("DefaultWhite")).cornerRadius(20).shadow(radius: 5, x: 5, y: 5)
+                            }
+                        }
+                        
+                    }
+                  
             }
-        } detail: {
-            TodayView().padding()
+            
             
         }
-       
-        
-    }
-
- 
+                
+                
             
+            
+            
+        }
+        
+    
+            
+}
+
+class DateHolder: ObservableObject {
+    @Published var displayedDate: Date = Date()
 }
 
 #Preview {
     ContentView()
+        .environmentObject(DateHolder())
       
 
 }
