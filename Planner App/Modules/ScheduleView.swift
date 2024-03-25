@@ -17,6 +17,8 @@ struct ScheduleView: View {
     @State private var events: [EKEvent] = []
     @State private var allDayEvents: [EKEvent] = []
     @State private var timedEvents: [EKEvent] = []
+    @State private var showingEventView = true
+    @State private var showingAddEventView = false
     private var eventStore = EKEventStore()
     let allDayColors: [Color] = [.indigo, .pink, .blue, .orange, .purple] // Add more colors as needed
     let eventColors: [Color] = [.purple, .blue, .indigo]
@@ -51,14 +53,21 @@ struct ScheduleView: View {
                                     
                                     ForEach(allDayEvents.indices, id: \.self) { index in
                                         let event = allDayEvents[index]
-                                        
-                                        EventView(event: event, width: geometry.size.width * 0.9, backgroundColor: Color(event.calendar.cgColor))
+                                        NavigationLink {
+                                            EventInfoView(event: event)
+                                        } label: {
+                                            EventView(event: event, width: geometry.size.width * 0.9, backgroundColor: Color(event.calendar.cgColor)).foregroundStyle(.black)
+                                        }
                                         
                                     }
                                     ForEach(timedEvents.indices, id: \.self) { index in
                                         let event = timedEvents[index]
                                         
-                                        EventView(event: event, width: geometry.size.width * 0.9, backgroundColor: Color(event.calendar.cgColor))
+                                        NavigationLink {
+                                            EventInfoView(event: event)
+                                        } label: {
+                                            EventView(event: event, width: geometry.size.width * 0.9, backgroundColor: Color(event.calendar.cgColor)).foregroundStyle(.black)
+                                        }
                                     }
                                     
 
@@ -77,18 +86,27 @@ struct ScheduleView: View {
                                 Spacer()
                                 
                                 Button("Add Event", systemImage: "plus.circle.fill", action: {
-                                    
+                                    showingAddEventView.toggle()
                                 }).labelStyle(.iconOnly).font(.title).background(.white).clipShape(Circle()).foregroundStyle(Color("DefaultBlack")).padding(.horizontal, 5).shadow(radius: 2, x: 3, y: 3)
+                                    .popover(isPresented: $showingAddEventView) {
+                                        VStack{
+                                            Button("Dismiss", action: {
+                                                showingAddEventView = false
+                                            })
+                                            
+                                        }.frame(width: 200, height: 200)
+                                    }
                                 
                             }
                         }
                     }
                 } else {
-                    
-                    Text("Access Denied. Please enable access to Calendar in the app settings.")
-                    Button("Request Calendar Access") {
-                        requestAccess()
-                    }
+                    VStack(alignment: .center) {
+                    Text("Unable to retrieve events. Please enable access to Calendar in Settings.")
+                        Button("Request Calendar Access") {
+                            requestAccess()
+                        }
+                    }.padding()
                     .onAppear(perform: requestAccess)
                 }
                 
@@ -96,7 +114,7 @@ struct ScheduleView: View {
             .alert(isPresented: $showingAlert) {
                 Alert(
                     title: Text("Need Calendar Access"),
-                    message: Text("Please grant the app access to your calendar"),
+                    message: Text("Calendar access request failed. Please go to the Settings app to allow access to Calendar."),
                     dismissButton: .default(Text("OK"))
                 )
             }

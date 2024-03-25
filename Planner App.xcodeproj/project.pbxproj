@@ -31,6 +31,9 @@
 		0134A9B62BAD1B4900D5BB5C /* ModuleNames.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0134A9B52BAD1B4900D5BB5C /* ModuleNames.swift */; };
 		0135C3BC2BAF68C600D60E30 /* CircleSlider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0135C3BB2BAF68C600D60E30 /* CircleSlider.swift */; };
 		0135C3BE2BAF7C2300D60E30 /* VerticalSlider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0135C3BD2BAF7C2300D60E30 /* VerticalSlider.swift */; };
+		016B52EF2BB1D05D007DC286 /* EventInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 016B52EE2BB1D05D007DC286 /* EventInfoView.swift */; };
+		016B52F12BB1D89D007DC286 /* MainMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 016B52F02BB1D89D007DC286 /* MainMenuView.swift */; };
+		016B52F32BB1F62E007DC286 /* AddEventView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 016B52F22BB1F62E007DC286 /* AddEventView.swift */; };
 		01D23BC02BAFA159009F364A /* Colors.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 01D23BBF2BAFA159009F364A /* Colors.xcassets */; };
 		DC0FB8412BB090F600DB4ABB /* HorizontalSlider.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC0FB8402BB090F600DB4ABB /* HorizontalSlider.swift */; };
 /* End PBXBuildFile section */
@@ -81,6 +84,9 @@
 		0134A9B52BAD1B4900D5BB5C /* ModuleNames.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModuleNames.swift; sourceTree = "<group>"; };
 		0135C3BB2BAF68C600D60E30 /* CircleSlider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircleSlider.swift; sourceTree = "<group>"; };
 		0135C3BD2BAF7C2300D60E30 /* VerticalSlider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerticalSlider.swift; sourceTree = "<group>"; };
+		016B52EE2BB1D05D007DC286 /* EventInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventInfoView.swift; sourceTree = "<group>"; };
+		016B52F02BB1D89D007DC286 /* MainMenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainMenuView.swift; sourceTree = "<group>"; };
+		016B52F22BB1F62E007DC286 /* AddEventView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddEventView.swift; sourceTree = "<group>"; };
 		01D23BBE2BAF99FA009F364A /* Planner-App-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "Planner-App-Info.plist"; sourceTree = SOURCE_ROOT; };
 		01D23BBF2BAFA159009F364A /* Colors.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Colors.xcassets; sourceTree = "<group>"; };
 		DC0FB8402BB090F600DB4ABB /* HorizontalSlider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HorizontalSlider.swift; sourceTree = "<group>"; };
@@ -137,6 +143,7 @@
 				01D23BBE2BAF99FA009F364A /* Planner-App-Info.plist */,
 				0134A97B2BACA44300D5BB5C /* Planner_AppApp.swift */,
 				0134A97D2BACA44300D5BB5C /* ContentView.swift */,
+				016B52F02BB1D89D007DC286 /* MainMenuView.swift */,
 				0134A9A82BACAB4C00D5BB5C /* TodayView.swift */,
 				011DEC4F2BAF048100B2249F /* TodayLayoutView.swift */,
 				011DEC532BAF0A9D00B2249F /* SpaceView2.swift */,
@@ -187,11 +194,13 @@
 				011DEC552BAF0BFC00B2249F /* MoodView.swift */,
 				011DEC5F2BAF0C9A00B2249F /* NotesView.swift */,
 				011DEC572BAF0C0D00B2249F /* ScheduleView.swift */,
+				016B52EE2BB1D05D007DC286 /* EventInfoView.swift */,
 				0135C3BD2BAF7C2300D60E30 /* VerticalSlider.swift */,
 				DC0FB8402BB090F600DB4ABB /* HorizontalSlider.swift */,
 				011DEC592BAF0C5600B2249F /* TasksView.swift */,
 				011DEC612BAF0CE200B2249F /* WaterView.swift */,
 				011DEC5B2BAF0C7200B2249F /* WeatherView.swift */,
+				016B52F22BB1F62E007DC286 /* AddEventView.swift */,
 			);
 			path = Modules;
 			sourceTree = "<group>";
@@ -329,6 +338,7 @@
 			files = (
 				011DEC5C2BAF0C7200B2249F /* WeatherView.swift in Sources */,
 				011DEC662BAF2E3800B2249F /* Modules.swift in Sources */,
+				016B52F32BB1F62E007DC286 /* AddEventView.swift in Sources */,
 				011DEC502BAF048100B2249F /* TodayLayoutView.swift in Sources */,
 				011DEC5E2BAF0C7B00B2249F /* GratitudeView.swift in Sources */,
 				011DEC622BAF0CE200B2249F /* WaterView.swift in Sources */,
@@ -339,8 +349,10 @@
 				0134A9B42BAD1AA700D5BB5C /* AddModuleView.swift in Sources */,
 				011DEC602BAF0C9A00B2249F /* NotesView.swift in Sources */,
 				0134A97E2BACA44300D5BB5C /* ContentView.swift in Sources */,
+				016B52F12BB1D89D007DC286 /* MainMenuView.swift in Sources */,
 				0134A9A92BACAB4C00D5BB5C /* TodayView.swift in Sources */,
 				0135C3BE2BAF7C2300D60E30 /* VerticalSlider.swift in Sources */,
+				016B52EF2BB1D05D007DC286 /* EventInfoView.swift in Sources */,
 				011DEC642BAF0CEC00B2249F /* MealsView.swift in Sources */,
 				0135C3BC2BAF68C600D60E30 /* CircleSlider.swift in Sources */,
 				011DEC582BAF0C0D00B2249F /* ScheduleView.swift in Sources */,

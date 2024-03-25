@@ -25,7 +25,7 @@ struct MiniMonthCalendarView: View {
     
     private var paddingScale: CGFloat {
         switch scale {
-        case .small: return 2 // Reduced padding for smaller view
+        case .small: return 1 // Reduced padding for smaller view
         case .medium: return 3 // Standard padding for medium view
         case .large: return 6 // Increased padding for larger view
         }
@@ -59,9 +59,12 @@ struct MiniMonthCalendarView: View {
                                 
                             }).labelStyle(.iconOnly).font(.title).background(.white).clipShape(Circle()).foregroundStyle(Color("DefaultBlack")).padding([.leading, .bottom], 10).shadow(radius: 2, x: 3, y: 3)
                             Spacer()
-                Button("TODAY", action: {
-                    dateHolder.displayedDate = Date()
-                }).font(.headline).padding(5).background(.white).clipShape(RoundedRectangle(cornerRadius: 20)).foregroundStyle(Color("DefaultBlack")).shadow(radius: 2, x: 3, y: 3)
+                ZStack {
+                    Text("TODAY").font(.headline).padding(5).background(Color("DefaultWhite")).clipShape(RoundedRectangle(cornerRadius: 20)).foregroundStyle(Color("DefaultWhite")).padding(.bottom, 10)
+                    Button("TODAY", action: {
+                        dateHolder.displayedDate = Date()
+                    }).font(.subheadline).padding(5).bold().background(.black).clipShape(RoundedRectangle(cornerRadius: 20)).foregroundStyle(.white).shadow(radius: 2, x: 3, y: 3).padding(.bottom, 10)
+                }
                             Spacer()
                             Button("Next Month", systemImage: "arrowshape.right.circle.fill", action: {
                                 nextMonth()
@@ -115,7 +118,7 @@ struct MiniMonthCalendarView: View {
                 
                 
             }
-      
+      Spacer()
         
     }
     
@@ -150,13 +153,6 @@ class CalendarViewModel: ObservableObject {
         }
         
         
-
-        // Debugging logs
-        print("Debugging Transition to September:")
-        print("Date: \(today)")
-        print("Weekday of startOfMonth: \(weekday)")
-        
-        
         let components = Calendar.current.dateComponents([.year, .month], from: previousMonth)
         let previousMonthYear = components.year!
         let previousMonthIndex = components.month!
@@ -169,8 +165,7 @@ class CalendarViewModel: ObservableObject {
             for day in startDayOfPreviousMonthToShow...previousMonthRange.count {
                 days.append(Day(number: day, year: previousMonthYear, month: previousMonthIndex, color: .gray))
             }
-            print("Days in previous month to show: \(daysInPreviousMonthToShow)")
-            print("Start day of previous month to show: \(startDayOfPreviousMonthToShow)")
+           
         }
 
         for day in 1...range.count {
