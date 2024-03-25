@@ -40,7 +40,9 @@ struct ContentView: View {
                                         dateHolder.displayedDate = Calendar.current.date(byAdding: .day, value: -1, to: dateHolder.displayedDate)!
                                     }).foregroundStyle(Color("DefaultBlack"))
                                     Spacer()
-                                    Text("\(dateHolder.displayedDate.formatted(date: .complete, time: .omitted).uppercased())").font(.title).padding(5)
+                                    Button("\(dateHolder.displayedDate.formatted(date: .complete, time: .omitted).uppercased())", action: {
+                                        dateHolder.displayedDate = Date()
+                                    }).font(.title2).foregroundColor((Color("DefaultBlack")))
                                     Spacer()
                                     Button("Next Day", systemImage: "arrowshape.forward.circle.fill", action: {
                                         dateHolder.displayedDate = Calendar.current.date(byAdding: .day, value: 1, to: dateHolder.displayedDate)!

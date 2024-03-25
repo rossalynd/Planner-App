@@ -84,7 +84,7 @@ struct SpaceView: View {
     func currentMonthName() -> String {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "MMMM" // "MMMM" is the format string for the full month name.
-        let monthName = dateFormatter.string(from: Date())
+        let monthName = dateFormatter.string(from: dateHolder.displayedDate)
         return monthName
     }
 }

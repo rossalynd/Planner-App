@@ -51,13 +51,14 @@ struct ScheduleView: View {
                                     
                                     ForEach(allDayEvents.indices, id: \.self) { index in
                                         let event = allDayEvents[index]
-                                        let color = allDayColors[index % eventColors.count] // Cycle through colors
-                                        EventView(event: event, width: geometry.size.width * 0.9, backgroundColor: color)
+                                        
+                                        EventView(event: event, width: geometry.size.width * 0.9, backgroundColor: Color(event.calendar.cgColor))
+                                        
                                     }
                                     ForEach(timedEvents.indices, id: \.self) { index in
                                         let event = timedEvents[index]
-                                        let color = eventColors[index % eventColors.count] // Cycle through colors
-                                        EventView(event: event, width: geometry.size.width * 0.9, backgroundColor: color)
+                                        
+                                        EventView(event: event, width: geometry.size.width * 0.9, backgroundColor: Color(event.calendar.cgColor))
                                     }
                                     
 
@@ -154,8 +155,14 @@ struct ScheduleView: View {
     }
     func loadEvents() {
         let calendars = eventStore.calendars(for: .event)
+        var startDate = dateHolder.displayedDate
+        if dateHolder.displayedDate.formatted(date: .numeric, time: .omitted) == Date().formatted(date: .numeric, time: .omitted) {
+        startDate = Date()
+            
+        } else {
+            startDate = dateHolder.displayedDate
+        }
         
-        let startDate = dateHolder.displayedDate
         let endDate = Calendar.current.date(bySettingHour: 23, minute: 59, second: 59, of: startDate)!
         
         let predicate = eventStore.predicateForEvents(withStart: startDate, end: endDate, calendars: calendars)
@@ -164,6 +171,7 @@ struct ScheduleView: View {
         
         // Split events into all-day and timed
         allDayEvents = fetchedEvents.filter { $0.isAllDay }
+        
         timedEvents = fetchedEvents.filter { !$0.isAllDay }
     }
 

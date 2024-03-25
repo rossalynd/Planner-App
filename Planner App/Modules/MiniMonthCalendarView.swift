@@ -8,10 +8,13 @@
 import SwiftUI
 
 struct MiniMonthCalendarView: View {
-    @ObservedObject var viewModel = CalendarViewModel()
+   
     @EnvironmentObject var dateHolder: DateHolder
     var scale: SpaceView.Scale
-
+    private var viewModel: CalendarViewModel {
+           CalendarViewModel(date: dateHolder.displayedDate)
+       }
+    
     private var baseFontSize: CGFloat {
         switch scale {
         case .small: return 14 // Smaller parent view
@@ -35,10 +38,37 @@ struct MiniMonthCalendarView: View {
         case .large: return 4 // Looser spacing for larger view
         }
     }
-
+    private func previousMonth() {
+        let calendar = Calendar.current
+        if let newDate = calendar.date(byAdding: .month, value: -1, to: dateHolder.displayedDate) {
+            dateHolder.displayedDate = newDate
+        }
+    }
+    private func nextMonth() {
+        let calendar = Calendar.current
+        if let newDate = calendar.date(byAdding: .month, value: 1, to: dateHolder.displayedDate) {
+            dateHolder.displayedDate = newDate
+        }
+    }
     var body: some View {
         VStack(spacing: spacingScale) { // Use spacingScale for Vstack spacing
            
+            HStack {
+                            Button("Previous Month", systemImage: "arrowshape.left.circle.fill", action: {
+                                previousMonth()
+                                
+                            }).labelStyle(.iconOnly).font(.title).background(.white).clipShape(Circle()).foregroundStyle(Color("DefaultBlack")).padding([.leading, .bottom], 10).shadow(radius: 2, x: 3, y: 3)
+                            Spacer()
+                Button("TODAY", action: {
+                    dateHolder.displayedDate = Date()
+                }).font(.headline).padding(5).background(.white).clipShape(RoundedRectangle(cornerRadius: 20)).foregroundStyle(Color("DefaultBlack")).shadow(radius: 2, x: 3, y: 3)
+                            Spacer()
+                            Button("Next Month", systemImage: "arrowshape.right.circle.fill", action: {
+                                nextMonth()
+                                
+                            }).labelStyle(.iconOnly).font(.title).background(.white).clipShape(Circle()).foregroundStyle(Color("DefaultBlack")).padding([.bottom, .trailing], 10).shadow(radius: 2, x: 3, y: 3)
+                        }
+
 
             HStack(spacing: 0) {
                 ForEach(viewModel.daysOfWeek, id: \.self) { day in
@@ -74,12 +104,18 @@ struct MiniMonthCalendarView: View {
                         }
                 }
             }
-            
-            
-               
-        }.padding(10)
+                           
+        }.padding(.horizontal, 10)
+            .onChange(of: dateHolder.displayedDate) { oldDate, newDate in
+                
+                print("date updated to \(newDate.formatted(date: .numeric, time: .omitted)) from \(oldDate.formatted(date: .numeric, time: .omitted))")
+                
+                viewModel.updateMonth(date: newDate)
+                
+                
+                
+            }
       
-        
         
     }
     
@@ -88,19 +124,21 @@ struct MiniMonthCalendarView: View {
 
 class CalendarViewModel: ObservableObject {
     @Published var days = [Day]()
+    @Published var date = Date()
     let daysOfWeek = ["Su", "M", "Tu", "W", "Th", "F", "S"]
 
-    init() {
+    init(date: Date) {
+        self.date = date
         self.days = self.generateDaysInMonth()
     }
 
     func generateDaysInMonth() -> [Day] {
         var days = [Day]()
         let calendar = Calendar.current
-        let today = Date()
+        let today = date
         let range = calendar.range(of: .day, in: .month, for: today)!
         let startOfMonth = calendar.date(from: calendar.dateComponents([.year, .month], from: calendar.startOfDay(for: today)))!
-        
+
         let weekday = calendar.component(.weekday, from: startOfMonth)
         let previousMonth = calendar.date(byAdding: .month, value: -1, to: startOfMonth)!
         let previousMonthRange = calendar.range(of: .day, in: .month, for: previousMonth)!
@@ -116,19 +154,80 @@ class CalendarViewModel: ObservableObject {
             days.append(Day(number: day, year: previousMonthYear, month: previousMonthIndex, color: .gray))
         }
 
-        
         for day in 1...range.count {
+            let originalDate = date
             let date = calendar.date(byAdding: .day, value: day - 1, to: startOfMonth)!
+            let selectedDate = calendar.component(.day, from: originalDate)
             let isCurrentDay = calendar.isDateInToday(date)
+            let isSelectedDate = selectedDate == day
             let components = calendar.dateComponents([.year, .month], from: date)
             if let year = components.year, let month = components.month {
-                days.append(Day(number: day, year: year, month: month, isCurrentDay: isCurrentDay, color: isCurrentDay ? .white : Color("DefaultBlack")))
+                
+                let color: Color
+                            if isCurrentDay {
+                                color = .white // Current day color
+                            } else if isSelectedDate {
+                                color = .pink // Highlight day color
+                            } else {
+                                color = Color("DefaultBlack") // Default color
+                            }
+                
+                days.append(Day(number: day, year: year, month: month, isCurrentDay: isCurrentDay, color: color))
             }
         }
+        
+        // Calculate the number of days to show for the next month
+        let endOfWeekday = calendar.component(.weekday, from: calendar.date(byAdding: .day, value: range.count - 1, to: startOfMonth)!)
+        let daysInNextMonthToShow = 7 - endOfWeekday
+        if daysInNextMonthToShow > 0 {
+            let nextMonth = calendar.date(byAdding: .month, value: 1, to: startOfMonth)!
+            let componentsNextMonth = Calendar.current.dateComponents([.year, .month], from: nextMonth)
+            let nextMonthYear = componentsNextMonth.year!
+            let nextMonthIndex = componentsNextMonth.month!
 
+            for day in 1...daysInNextMonthToShow {
+                days.append(Day(number: day, year: nextMonthYear, month: nextMonthIndex, color: .gray))
+            }
+        }
         
         return days
     }
+
+    
+    func nextMonth1(date: Date) {
+          let calendar = Calendar.current
+          self.days = self.generateDaysInMonth()
+          
+      }
+
+      func previousMonth1(date: Date) {
+          let calendar = Calendar.current
+          self.days = self.generateDaysInMonth()
+          
+      }
+    func nextMonth(date: Date) {
+          let calendar = Calendar.current
+          if let newDate = calendar.date(byAdding: .month, value: -1, to: date) {
+              self.date = newDate
+              self.days = self.generateDaysInMonth()
+          }
+      }
+
+      func previousMonth(date: Date) {
+          let calendar = Calendar.current
+          if let newDate = calendar.date(byAdding: .month, value: 1, to: date) {
+              self.date = newDate
+              self.days = self.generateDaysInMonth()
+          }
+      }
+    func updateMonth(date: Date) {
+        
+        self.date = date
+        print(date)
+        self.days = self.generateDaysInMonth()
+    }
+    
+    
     
 }
 
