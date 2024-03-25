@@ -136,22 +136,41 @@ class CalendarViewModel: ObservableObject {
         var days = [Day]()
         let calendar = Calendar.current
         let today = date
-        let range = calendar.range(of: .day, in: .month, for: today)!
+        guard let range = calendar.range(of: .day, in: .month, for: today) else {
+            print("Failed to get range of days in month for date \(today)")
+            return []
+        }
         let startOfMonth = calendar.date(from: calendar.dateComponents([.year, .month], from: calendar.startOfDay(for: today)))!
 
         let weekday = calendar.component(.weekday, from: startOfMonth)
         let previousMonth = calendar.date(byAdding: .month, value: -1, to: startOfMonth)!
-        let previousMonthRange = calendar.range(of: .day, in: .month, for: previousMonth)!
+        guard let previousMonthRange = calendar.range(of: .day, in: .month, for: previousMonth) else {
+            print("Failed to get range of days in previous month for startOfMonth \(startOfMonth)")
+            return []
+        }
         
-        let daysInPreviousMonthToShow = weekday - 1
-        let startDayOfPreviousMonthToShow = previousMonthRange.count - daysInPreviousMonthToShow + 1
+        
+
+        // Debugging logs
+        print("Debugging Transition to September:")
+        print("Date: \(today)")
+        print("Weekday of startOfMonth: \(weekday)")
+        
         
         let components = Calendar.current.dateComponents([.year, .month], from: previousMonth)
         let previousMonthYear = components.year!
         let previousMonthIndex = components.month!
 
-        for day in startDayOfPreviousMonthToShow...previousMonthRange.count {
-            days.append(Day(number: day, year: previousMonthYear, month: previousMonthIndex, color: .gray))
+        if weekday > 1 {
+            let daysInPreviousMonthToShow = weekday - 1
+            // Ensure we calculate the start day in the previous month correctly
+            let startDayOfPreviousMonthToShow = previousMonthRange.count - daysInPreviousMonthToShow + 1
+            
+            for day in startDayOfPreviousMonthToShow...previousMonthRange.count {
+                days.append(Day(number: day, year: previousMonthYear, month: previousMonthIndex, color: .gray))
+            }
+            print("Days in previous month to show: \(daysInPreviousMonthToShow)")
+            print("Start day of previous month to show: \(startDayOfPreviousMonthToShow)")
         }
 
         for day in 1...range.count {
@@ -193,18 +212,6 @@ class CalendarViewModel: ObservableObject {
         return days
     }
 
-    
-    func nextMonth1(date: Date) {
-          let calendar = Calendar.current
-          self.days = self.generateDaysInMonth()
-          
-      }
-
-      func previousMonth1(date: Date) {
-          let calendar = Calendar.current
-          self.days = self.generateDaysInMonth()
-          
-      }
     func nextMonth(date: Date) {
           let calendar = Calendar.current
           if let newDate = calendar.date(byAdding: .month, value: -1, to: date) {
