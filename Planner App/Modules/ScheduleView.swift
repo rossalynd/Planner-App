@@ -84,18 +84,25 @@ struct ScheduleView: View {
                             Spacer()
                             HStack {
                                 Spacer()
-                                
-                                Button("Add Event", systemImage: "plus.circle.fill", action: {
-                                    showingAddEventView.toggle()
-                                }).labelStyle(.iconOnly).font(.title).background(.white).clipShape(Circle()).foregroundStyle(Color("DefaultBlack")).padding(.horizontal, 5).shadow(radius: 2, x: 3, y: 3)
+                               
+                                    Button("Add Event", systemImage: "plus.circle.fill", action: {
+                                        showingAddEventView.toggle()
+                                    }).labelStyle(.iconOnly).font(.title).background(.white).clipShape(Circle()).foregroundStyle(Color("DefaultBlack")).padding(.horizontal, 5).shadow(radius: 2, x: 3, y: 3)
                                     .popover(isPresented: $showingAddEventView) {
-                                        VStack{
-                                            Button("Dismiss", action: {
-                                                showingAddEventView = false
-                                            })
-                                            
-                                        }.frame(width: 200, height: 200)
-                                    }
+                                        ZStack {
+                                            VStack {
+                                                // Gradient Background
+                                                LinearGradient(gradient: Gradient(colors: [.blue, .purple]), startPoint: .top, endPoint: .bottom)
+                                                    .edgesIgnoringSafeArea(.all)
+                                            }
+                                            VStack{
+                                                AddEventView(eventStore: eventStore).clipShape(RoundedRectangle(cornerRadius: 20))
+                                                
+                                                
+                                                
+                                            }.padding()
+                                        }
+                                    }.clipShape(RoundedRectangle(cornerRadius: 20))
                                 
                             }
                         }

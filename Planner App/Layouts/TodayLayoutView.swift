@@ -50,7 +50,7 @@ struct TodayLayoutView: View {
                     
                     
                 }.frame(maxWidth: .infinity, maxHeight: geometry.size.height)
-            }.padding()
+            }
         }.shadow(radius: 5, x:5,y:5)
         
     }
@@ -62,4 +62,6 @@ struct TodayLayoutView: View {
 
 #Preview {
     TodayLayoutView()
+        .environmentObject(DateHolder())
+        .environmentObject(ThemeController())
 }

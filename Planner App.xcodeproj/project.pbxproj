@@ -7,6 +7,21 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0100EADB2BB252EF00734275 /* RecurrenceRules.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0100EADA2BB252EF00734275 /* RecurrenceRules.swift */; };
+		0100EAE12BB3625500734275 /* ThemeController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0100EAE02BB3625500734275 /* ThemeController.swift */; };
+		0100EAE42BB362CC00734275 /* CalendarViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0100EAE32BB362CC00734275 /* CalendarViewModel.swift */; };
+		0100EAE82BB36A4B00734275 /* Themes.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0100EAE72BB36A4B00734275 /* Themes.xcassets */; };
+		0100EAEA2BB3868700734275 /* iPhoneLayoutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0100EAE92BB3868700734275 /* iPhoneLayoutView.swift */; };
+		0100EAED2BB38FC600734275 /* DateExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0100EAEC2BB38FC600734275 /* DateExtension.swift */; };
+		0100EAEF2BB4533100734275 /* ColorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0100EAEE2BB4533100734275 /* ColorExtension.swift */; };
+		0100EAF12BB46DDE00734275 /* ColorPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0100EAF02BB46DDE00734275 /* ColorPicker.swift */; };
+		0100EAF32BB485F200734275 /* ChooseThemeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0100EAF22BB485F200734275 /* ChooseThemeView.swift */; };
+		0100EAF72BB4867100734275 /* DateHolder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0100EAF62BB4867100734275 /* DateHolder.swift */; };
+		0100EAFB2BB4879200734275 /* CustomColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0100EAFA2BB4879200734275 /* CustomColor.swift */; };
+		0100EAFE2BB48E5500734275 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0100EAFD2BB48E5500734275 /* SettingsView.swift */; };
+		0100EB052BB4BE9800734275 /* BluePurple.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0100EB042BB4BE9800734275 /* BluePurple.swift */; };
+		0100EB072BB4BEAE00734275 /* Beige.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0100EB062BB4BEAE00734275 /* Beige.swift */; };
+		0100EB092BB4BEB600734275 /* Custom.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0100EB082BB4BEB600734275 /* Custom.swift */; };
 		011DEC502BAF048100B2249F /* TodayLayoutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 011DEC4F2BAF048100B2249F /* TodayLayoutView.swift */; };
 		011DEC542BAF0A9D00B2249F /* SpaceView2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 011DEC532BAF0A9D00B2249F /* SpaceView2.swift */; };
 		011DEC562BAF0BFC00B2249F /* MoodView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 011DEC552BAF0BFC00B2249F /* MoodView.swift */; };
@@ -56,6 +71,21 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		0100EADA2BB252EF00734275 /* RecurrenceRules.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecurrenceRules.swift; sourceTree = "<group>"; };
+		0100EAE02BB3625500734275 /* ThemeController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeController.swift; sourceTree = "<group>"; };
+		0100EAE32BB362CC00734275 /* CalendarViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarViewModel.swift; sourceTree = "<group>"; };
+		0100EAE72BB36A4B00734275 /* Themes.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Themes.xcassets; sourceTree = "<group>"; };
+		0100EAE92BB3868700734275 /* iPhoneLayoutView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iPhoneLayoutView.swift; sourceTree = "<group>"; };
+		0100EAEC2BB38FC600734275 /* DateExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateExtension.swift; sourceTree = "<group>"; };
+		0100EAEE2BB4533100734275 /* ColorExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorExtension.swift; sourceTree = "<group>"; };
+		0100EAF02BB46DDE00734275 /* ColorPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorPicker.swift; sourceTree = "<group>"; };
+		0100EAF22BB485F200734275 /* ChooseThemeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChooseThemeView.swift; sourceTree = "<group>"; };
+		0100EAF62BB4867100734275 /* DateHolder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateHolder.swift; sourceTree = "<group>"; };
+		0100EAFA2BB4879200734275 /* CustomColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomColor.swift; sourceTree = "<group>"; };
+		0100EAFD2BB48E5500734275 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		0100EB042BB4BE9800734275 /* BluePurple.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BluePurple.swift; sourceTree = "<group>"; };
+		0100EB062BB4BEAE00734275 /* Beige.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Beige.swift; sourceTree = "<group>"; };
+		0100EB082BB4BEB600734275 /* Custom.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Custom.swift; sourceTree = "<group>"; };
 		011DEC4F2BAF048100B2249F /* TodayLayoutView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayLayoutView.swift; sourceTree = "<group>"; };
 		011DEC532BAF0A9D00B2249F /* SpaceView2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpaceView2.swift; sourceTree = "<group>"; };
 		011DEC552BAF0BFC00B2249F /* MoodView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoodView.swift; sourceTree = "<group>"; };
@@ -117,6 +147,74 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0100EADC2BB3616F00734275 /* Themes */ = {
+			isa = PBXGroup;
+			children = (
+				0100EB002BB4BCBC00734275 /* Backgrounds */,
+				0100EAFF2BB4BCB300734275 /* Patterns */,
+				0100EAE72BB36A4B00734275 /* Themes.xcassets */,
+				0100EAF02BB46DDE00734275 /* ColorPicker.swift */,
+				0100EAF22BB485F200734275 /* ChooseThemeView.swift */,
+			);
+			path = Themes;
+			sourceTree = "<group>";
+		};
+		0100EAE22BB362B200734275 /* Classes */ = {
+			isa = PBXGroup;
+			children = (
+				0100EAF52BB4863900734275 /* EnvironmentObjects */,
+				0100EAE32BB362CC00734275 /* CalendarViewModel.swift */,
+			);
+			path = Classes;
+			sourceTree = "<group>";
+		};
+		0100EAEB2BB38FAC00734275 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				0100EAEC2BB38FC600734275 /* DateExtension.swift */,
+				0100EAEE2BB4533100734275 /* ColorExtension.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
+		0100EAF52BB4863900734275 /* EnvironmentObjects */ = {
+			isa = PBXGroup;
+			children = (
+				0100EAF62BB4867100734275 /* DateHolder.swift */,
+				0100EAE02BB3625500734275 /* ThemeController.swift */,
+				0100EAFA2BB4879200734275 /* CustomColor.swift */,
+			);
+			path = EnvironmentObjects;
+			sourceTree = "<group>";
+		};
+		0100EAFC2BB48E0900734275 /* Layouts */ = {
+			isa = PBXGroup;
+			children = (
+				0134A9A82BACAB4C00D5BB5C /* TodayView.swift */,
+				0100EAE92BB3868700734275 /* iPhoneLayoutView.swift */,
+				011DEC4F2BAF048100B2249F /* TodayLayoutView.swift */,
+				011DEC532BAF0A9D00B2249F /* SpaceView2.swift */,
+			);
+			path = Layouts;
+			sourceTree = "<group>";
+		};
+		0100EAFF2BB4BCB300734275 /* Patterns */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Patterns;
+			sourceTree = "<group>";
+		};
+		0100EB002BB4BCBC00734275 /* Backgrounds */ = {
+			isa = PBXGroup;
+			children = (
+				0100EB042BB4BE9800734275 /* BluePurple.swift */,
+				0100EB062BB4BEAE00734275 /* Beige.swift */,
+				0100EB082BB4BEB600734275 /* Custom.swift */,
+			);
+			path = Backgrounds;
+			sourceTree = "<group>";
+		};
 		0134A96F2BACA44300D5BB5C = {
 			isa = PBXGroup;
 			children = (
@@ -140,18 +238,20 @@
 		0134A97A2BACA44300D5BB5C /* Planner App */ = {
 			isa = PBXGroup;
 			children = (
+				0134A9832BACA44400D5BB5C /* Planner_App.entitlements */,
 				01D23BBE2BAF99FA009F364A /* Planner-App-Info.plist */,
-				0134A97B2BACA44300D5BB5C /* Planner_AppApp.swift */,
 				0134A97D2BACA44300D5BB5C /* ContentView.swift */,
 				016B52F02BB1D89D007DC286 /* MainMenuView.swift */,
-				0134A9A82BACAB4C00D5BB5C /* TodayView.swift */,
-				011DEC4F2BAF048100B2249F /* TodayLayoutView.swift */,
-				011DEC532BAF0A9D00B2249F /* SpaceView2.swift */,
-				0134A9B02BACFD2700D5BB5C /* Modules */,
+				0134A97B2BACA44300D5BB5C /* Planner_AppApp.swift */,
 				0134A9812BACA44400D5BB5C /* Assets.xcassets */,
 				01D23BBF2BAFA159009F364A /* Colors.xcassets */,
-				0134A9832BACA44400D5BB5C /* Planner_App.entitlements */,
+				0100EAE22BB362B200734275 /* Classes */,
+				0100EAEB2BB38FAC00734275 /* Extensions */,
+				0100EAFC2BB48E0900734275 /* Layouts */,
+				0134A9B02BACFD2700D5BB5C /* Modules */,
 				0134A9842BACA44400D5BB5C /* Preview Content */,
+				0100EADC2BB3616F00734275 /* Themes */,
+				0100EAFD2BB48E5500734275 /* SettingsView.swift */,
 			);
 			path = "Planner App";
 			sourceTree = "<group>";
@@ -201,6 +301,7 @@
 				011DEC612BAF0CE200B2249F /* WaterView.swift */,
 				011DEC5B2BAF0C7200B2249F /* WeatherView.swift */,
 				016B52F22BB1F62E007DC286 /* AddEventView.swift */,
+				0100EADA2BB252EF00734275 /* RecurrenceRules.swift */,
 			);
 			path = Modules;
 			sourceTree = "<group>";
@@ -310,6 +411,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				01D23BC02BAFA159009F364A /* Colors.xcassets in Resources */,
+				0100EAE82BB36A4B00734275 /* Themes.xcassets in Resources */,
 				0134A9862BACA44400D5BB5C /* Preview Assets.xcassets in Resources */,
 				0134A9822BACA44400D5BB5C /* Assets.xcassets in Resources */,
 			);
@@ -337,26 +439,40 @@
 			buildActionMask = 2147483647;
 			files = (
 				011DEC5C2BAF0C7200B2249F /* WeatherView.swift in Sources */,
+				0100EAED2BB38FC600734275 /* DateExtension.swift in Sources */,
+				0100EAFB2BB4879200734275 /* CustomColor.swift in Sources */,
+				0100EADB2BB252EF00734275 /* RecurrenceRules.swift in Sources */,
 				011DEC662BAF2E3800B2249F /* Modules.swift in Sources */,
+				0100EAE12BB3625500734275 /* ThemeController.swift in Sources */,
+				0100EAFE2BB48E5500734275 /* SettingsView.swift in Sources */,
 				016B52F32BB1F62E007DC286 /* AddEventView.swift in Sources */,
 				011DEC502BAF048100B2249F /* TodayLayoutView.swift in Sources */,
 				011DEC5E2BAF0C7B00B2249F /* GratitudeView.swift in Sources */,
+				0100EAF12BB46DDE00734275 /* ColorPicker.swift in Sources */,
 				011DEC622BAF0CE200B2249F /* WaterView.swift in Sources */,
+				0100EAF72BB4867100734275 /* DateHolder.swift in Sources */,
 				0134A9B62BAD1B4900D5BB5C /* ModuleNames.swift in Sources */,
 				0134A9AF2BACC7A900D5BB5C /* MiniMonthCalendarView.swift in Sources */,
 				011DEC542BAF0A9D00B2249F /* SpaceView2.swift in Sources */,
+				0100EB052BB4BE9800734275 /* BluePurple.swift in Sources */,
 				011DEC562BAF0BFC00B2249F /* MoodView.swift in Sources */,
 				0134A9B42BAD1AA700D5BB5C /* AddModuleView.swift in Sources */,
+				0100EAEA2BB3868700734275 /* iPhoneLayoutView.swift in Sources */,
 				011DEC602BAF0C9A00B2249F /* NotesView.swift in Sources */,
 				0134A97E2BACA44300D5BB5C /* ContentView.swift in Sources */,
+				0100EB072BB4BEAE00734275 /* Beige.swift in Sources */,
 				016B52F12BB1D89D007DC286 /* MainMenuView.swift in Sources */,
 				0134A9A92BACAB4C00D5BB5C /* TodayView.swift in Sources */,
 				0135C3BE2BAF7C2300D60E30 /* VerticalSlider.swift in Sources */,
 				016B52EF2BB1D05D007DC286 /* EventInfoView.swift in Sources */,
 				011DEC642BAF0CEC00B2249F /* MealsView.swift in Sources */,
+				0100EAEF2BB4533100734275 /* ColorExtension.swift in Sources */,
 				0135C3BC2BAF68C600D60E30 /* CircleSlider.swift in Sources */,
 				011DEC582BAF0C0D00B2249F /* ScheduleView.swift in Sources */,
+				0100EB092BB4BEB600734275 /* Custom.swift in Sources */,
 				011DEC5A2BAF0C5600B2249F /* TasksView.swift in Sources */,
+				0100EAE42BB362CC00734275 /* CalendarViewModel.swift in Sources */,
+				0100EAF32BB485F200734275 /* ChooseThemeView.swift in Sources */,
 				DC0FB8412BB090F600DB4ABB /* HorizontalSlider.swift in Sources */,
 				0134A97C2BACA44300D5BB5C /* Planner_AppApp.swift in Sources */,
 			);

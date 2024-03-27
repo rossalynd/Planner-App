@@ -7,13 +7,42 @@
 
 import SwiftUI
 import SwiftData
-
+import UIKit
 struct ContentView: View {
     @Environment(\.modelContext) private var modelContext
     @EnvironmentObject var dateHolder: DateHolder
+    @EnvironmentObject var themeController: ThemeController
     @State var isCoverVisible = false
     @State var isMenuVisible = false
-    
+
+    private var padding: CGFloat {
+            switch currentDeviceType() {
+            case .iPhone:
+                return 10
+            case .iPad:
+                return 20
+            default:
+                return 15 // Fallback padding
+            }
+        }
+ 
+
+    enum DeviceType {
+        case iPhone
+        case iPad
+        case unknown
+    }
+
+    func currentDeviceType() -> DeviceType {
+        switch UIDevice.current.userInterfaceIdiom {
+        case .phone:
+            return .iPhone
+        case .pad:
+            return .iPad
+        default:
+            return .unknown
+        }
+    }
 
     var body: some View {
         
@@ -23,49 +52,133 @@ struct ContentView: View {
             
             ZStack(alignment: .leading) {
                 VStack {
-                    // Gradient Background
-                    LinearGradient(gradient: Gradient(colors: [.blue, .purple]), startPoint: .top, endPoint: .bottom)
-                        .edgesIgnoringSafeArea(.all)
-                }
+                    
+                }.frame(maxWidth: .infinity, maxHeight: .infinity)
+                .themedBackground(themeController: themeController)
                 
-                TodayView()
-                    .navigationBarTitleDisplayMode(.inline)
-                    .toolbar {
-                        ToolbarItem(placement: .principal) {
-                            HStack {
-                                
-                                    Button("Menu", systemImage: "line.3.horizontal", action: {
-                                        withAnimation {
-                                            isMenuVisible.toggle()
-                                        }
-                                    }).foregroundStyle(Color("DefaultBlack")).background(Color("DefaultWhite")).cornerRadius(20).shadow(radius: 5, x: 5, y: 5)
-                                HStack {
-                                    Button("Previous Day", systemImage: "arrowshape.backward.circle.fill", action: {
-                                        dateHolder.displayedDate = Calendar.current.date(byAdding: .day, value: -1, to: dateHolder.displayedDate)!
-                                    }).foregroundStyle(Color("DefaultBlack"))
-                                    Spacer()
-                                    Button("\(dateHolder.displayedDate.formatted(date: .complete, time: .omitted).uppercased())", action: {
-                                        dateHolder.displayedDate = Date()
-                                    }).font(.title2).foregroundColor((Color("DefaultBlack")))
-                                    Spacer()
-                                    Button("Next Day", systemImage: "arrowshape.forward.circle.fill", action: {
-                                        dateHolder.displayedDate = Calendar.current.date(byAdding: .day, value: 1, to: dateHolder.displayedDate)!
-                                    }).foregroundStyle(Color("DefaultBlack"))
-                                }.background(Color("DefaultWhite")).cornerRadius(20).shadow(radius: 5, x: 5, y: 5)
-                                
-                                Button("Edit", systemImage: "slider.horizontal.3", action: {
-                                    
-                                }).foregroundStyle(Color("DefaultBlack")).background(Color("DefaultWhite")).cornerRadius(20).shadow(radius: 5, x: 5, y: 5)
-                            }
-                        }
+
+                
+                
+       
+                    
+                    
                         
+                
+                VStack {
+                    
+
+                    if UIDevice.current.userInterfaceIdiom == .phone {
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        HStack {
+                            Button("Menu", systemImage:"line.horizontal.3.circle.fill", action: {
+                                isMenuVisible.toggle()
+                            }).foregroundStyle(Color("DefaultBlack")).padding(.leading,padding).labelStyle(.iconOnly).font(.title2)
+                            Button("Previous Day", systemImage: "arrowshape.backward.circle.fill", action: {
+                                dateHolder.displayedDate = Calendar.current.date(byAdding: .day, value: -1, to: dateHolder.displayedDate)!
+                            }).foregroundStyle(Color("DefaultBlack")).labelStyle(.iconOnly).font(.title2)
+                            
+                            Spacer()
+                            
+                            
+                            Button(action: {
+                                dateHolder.displayedDate = Date()
+                            }, label: {
+                                HStack{
+                                    
+                                    
+                                    Text("\(dateHolder.displayedDate.shortDate.uppercased())").font(.headline).foregroundColor((Color("DefaultBlack"))).bold()
+                                    
+                                }
+                            })
+                            
+                            Spacer()
+                            
+                            Button("Next Day", systemImage: "arrowshape.forward.circle.fill", action: {
+                                dateHolder.displayedDate = Calendar.current.date(byAdding: .day, value: 1, to: dateHolder.displayedDate)!
+                            }).foregroundStyle(Color("DefaultBlack")).padding([.trailing, .top, .bottom], padding).labelStyle(.iconOnly).font(.title2)
+                            NavigationLink(destination: SettingsView()) {
+                                Image(systemName: "gearshape.circle.fill").foregroundStyle(Color("DefaultBlack")).padding([.trailing, .top, .bottom], padding).labelStyle(.iconOnly).font(.title2)
+                            }
+                            
+                            
+                        }.background(Color("DefaultWhite")).cornerRadius(20).shadow(radius: 5, x: 5, y: 5)
+                            .padding(.bottom, 10)
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                    } else {
+                        
+                        
+                        
+                
+                        
+                        HStack {
+                            
+                            Button("Menu", systemImage: "line.3.horizontal", action: {
+                                withAnimation {
+                                    isMenuVisible.toggle()
+                                }
+                            }).foregroundStyle(Color("DefaultBlack")).padding().background(Color("DefaultWhite")).cornerRadius(20).shadow(radius: 5, x: 5, y: 5).labelStyle(.iconOnly)
+                            
+                            HStack {
+                                Button("Previous Day", systemImage: "arrowshape.backward.circle.fill", action: {
+                                    dateHolder.displayedDate = Calendar.current.date(byAdding: .day, value: -1, to: dateHolder.displayedDate)!
+                                }).foregroundStyle(Color("DefaultBlack")).padding(10).labelStyle(.iconOnly)
+                                
+                                Spacer()
+                                
+                                Button("\(dateHolder.displayedDate.formatted(date: .complete, time: .omitted).uppercased())", action: {
+                                    dateHolder.displayedDate = Date()
+                                }).font(.title3).foregroundColor((Color("DefaultBlack")))
+                                
+                                Spacer()
+                                
+                                Button("Next Day", systemImage: "arrowshape.forward.circle.fill", action: {
+                                    dateHolder.displayedDate = Calendar.current.date(byAdding: .day, value: 1, to: dateHolder.displayedDate)!
+                                }).foregroundStyle(Color("DefaultBlack")).padding(10).labelStyle(.iconOnly)
+                            }.background(Color("DefaultWhite")).cornerRadius(20).shadow(radius: 5, x: 5, y: 5)
+                            
+                            
+                            
+                            NavigationLink(destination: SettingsView()) {
+                                Image(systemName: "gearshape.circle.fill").foregroundStyle(Color("DefaultBlack")).padding([.trailing, .top, .bottom], padding).labelStyle(.iconOnly).font(.title)
+                            }
+                        }.padding(.bottom, 10)
+
                     }
+
+                        TodayView()
+                    }
+                
+
+                .padding(.horizontal, padding)
+
                 GeometryReader { geometry in
+                
+
                     VStack {
                         VStack(alignment: .leading) {
                             Spacer()
                             if isMenuVisible {
                                 MainMenuView(isMenuVisible: $isMenuVisible)
+                                    .frame(maxWidth: .infinity)
                                     .transition(.move(edge: .leading))
                                     .gesture(
                                                            DragGesture()
@@ -81,24 +194,13 @@ struct ContentView: View {
                                                        )
                             }
                             Spacer()
-                        }.frame(maxWidth: geometry.size.width / 3.2, maxHeight: geometry.size.height / 1.01).shadow(radius: 10, x: 10, y: 10)
+                        }.frame(maxWidth: geometry.size.width / 2, maxHeight: geometry.size.height).shadow(radius: 10, x: 10, y: 10)
                             
                     }.frame(maxHeight: geometry.size.height)
                     
                 }
             }.frame(maxWidth: .infinity, maxHeight: .infinity)
-                .gesture(
-                                       DragGesture()
-                                           .onEnded { drag in
-                                               // Check if the drag is from trailing to leading
-                                               if drag.translation.width > 0 {
-                                                   // This means the user swiped from trailing to leading
-                                                   withAnimation {
-                                                       isMenuVisible = true
-                                                   }
-                                               }
-                                           }
-                                   )
+                
             
             
         }
@@ -113,13 +215,13 @@ struct ContentView: View {
             
 }
 
-class DateHolder: ObservableObject {
-    @Published var displayedDate: Date = Date()
-}
+
 
 #Preview {
     ContentView()
         .environmentObject(DateHolder())
+        .environmentObject(ThemeController())
+        .environmentObject(CustomColor())
       
 
 }

@@ -35,8 +35,9 @@ struct SpaceView: View {
                             Text(type.uppercased()).font(.headline)
                         } else {
                             
-                            Text(currentMonthName())
+                            Text(dateHolder.displayedDate.monthName)
                                 .textCase(.uppercase).font(.headline)
+                            Text(dateHolder.displayedDate.year).font(.headline)
                         }
                     }.padding(.top, 12.0)
                     
@@ -93,4 +94,6 @@ struct SpaceView: View {
 
 #Preview {
     SpaceView(type: "Calendar", scale: .small)
+        .environmentObject(DateHolder())
+        .environmentObject(ThemeController())
 }

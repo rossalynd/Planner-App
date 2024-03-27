@@ -8,14 +8,17 @@
 import SwiftUI
 
 struct MainMenuView: View {
+    @EnvironmentObject var themeController: ThemeController
     @Binding var isMenuVisible: Bool
     
     var body: some View {
         VStack(alignment: .leading) {
             
             ZStack {
-                LinearGradient(gradient: Gradient(colors: [.blue, .purple]), startPoint: .top, endPoint: .bottom)
-                    .edgesIgnoringSafeArea(.all)
+                VStack {
+                    
+                }.frame(maxWidth: .infinity, maxHeight: .infinity)
+                .themedBackground(themeController: themeController)
                 VStack {
                     
                     
@@ -27,7 +30,7 @@ struct MainMenuView: View {
                         Text("Menu Item One")
                         Text("Menu Item One")
                         
-                    }.padding().background(Color("DefaultWhite")).clipShape(RoundedRectangle(cornerRadius: 20)).padding()
+                    }.frame(maxWidth: .infinity).padding().background(Color("DefaultWhite")).clipShape(RoundedRectangle(cornerRadius: 20)).padding()
                     Spacer()
                 }
             }
@@ -68,4 +71,6 @@ struct RightRoundedRectangle: Shape {
 #Preview {
     ContentView()
         .environmentObject(DateHolder())
+        .environmentObject(ThemeController())
+        .environmentObject(CustomColor())
 }

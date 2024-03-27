@@ -17,6 +17,7 @@ struct Planner_App: App {
         WindowGroup {
             ContentView()
                 .environmentObject(DateHolder())
+                .environmentObject(ThemeController())
                 
         }
 
