@@ -57,7 +57,7 @@ struct MiniMonthCalendarView: View {
                             Button("Previous Month", systemImage: "arrowshape.left.circle.fill", action: {
                                 previousMonth()
                                 
-                            }).labelStyle(.iconOnly).font(.title).background(.white).clipShape(Circle()).foregroundStyle(Color("DefaultBlack")).shadow(radius: 2, x: 3, y: 3).padding([.leading, .bottom], 10)
+                            }).labelStyle(.iconOnly).font(.title).background(.white).clipShape(Circle()).foregroundStyle(Color.black).shadow(radius: 2, x: 3, y: 3).padding([.leading, .bottom], 10)
                             Spacer()
                 ZStack {
                     
@@ -72,7 +72,7 @@ struct MiniMonthCalendarView: View {
                             Button("Next Month", systemImage: "arrowshape.right.circle.fill", action: {
                                 nextMonth()
                                 
-                            }).labelStyle(.iconOnly).font(.title).background(.white).clipShape(Circle()).foregroundStyle(Color("DefaultBlack")).shadow(radius: 2, x: 3, y: 3).padding([.bottom, .trailing], 10)
+                            }).labelStyle(.iconOnly).font(.title).background(.white).clipShape(Circle()).foregroundStyle(Color.black).shadow(radius: 2, x: 3, y: 3).padding([.bottom, .trailing], 10)
                         }
 
 

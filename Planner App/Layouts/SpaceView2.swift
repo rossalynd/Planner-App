@@ -51,6 +51,7 @@ struct SpaceView: View {
                         WeatherView()
                     } else if type == "Tasks" {
                         TasksView()
+                            .environmentObject(TasksUpdateNotifier())
                     } else if type == "Schedule" {
                         ScheduleView(scale: scale)
                     } else if type == "Gratitude" {
@@ -68,9 +69,6 @@ struct SpaceView: View {
                 .clipShape(RoundedRectangle(cornerRadius: 10))
                 .background(Color("DefaultWhite"))
                 .clipShape(RoundedRectangle(cornerRadius: 20))
-                .onTapGesture {
-                    
-                }
                 .sheet(isPresented: $showingAssignView) {
                     AddModuleView(type: $type).onDisappear()
                 }

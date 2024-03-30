@@ -45,21 +45,25 @@ struct ScheduleView: View {
             VStack {
                 if permissionGranted {
                     ZStack {
-                        VStack(alignment: .center) {
+                        VStack {
                             ScrollView {
                                 
                                 VStack {
                                     
-                                    
-                                    ForEach(allDayEvents.indices, id: \.self) { index in
-                                        let event = allDayEvents[index]
-                                        NavigationLink {
-                                            EventInfoView(event: event)
-                                        } label: {
-                                            EventView(event: event, width: geometry.size.width * 0.9, backgroundColor: Color(event.calendar.cgColor)).foregroundStyle(.black)
+                                    HStack {
+                                        ForEach(allDayEvents.indices, id: \.self) { index in
+                                            let event = allDayEvents[index]
+                                            NavigationLink {
+                                                EventInfoView(event: event)
+                                            } label: {
+                                                ADEventView(event: event, backgroundColor: Color(event.calendar.cgColor))
+                                            }
+                                            
                                         }
-                                        
-                                    }
+                                       
+                                    Spacer()
+                                    }.frame(maxWidth: geometry.size.width * 0.9)
+                                   
                                     ForEach(timedEvents.indices, id: \.self) { index in
                                         let event = timedEvents[index]
                                         
@@ -87,7 +91,7 @@ struct ScheduleView: View {
                                
                                     Button("Add Event", systemImage: "plus.circle.fill", action: {
                                         showingAddEventView.toggle()
-                                    }).labelStyle(.iconOnly).font(.title).background(.white).clipShape(Circle()).foregroundStyle(Color("DefaultBlack")).padding(.horizontal, 5).shadow(radius: 2, x: 3, y: 3)
+                                    }).labelStyle(.iconOnly).font(.title).background(.white).clipShape(Circle()).foregroundStyle(Color.black).padding(.horizontal, 5).shadow(radius: 2, x: 3, y: 3)
                                     .popover(isPresented: $showingAddEventView) {
                                         ZStack {
                                             VStack {
@@ -156,14 +160,61 @@ struct ScheduleView: View {
                     }
                 }
             }
-            .padding()
+            .padding(5)
             .frame(maxWidth: width, maxHeight: 50)
             .background(backgroundColor)
             .clipShape(RoundedRectangle(cornerRadius: 20))
             .shadow(radius: 3, x: 3, y: 3)
-            .padding(.horizontal, 14)
+           
         }
     }
+    struct ADEventView: View {
+        var event: EKEvent
+        var backgroundColor: Color
+        @State var showEventTitle = false
+
+        init(event: EKEvent, backgroundColor: Color) {
+            self.event = event
+            self.backgroundColor = backgroundColor
+        }
+
+        var body: some View {
+            HStack {
+                Button(action: {showEventTitle.toggle()}) {
+                    HStack {
+                        if event.title.contains("Birthday") {
+                            Image(systemName: "gift.fill") // Using SF Symbols for the present icon
+                                .foregroundColor(.black).font(.title)
+                        } else if event.calendar.title.contains("Holiday") {
+                            Image(systemName: "star.circle.fill")
+                                .foregroundColor(.black).font(.title)
+                        } else if event .calendar.title.contains("Goals") {
+                            Image(systemName: "trophy.circle.fill")
+                                .foregroundColor(.black).font(.title)
+                        } else if event .calendar.title.contains("Bills") {
+                            Image(systemName: "creditcard.circle.fill")
+                                .foregroundColor(.black).font(.title)
+                        } else {
+                            Image(systemName: "calendar.circle.fill") //
+                                .foregroundColor(.black).font(.title)
+                        }
+                    }
+                    
+                }
+                if showEventTitle == true {
+                    Text(event.title.uppercased()).font(.headline)
+                        .bold().foregroundStyle(.black).padding(.trailing, 5)
+                }
+            }
+            .padding(5)
+            .frame(maxHeight: 50)
+            .background(backgroundColor)
+            .clipShape(ConditionalShape(showEventTitle: showEventTitle, radius: 20))
+            .shadow(radius: 3, x: 3, y: 3)
+            
+        }
+    }
+    
 
     
     
@@ -218,13 +269,26 @@ struct ScheduleView: View {
     }
     
 }
-extension Date {
-    var startOfDay: Date {
-        return Calendar.current.startOfDay(for: self)
+
+struct ConditionalShape: Shape {
+    var showEventTitle: Bool
+    var radius: CGFloat
+
+    func path(in rect: CGRect) -> Path {
+        if !showEventTitle {
+            return Circle().path(in: rect)
+        } else {
+            return RoundedRectangle(cornerRadius: radius).path(in: rect)
+        }
     }
 }
+
+
+
 
 #Preview {
     ContentView()
         .environmentObject(DateHolder())
+        .environmentObject(ThemeController())
+        
 }

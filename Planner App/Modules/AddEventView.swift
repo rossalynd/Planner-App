@@ -33,8 +33,6 @@ struct AddEventView: View {
             Form {
                 HStack {
                     Text("Add Event".uppercased()).font(.title2).bold()
-                    
-                    
                 }
                 Section(header: Text("Event Details")) {
                     TextField("Title", text: $eventTitle)
@@ -79,7 +77,6 @@ struct AddEventView: View {
                         }
                     ForEach(alarms, id: \.self) { alarm in
                         Text("\(alarm.description)")
-                            
                     }
                     .onDelete(perform: deleteAlarm)
                 }
@@ -153,7 +150,6 @@ extension EKEventAvailability {
     }
 }
 
-import EventKit
 
 extension EKAlarm {
     open override var description: String {

@@ -62,7 +62,7 @@ class CalendarViewModel: ObservableObject {
                 
                 let color: Color
                             if isCurrentDay {
-                                color = .white // Current day color
+                                color = Color("DefaultWhite") // Current day color
                             } else if isSelectedDate {
                                 color = .pink // Highlight day color
                             } else {

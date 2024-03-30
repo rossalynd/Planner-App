@@ -4,5 +4,7 @@
 <dict>
 	<key>NSCalendarsFullAccessUsageDescription</key>
 	<string>Needs access to calendar display, edit, add, and delete events upon user request</string>
+	<key>NSRemindersFullAccessUsageDescription</key>
+	<string>This app needs full access to reminders to create and add tasks and lists</string>
 </dict>
 </plist>

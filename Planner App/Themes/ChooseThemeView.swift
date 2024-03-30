@@ -11,15 +11,9 @@ struct ChooseThemeView: View {
     @EnvironmentObject var color: CustomColor
     @EnvironmentObject var theme: ThemeController
     @State var backgroundChoice: String = "Default"
-    @State var backgroundColor: Color = .blue
-    @State var secondaryBackgroundColor: Color = .yellow
     @State var isGradient: Bool = false
     var body: some View {
         ZStack(alignment: .leading) {
-            VStack {
-                
-            }.frame(maxWidth: .infinity, maxHeight: .infinity)
-                .themedBackground(themeController: theme)
             VStack {
                 HStack {
                     Text("Background")
@@ -53,6 +47,15 @@ struct ChooseThemeView: View {
                     }
                 }
                 
+                HStack {
+                    Text("Background")
+                    Spacer()
+                    Picker("Background Type", selection: $theme.overlayType) {
+                        ForEach(ThemeController.OverlayType.allCases, id: \.self) { type in
+                            Text(type.rawValue).tag(type)
+                        }
+                    }
+                }
                 
             }.padding()
                 .onAppear {

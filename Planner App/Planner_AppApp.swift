@@ -18,6 +18,7 @@ struct Planner_App: App {
             ContentView()
                 .environmentObject(DateHolder())
                 .environmentObject(ThemeController())
+                .environmentObject(CustomColor())
                 
         }
 

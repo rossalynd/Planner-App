@@ -5,16 +5,11 @@
 //  Created by Rosie O'Marrow on 3/21/24.
 //
 
-//  TodayView.swift
-//  Planner App
-//
-//  Created by Rosie O'Marrow on 3/21/24.
-//
 
 import SwiftUI
 import SwiftData
 
-struct TodayView: View {
+struct PortraitView: View {
     @Environment(\.modelContext) private var modelContext
     @EnvironmentObject var dateHolder: DateHolder
 
@@ -43,7 +38,7 @@ struct TodayView: View {
 
 
 #Preview {
-    TodayView()
+    PortraitView()
         .environmentObject(DateHolder())
         .environmentObject(ThemeController())
 }

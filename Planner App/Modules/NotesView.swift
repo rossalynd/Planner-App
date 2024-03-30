@@ -1,3 +1,4 @@
+
 import SwiftUI
 import UIKit
 import PencilKit
@@ -58,7 +59,6 @@ struct CanvasView: UIViewRepresentable {
 
         func canvasViewDrawingDidChange(_ canvasView: PKCanvasView) {
             parent.drawing = canvasView.drawing
-            parent.drawing = canvasView.drawing
         }
         func canvasViewDidBeginDrawing(_ canvasView: PKCanvasView) {
                     parent.isMenuVisible = false
@@ -74,8 +74,8 @@ struct CanvasView: UIViewRepresentable {
 struct NotesView: View {
     @EnvironmentObject var dateholder: DateHolder
     @State private var drawing = PKDrawing()
-    @State private var tool: PKTool = PKInkingTool(.monoline, color: .black, width: 1) // Default tool
-    @State private var penWidth: CGFloat = 1
+    @State private var tool: PKTool = PKInkingTool(.monoline, color: .black, width: 0.5) // Default tool
+    @State private var penWidth: CGFloat = 0.5
     @State private var eraserWidth: CGFloat = 20
     @State private var showPenMenu = false
     @State private var showEraserMenu = false
@@ -91,20 +91,22 @@ struct NotesView: View {
             ZStack {
                 CanvasView(drawing: $drawing, tool: $tool, isMenuVisible: $isMenuVisible)
                     .edgesIgnoringSafeArea(.all)
+                    .border(Color(hue: 1.0, saturation: 0.01, brightness: 0.546, opacity: 0.553), width: /*@START_MENU_TOKEN@*/1/*@END_MENU_TOKEN@*/)
                     .onAppear {
-                                    drawing = PKDrawing.loadFromUserDefaults(for: dateholder.displayedDate)
-                                }
-                    .onAppear {
-                                            drawing = PKDrawing.loadFromUserDefaults(for: dateholder.displayedDate)
-                                            currentDisplayedDate = dateholder.displayedDate
-                                        }
-                                        .onChange(of: dateholder.displayedDate) { oldDate, newDate in
-                                            guard newDate != currentDisplayedDate else { return }
-                                            print("Date change detected from \(oldDate) to \(newDate)")
-                                            drawing.saveToUserDefaults(for: currentDisplayedDate) // Save drawing for the old/current date
-                                            drawing = PKDrawing.loadFromUserDefaults(for: newDate) // Load drawing for the new date
-                                            currentDisplayedDate = newDate // Update the current date tracker
-                                        }
+                        DispatchQueue.main.async {
+                            drawing = PKDrawing.loadFromUserDefaults(for: dateholder.displayedDate)
+                            currentDisplayedDate = dateholder.displayedDate
+                        }
+                    }
+                    .onChange(of: dateholder.displayedDate) { oldDate, newDate in
+                        DispatchQueue.main.async {
+                            guard newDate != currentDisplayedDate else { return }
+                            drawing.saveToUserDefaults(for: currentDisplayedDate) // Save drawing for the old/current date
+                            drawing = PKDrawing.loadFromUserDefaults(for: newDate) // Load drawing for the new date
+                            currentDisplayedDate = newDate // Update the current date tracker
+                        }
+                    }
+
                 VStack {
                     Spacer()
                     // Pencil Slider
@@ -112,7 +114,7 @@ struct NotesView: View {
                         VStack {
                             HorizontalSlider(
                                 value: $penWidth,
-                                range: 1...50,
+                                range: 0.1...5,
                                 onEditingChanged: { editing in
                                     showPenMenu = editing
                                 }
@@ -132,7 +134,7 @@ struct NotesView: View {
                         VStack {
                             HorizontalSlider(
                                 value: $eraserWidth,
-                                range: 20...500,
+                                range: 1...50,
                                 onEditingChanged: { editing in
                                     showEraserMenu = editing
                                 }
@@ -141,7 +143,7 @@ struct NotesView: View {
                         .onDisappear {
                             // Update the eraser tool with the new width when the menu is closed
                             if tool is PKEraserTool {
-                                self.tool = PKEraserTool(.bitmap, width: eraserWidth)
+                                self.tool = PKEraserTool(.bitmap, width: eraserWidth * 10)
                             }
                         }
                     }
@@ -157,7 +159,7 @@ struct NotesView: View {
                                     self.tool = PKInkingTool(.monoline, color: .black, width: penWidth)
                                 }
                             }) {
-                                Image(systemName: "pencil.circle.fill").foregroundColor(Color("DefaultBlack")).font(.title).background(.white).clipShape(Circle()).shadow(radius: 2, x: 3, y: 3)
+                                Image(systemName: "pencil.circle.fill").foregroundColor(Color.black).font(.title).background(.white).clipShape(Circle()).shadow(radius: 2, x: 3, y: 3)
                             }
                             //End Pencil Button
                         //Between two Buttons
@@ -172,11 +174,11 @@ struct NotesView: View {
                                     
                                 }
                             }) {
-                                Image(systemName: "eraser.fill").foregroundColor(Color("DefaultBlack")).font(.title).background(.white).clipShape(Circle()).shadow(radius: 2, x: 3, y: 3)
+                                Image(systemName: "eraser.fill").foregroundColor(Color.black).font(.title).background(.white).clipShape(Circle()).shadow(radius: 2, x: 3, y: 3)
                             }
                             
                         }.padding(.horizontal)
-                }
+                }.padding(.bottom, 10)
             }
         }
         
@@ -184,7 +186,12 @@ struct NotesView: View {
 }
 
 
+
+
+
 #Preview {
     ContentView()
         .environmentObject(DateHolder())
+        .environmentObject(CustomColor())
+        .environmentObject(ThemeController())
 }

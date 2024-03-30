@@ -10,6 +10,7 @@ import SwiftData
 import UIKit
 struct ContentView: View {
     @Environment(\.modelContext) private var modelContext
+    @Environment(\.horizontalSizeClass) var horizontalSizeClass
     @EnvironmentObject var dateHolder: DateHolder
     @EnvironmentObject var themeController: ThemeController
     @State var isCoverVisible = false
@@ -66,14 +67,8 @@ struct ContentView: View {
                 
                 VStack {
                     
-
-                    if UIDevice.current.userInterfaceIdiom == .phone {
-                        
-                        
-                        
-                        
-                        
-                        
+                    
+                    if UIDevice.current.userInterfaceIdiom == .phone { //IPHONE HEADER
                         
                         HStack {
                             Button("Menu", systemImage:"line.horizontal.3.circle.fill", action: {
@@ -111,64 +106,59 @@ struct ContentView: View {
                             .padding(.bottom, 10)
                         
                         
+                    } else { //IPAD HEADER
                         
-                        
-                        
-                        
-                        
-                        
-                        
-                        
-                        
-                        
-                        
-                        
-                    } else {
-                        
-                        
-                        
-                
                         
                         HStack {
                             
-                            Button("Menu", systemImage: "line.3.horizontal", action: {
+                            Button("Menu", systemImage: "line.3.horizontal.circle.fill", action: {
                                 withAnimation {
                                     isMenuVisible.toggle()
                                 }
-                            }).foregroundStyle(Color("DefaultBlack")).padding().background(Color("DefaultWhite")).cornerRadius(20).shadow(radius: 5, x: 5, y: 5).labelStyle(.iconOnly)
+                            }).foregroundStyle(Color("DefaultBlack")).font(.title).padding(2).background(Color("DefaultWhite")).cornerRadius(20).shadow(radius: 5, x: 5, y: 5).labelStyle(.iconOnly)
                             
                             HStack {
                                 Button("Previous Day", systemImage: "arrowshape.backward.circle.fill", action: {
                                     dateHolder.displayedDate = Calendar.current.date(byAdding: .day, value: -1, to: dateHolder.displayedDate)!
-                                }).foregroundStyle(Color("DefaultBlack")).padding(10).labelStyle(.iconOnly)
+                                }).foregroundStyle(Color("DefaultBlack")).font(.title).padding(2).labelStyle(.iconOnly)
                                 
                                 Spacer()
                                 
                                 Button("\(dateHolder.displayedDate.formatted(date: .complete, time: .omitted).uppercased())", action: {
                                     dateHolder.displayedDate = Date()
-                                }).font(.title3).foregroundColor((Color("DefaultBlack")))
+                                }).font(.title2).foregroundColor((Color("DefaultBlack")))
                                 
                                 Spacer()
                                 
                                 Button("Next Day", systemImage: "arrowshape.forward.circle.fill", action: {
                                     dateHolder.displayedDate = Calendar.current.date(byAdding: .day, value: 1, to: dateHolder.displayedDate)!
-                                }).foregroundStyle(Color("DefaultBlack")).padding(10).labelStyle(.iconOnly)
+                                }).foregroundStyle(Color("DefaultBlack")).font(.title).padding(2).labelStyle(.iconOnly)
+                                
+                                
+                                
                             }.background(Color("DefaultWhite")).cornerRadius(20).shadow(radius: 5, x: 5, y: 5)
                             
                             
                             
                             NavigationLink(destination: SettingsView()) {
-                                Image(systemName: "gearshape.circle.fill").foregroundStyle(Color("DefaultBlack")).padding([.trailing, .top, .bottom], padding).labelStyle(.iconOnly).font(.title)
+                                Image(systemName: "gearshape.circle.fill").foregroundStyle(Color("DefaultBlack")).font(.title).padding(2).background(Color("DefaultWhite")).cornerRadius(20).shadow(radius: 5, x: 5, y: 5).labelStyle(.iconOnly)
                             }
                         }.padding(.bottom, 10)
+                        
+                    } // END HEADER
+                    VStack {
+                        if horizontalSizeClass == .compact {
+                            
+                            PortraitView()
+                            
+                        } else {
+                            LandscapeView()
+                           
+                            
+                        }}
+                }.padding(.horizontal, padding)
 
-                    }
-
-                        TodayView()
-                    }
                 
-
-                .padding(.horizontal, padding)
 
                 GeometryReader { geometry in
                 

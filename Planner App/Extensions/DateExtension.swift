@@ -35,3 +35,8 @@ extension Date {
         return dateFormatter.string(from: self)
     }
 }
+extension Date {
+    var startOfDay: Date {
+        return Calendar.current.startOfDay(for: self)
+    }
+}

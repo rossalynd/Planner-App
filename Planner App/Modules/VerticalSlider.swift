@@ -63,6 +63,3 @@ struct VerticalSlider: View {
     }
 }
 
-#Preview {
-    NotesView()
-}
