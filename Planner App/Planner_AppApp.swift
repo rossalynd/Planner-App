@@ -10,7 +10,7 @@ import SwiftData
 
 @main
 struct Planner_App: App {
-   
+    var orientationObserver = OrientationObserver()
 
 
     var body: some Scene {
@@ -19,6 +19,9 @@ struct Planner_App: App {
                 .environmentObject(DateHolder())
                 .environmentObject(ThemeController())
                 .environmentObject(CustomColor())
+                .environmentObject(OrientationObserver())
+                .environmentObject(Permissions())
+                .environmentObject(TasksUpdateNotifier())
                 
         }
 

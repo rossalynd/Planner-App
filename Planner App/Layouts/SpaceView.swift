@@ -14,6 +14,7 @@ struct SpaceView: View {
     @State var type: String
     @State var showingAssignView = false
     var scale: Scale
+    var layoutType: LayoutType
     var maxHeight = 0.0
    
     
@@ -42,7 +43,7 @@ struct SpaceView: View {
                     }.padding(.top, 12.0)
                     
                     if type == "Calendar" {
-                        MiniMonthCalendarView(scale: scale)
+                        MiniMonthCalendarView(scale: scale, layoutType: layoutType)
                     } else if type == "Notes" {
                         NotesView()
                     } else if type == "Mood" {
@@ -50,10 +51,10 @@ struct SpaceView: View {
                     } else if type == "Weather" {
                         WeatherView()
                     } else if type == "Tasks" {
-                        TasksView()
+                        TasksView(date: dateHolder.displayedDate)
                             .environmentObject(TasksUpdateNotifier())
                     } else if type == "Schedule" {
-                        ScheduleView(scale: scale)
+                        ScheduleView(layoutType: layoutType, scale: scale, date: dateHolder.displayedDate)
                     } else if type == "Gratitude" {
                         GratitudeView()
                     } else if type == "Water" {
@@ -91,7 +92,8 @@ struct SpaceView: View {
 
 
 #Preview {
-    SpaceView(type: "Calendar", scale: .small)
+    SpaceView(type: "Calendar", scale: .small, layoutType: .elsePortrait)
         .environmentObject(DateHolder())
         .environmentObject(ThemeController())
+        .environmentObject(Permissions())
 }

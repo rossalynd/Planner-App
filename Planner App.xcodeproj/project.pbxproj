@@ -11,7 +11,7 @@
 		0100EAE12BB3625500734275 /* ThemeController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0100EAE02BB3625500734275 /* ThemeController.swift */; };
 		0100EAE42BB362CC00734275 /* CalendarViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0100EAE32BB362CC00734275 /* CalendarViewModel.swift */; };
 		0100EAE82BB36A4B00734275 /* Themes.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0100EAE72BB36A4B00734275 /* Themes.xcassets */; };
-		0100EAEA2BB3868700734275 /* iPhoneLayoutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0100EAE92BB3868700734275 /* iPhoneLayoutView.swift */; };
+		0100EAEA2BB3868700734275 /* iPhoneDayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0100EAE92BB3868700734275 /* iPhoneDayView.swift */; };
 		0100EAED2BB38FC600734275 /* DateExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0100EAEC2BB38FC600734275 /* DateExtension.swift */; };
 		0100EAEF2BB4533100734275 /* ColorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0100EAEE2BB4533100734275 /* ColorExtension.swift */; };
 		0100EAF12BB46DDE00734275 /* ColorPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0100EAF02BB46DDE00734275 /* ColorPicker.swift */; };
@@ -27,11 +27,11 @@
 		0100EB0F2BB5AC5400734275 /* Hearts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0100EB0E2BB5AC5400734275 /* Hearts.swift */; };
 		0100EB112BB5D76D00734275 /* PortraitView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0100EB102BB5D76D00734275 /* PortraitView.swift */; };
 		0100EB132BB5D79D00734275 /* LandscapeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0100EB122BB5D79D00734275 /* LandscapeView.swift */; };
-		0100EB152BB5D7D600734275 /* iPhoneLandscapeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0100EB142BB5D7D600734275 /* iPhoneLandscapeView.swift */; };
-		0100EB172BB5D7EC00734275 /* OtherLandscapeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0100EB162BB5D7EC00734275 /* OtherLandscapeView.swift */; };
+		0100EB152BB5D7D600734275 /* iPhoneWeekView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0100EB142BB5D7D600734275 /* iPhoneWeekView.swift */; };
+		0100EB172BB5D7EC00734275 /* WeekView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0100EB162BB5D7EC00734275 /* WeekView.swift */; };
 		0100EB192BB5DAB700734275 /* HealthViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0100EB182BB5DAB700734275 /* HealthViewModel.swift */; };
-		011DEC502BAF048100B2249F /* TodayLayoutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 011DEC4F2BAF048100B2249F /* TodayLayoutView.swift */; };
-		011DEC542BAF0A9D00B2249F /* SpaceView2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 011DEC532BAF0A9D00B2249F /* SpaceView2.swift */; };
+		011DEC502BAF048100B2249F /* DayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 011DEC4F2BAF048100B2249F /* DayView.swift */; };
+		011DEC542BAF0A9D00B2249F /* SpaceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 011DEC532BAF0A9D00B2249F /* SpaceView.swift */; };
 		011DEC562BAF0BFC00B2249F /* MoodView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 011DEC552BAF0BFC00B2249F /* MoodView.swift */; };
 		011DEC582BAF0C0D00B2249F /* ScheduleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 011DEC572BAF0C0D00B2249F /* ScheduleView.swift */; };
 		011DEC5A2BAF0C5600B2249F /* TasksView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 011DEC592BAF0C5600B2249F /* TasksView.swift */; };
@@ -41,6 +41,10 @@
 		011DEC622BAF0CE200B2249F /* WaterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 011DEC612BAF0CE200B2249F /* WaterView.swift */; };
 		011DEC642BAF0CEC00B2249F /* MealsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 011DEC632BAF0CEC00B2249F /* MealsView.swift */; };
 		011DEC662BAF2E3800B2249F /* Modules.swift in Sources */ = {isa = PBXBuildFile; fileRef = 011DEC652BAF2E3800B2249F /* Modules.swift */; };
+		0125144B2BB8A29B009C3E66 /* LayoutTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0125144A2BB8A29B009C3E66 /* LayoutTypes.swift */; };
+		0125144D2BB8AA46009C3E66 /* OrientationObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0125144C2BB8AA46009C3E66 /* OrientationObserver.swift */; };
+		0125144F2BB8B032009C3E66 /* Permissions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0125144E2BB8B032009C3E66 /* Permissions.swift */; };
+		012514512BB98E37009C3E66 /* ImageExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 012514502BB98E37009C3E66 /* ImageExtension.swift */; };
 		0134A97C2BACA44300D5BB5C /* Planner_AppApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0134A97B2BACA44300D5BB5C /* Planner_AppApp.swift */; };
 		0134A97E2BACA44300D5BB5C /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0134A97D2BACA44300D5BB5C /* ContentView.swift */; };
 		0134A9822BACA44400D5BB5C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0134A9812BACA44400D5BB5C /* Assets.xcassets */; };
@@ -86,7 +90,7 @@
 		0100EAE02BB3625500734275 /* ThemeController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeController.swift; sourceTree = "<group>"; };
 		0100EAE32BB362CC00734275 /* CalendarViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarViewModel.swift; sourceTree = "<group>"; };
 		0100EAE72BB36A4B00734275 /* Themes.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Themes.xcassets; sourceTree = "<group>"; };
-		0100EAE92BB3868700734275 /* iPhoneLayoutView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iPhoneLayoutView.swift; sourceTree = "<group>"; };
+		0100EAE92BB3868700734275 /* iPhoneDayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iPhoneDayView.swift; sourceTree = "<group>"; };
 		0100EAEC2BB38FC600734275 /* DateExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateExtension.swift; sourceTree = "<group>"; };
 		0100EAEE2BB4533100734275 /* ColorExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorExtension.swift; sourceTree = "<group>"; };
 		0100EAF02BB46DDE00734275 /* ColorPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorPicker.swift; sourceTree = "<group>"; };
@@ -102,11 +106,11 @@
 		0100EB0E2BB5AC5400734275 /* Hearts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Hearts.swift; sourceTree = "<group>"; };
 		0100EB102BB5D76D00734275 /* PortraitView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PortraitView.swift; sourceTree = "<group>"; };
 		0100EB122BB5D79D00734275 /* LandscapeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LandscapeView.swift; sourceTree = "<group>"; };
-		0100EB142BB5D7D600734275 /* iPhoneLandscapeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iPhoneLandscapeView.swift; sourceTree = "<group>"; };
-		0100EB162BB5D7EC00734275 /* OtherLandscapeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OtherLandscapeView.swift; sourceTree = "<group>"; };
+		0100EB142BB5D7D600734275 /* iPhoneWeekView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iPhoneWeekView.swift; sourceTree = "<group>"; };
+		0100EB162BB5D7EC00734275 /* WeekView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeekView.swift; sourceTree = "<group>"; };
 		0100EB182BB5DAB700734275 /* HealthViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthViewModel.swift; sourceTree = "<group>"; };
-		011DEC4F2BAF048100B2249F /* TodayLayoutView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayLayoutView.swift; sourceTree = "<group>"; };
-		011DEC532BAF0A9D00B2249F /* SpaceView2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpaceView2.swift; sourceTree = "<group>"; };
+		011DEC4F2BAF048100B2249F /* DayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DayView.swift; sourceTree = "<group>"; };
+		011DEC532BAF0A9D00B2249F /* SpaceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpaceView.swift; sourceTree = "<group>"; };
 		011DEC552BAF0BFC00B2249F /* MoodView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoodView.swift; sourceTree = "<group>"; };
 		011DEC572BAF0C0D00B2249F /* ScheduleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleView.swift; sourceTree = "<group>"; };
 		011DEC592BAF0C5600B2249F /* TasksView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TasksView.swift; sourceTree = "<group>"; };
@@ -116,6 +120,10 @@
 		011DEC612BAF0CE200B2249F /* WaterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WaterView.swift; sourceTree = "<group>"; };
 		011DEC632BAF0CEC00B2249F /* MealsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MealsView.swift; sourceTree = "<group>"; };
 		011DEC652BAF2E3800B2249F /* Modules.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Modules.swift; sourceTree = "<group>"; };
+		0125144A2BB8A29B009C3E66 /* LayoutTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LayoutTypes.swift; sourceTree = "<group>"; };
+		0125144C2BB8AA46009C3E66 /* OrientationObserver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrientationObserver.swift; sourceTree = "<group>"; };
+		0125144E2BB8B032009C3E66 /* Permissions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Permissions.swift; sourceTree = "<group>"; };
+		012514502BB98E37009C3E66 /* ImageExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageExtension.swift; sourceTree = "<group>"; };
 		0134A9782BACA44300D5BB5C /* Planner App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Planner App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		0134A97B2BACA44300D5BB5C /* Planner_AppApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Planner_AppApp.swift; sourceTree = "<group>"; };
 		0134A97D2BACA44300D5BB5C /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -172,7 +180,6 @@
 		0100EADC2BB3616F00734275 /* Themes */ = {
 			isa = PBXGroup;
 			children = (
-				0100EAE02BB3625500734275 /* ThemeController.swift */,
 				0100EB002BB4BCBC00734275 /* Backgrounds */,
 				0100EAFF2BB4BCB300734275 /* Patterns */,
 				0100EAE72BB36A4B00734275 /* Themes.xcassets */,
@@ -198,6 +205,7 @@
 			children = (
 				0100EAEC2BB38FC600734275 /* DateExtension.swift */,
 				0100EAEE2BB4533100734275 /* ColorExtension.swift */,
+				012514502BB98E37009C3E66 /* ImageExtension.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -205,8 +213,11 @@
 		0100EAF52BB4863900734275 /* EnvironmentObjects */ = {
 			isa = PBXGroup;
 			children = (
+				0100EAE02BB3625500734275 /* ThemeController.swift */,
 				0100EAF62BB4867100734275 /* DateHolder.swift */,
 				0100EAFA2BB4879200734275 /* CustomColor.swift */,
+				0125144C2BB8AA46009C3E66 /* OrientationObserver.swift */,
+				0125144E2BB8B032009C3E66 /* Permissions.swift */,
 			);
 			path = EnvironmentObjects;
 			sourceTree = "<group>";
@@ -214,13 +225,14 @@
 		0100EAFC2BB48E0900734275 /* Layouts */ = {
 			isa = PBXGroup;
 			children = (
-				0100EAE92BB3868700734275 /* iPhoneLayoutView.swift */,
-				0100EB142BB5D7D600734275 /* iPhoneLandscapeView.swift */,
-				0100EB162BB5D7EC00734275 /* OtherLandscapeView.swift */,
-				011DEC4F2BAF048100B2249F /* TodayLayoutView.swift */,
-				011DEC532BAF0A9D00B2249F /* SpaceView2.swift */,
+				0100EAE92BB3868700734275 /* iPhoneDayView.swift */,
+				0100EB142BB5D7D600734275 /* iPhoneWeekView.swift */,
+				0100EB162BB5D7EC00734275 /* WeekView.swift */,
+				011DEC4F2BAF048100B2249F /* DayView.swift */,
+				011DEC532BAF0A9D00B2249F /* SpaceView.swift */,
 				0100EB102BB5D76D00734275 /* PortraitView.swift */,
 				0100EB122BB5D79D00734275 /* LandscapeView.swift */,
+				0125144A2BB8A29B009C3E66 /* LayoutTypes.swift */,
 			);
 			path = Layouts;
 			sourceTree = "<group>";
@@ -497,23 +509,26 @@
 				0100EAE12BB3625500734275 /* ThemeController.swift in Sources */,
 				0100EAFE2BB48E5500734275 /* SettingsView.swift in Sources */,
 				016B52F32BB1F62E007DC286 /* AddEventView.swift in Sources */,
-				011DEC502BAF048100B2249F /* TodayLayoutView.swift in Sources */,
+				011DEC502BAF048100B2249F /* DayView.swift in Sources */,
 				0100EB0D2BB4C1BB00734275 /* SpacedPattern.swift in Sources */,
 				011DEC5E2BAF0C7B00B2249F /* GratitudeView.swift in Sources */,
-				0100EB152BB5D7D600734275 /* iPhoneLandscapeView.swift in Sources */,
+				0100EB152BB5D7D600734275 /* iPhoneWeekView.swift in Sources */,
 				0100EAF12BB46DDE00734275 /* ColorPicker.swift in Sources */,
 				011DEC622BAF0CE200B2249F /* WaterView.swift in Sources */,
+				0125144B2BB8A29B009C3E66 /* LayoutTypes.swift in Sources */,
 				0100EAF72BB4867100734275 /* DateHolder.swift in Sources */,
 				0185CBC82BB5EFBB00F7A2EC /* MoodModel.swift in Sources */,
 				0134A9B62BAD1B4900D5BB5C /* ModuleNames.swift in Sources */,
 				0134A9AF2BACC7A900D5BB5C /* MiniMonthCalendarView.swift in Sources */,
-				0100EB172BB5D7EC00734275 /* OtherLandscapeView.swift in Sources */,
-				011DEC542BAF0A9D00B2249F /* SpaceView2.swift in Sources */,
+				0125144F2BB8B032009C3E66 /* Permissions.swift in Sources */,
+				0100EB172BB5D7EC00734275 /* WeekView.swift in Sources */,
+				0125144D2BB8AA46009C3E66 /* OrientationObserver.swift in Sources */,
+				011DEC542BAF0A9D00B2249F /* SpaceView.swift in Sources */,
 				0100EB112BB5D76D00734275 /* PortraitView.swift in Sources */,
 				0100EB052BB4BE9800734275 /* BluePurple.swift in Sources */,
 				011DEC562BAF0BFC00B2249F /* MoodView.swift in Sources */,
 				0134A9B42BAD1AA700D5BB5C /* AddModuleView.swift in Sources */,
-				0100EAEA2BB3868700734275 /* iPhoneLayoutView.swift in Sources */,
+				0100EAEA2BB3868700734275 /* iPhoneDayView.swift in Sources */,
 				011DEC602BAF0C9A00B2249F /* NotesView.swift in Sources */,
 				014F1B7E2BB885A3004C89DB /* TaskView.swift in Sources */,
 				0100EB0F2BB5AC5400734275 /* Hearts.swift in Sources */,
@@ -528,6 +543,7 @@
 				0135C3BC2BAF68C600D60E30 /* CircleSlider.swift in Sources */,
 				0100EB132BB5D79D00734275 /* LandscapeView.swift in Sources */,
 				011DEC582BAF0C0D00B2249F /* ScheduleView.swift in Sources */,
+				012514512BB98E37009C3E66 /* ImageExtension.swift in Sources */,
 				0100EB092BB4BEB600734275 /* Custom.swift in Sources */,
 				011DEC5A2BAF0C5600B2249F /* TasksView.swift in Sources */,
 				0100EAE42BB362CC00734275 /* CalendarViewModel.swift in Sources */,

@@ -11,6 +11,7 @@ struct MiniMonthCalendarView: View {
    
     @EnvironmentObject var dateHolder: DateHolder
     var scale: SpaceView.Scale
+    var layoutType: LayoutType
     private var viewModel: CalendarViewModel {
            CalendarViewModel(date: dateHolder.displayedDate)
        }
@@ -89,26 +90,61 @@ struct MiniMonthCalendarView: View {
             .foregroundColor(.white)
 
             let columns = Array(repeating: GridItem(.flexible(), spacing: spacingScale), count: 7) // Use spacingScale for grid spacing
-            LazyVGrid(columns: columns, spacing: spacingScale) { // And here
-                ForEach(viewModel.days, id: \.self) { day in
-                    Text("\(day.number)")
-                        .font(.system(size: baseFontSize))
-                        .padding(paddingScale) // Adjust padding to scale with the text
-                        .background(day.isCurrentDay ? Color("DefaultBlack") : Color.clear)
-                        .clipShape(Circle())
-                        .foregroundColor(day.color)
-                        .onTapGesture {
-                            let calendar = Calendar.current
-                            var dateComponents = DateComponents()
-                            dateComponents.year = day.year
-                            dateComponents.month = day.month
-                            dateComponents.day = day.number
-
-                            if let date = calendar.date(from: dateComponents) {
-                                dateHolder.displayedDate = date
+            
+            
+            LazyVGrid(columns: columns, spacing: spacingScale) {
+                
+                if layoutType == .elsePortrait || layoutType == .iphonePortrait {
+                    ForEach(viewModel.days, id: \.self) { day in
+                        Text("\(day.number)")
+                            .font(.system(size: baseFontSize))
+                            .padding(paddingScale) // Adjust padding to scale with the text
+                            .background(day.isCurrentDay ? Color("DefaultBlack") : Color.clear)
+                            .clipShape(Circle())
+                            .foregroundColor(day.color)
+                            .onTapGesture {
+                                let calendar = Calendar.current
+                                var dateComponents = DateComponents()
+                                dateComponents.year = day.year
+                                dateComponents.month = day.month
+                                dateComponents.day = day.number
+                                
+                                if let date = calendar.date(from: dateComponents) {
+                                    dateHolder.displayedDate = date
+                                }
                             }
-                        }
+                    }
+                } else {
+                    // Inside LazyVGrid in MiniMonthCalendarView
+
+                    ForEach(viewModel.days, id: \.self) { day in
+                        let dayDate = Calendar.current.date(from: DateComponents(year: day.year, month: day.month, day: day.number))!
+                        let startOfWeekDisplayedDate = viewModel.startOfWeek(for: dateHolder.displayedDate)
+                        let startOfWeekDay = viewModel.startOfWeek(for: dayDate)
+                        let isSameWeekAsDisplayedDate = startOfWeekDisplayedDate == startOfWeekDay
+
+                        Text("\(day.number)")
+                            .font(.system(size: baseFontSize))
+                            .padding(paddingScale) // Adjust padding to scale with the text
+                            .background(isSameWeekAsDisplayedDate ? Color.blue : (day.isCurrentDay ? Color("DefaultBlack") : Color.clear))
+                            .clipShape(Circle())
+                            .foregroundColor(day.color)
+                            .onTapGesture {
+                                let calendar = Calendar.current
+                                var dateComponents = DateComponents()
+                                dateComponents.year = day.year
+                                dateComponents.month = day.month
+                                dateComponents.day = day.number
+
+                                if let date = calendar.date(from: dateComponents) {
+                                    dateHolder.displayedDate = date
+                                }
+                            }
+                    }
+
                 }
+                
+                
             }
                            
         }.padding(.horizontal, 10)
@@ -133,9 +169,13 @@ struct MiniMonthCalendarView: View {
 
 
 
-
 #Preview {
     ContentView()
         .environmentObject(DateHolder())
         .environmentObject(ThemeController())
+        .environmentObject(CustomColor())
+        .environmentObject(TasksUpdateNotifier())
+        .environmentObject(OrientationObserver())
+        .environmentObject(Permissions())
+
 }

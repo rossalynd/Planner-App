@@ -14,6 +14,22 @@ extension Date {
         dateFormatter.dateFormat = "EEEE"
         return dateFormatter.string(from: self)
     }
+    var dayOfWeekAbr: String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "E"
+        return dateFormatter.string(from: self)
+    }
+    var dayOfWeekFirstLetter: String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "E" // This will still get the abbreviated day of the week
+        let dayOfWeekAbbreviated = dateFormatter.string(from: self)
+        return String(dayOfWeekAbbreviated.prefix(1)) // Extracts the first letter
+    }
+    var dateNum: String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "d"
+        return dateFormatter.string(from: self)
+    }
     var monthName: String {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "MMMM"

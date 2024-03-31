@@ -17,9 +17,9 @@ struct PortraitView: View {
 #if os(iOS)
             // Dynamically choose between iPad and iPhone views at runtime
         if UIDevice.current.userInterfaceIdiom == .pad {
-            TodayLayoutView()
+            DayView()
         } else {
-            iPhoneLayoutView()
+            iPhoneDayView()
         }
 #elseif os(watchOS)
             Text("Hello, watchOS!")

@@ -13,7 +13,7 @@
 
 import SwiftUI
 
-struct iPhoneLandscapeView: View {
+struct iPhoneWeekView: View {
     @EnvironmentObject var dateHolder: DateHolder
     private var smallSpaceTop: String = "Calendar"
     private var smallSpaceMiddleTop: String = "Schedule"
@@ -29,22 +29,22 @@ struct iPhoneLandscapeView: View {
             
                 VStack(spacing: 15) {
                     
-                    SpaceView(type: smallSpaceTop, scale: .small)
-                    SpaceView(type: smallSpaceMiddleBottom, scale: .small)
+                    SpaceView(type: smallSpaceTop, scale: .small, layoutType: .iphoneLandscape)
+                    SpaceView(type: smallSpaceMiddleBottom, scale: .small, layoutType: .iphoneLandscape)
                     
                 }.frame(maxWidth: .infinity, maxHeight: .infinity)
                 
                 VStack(spacing: 15) {
                     
-                    SpaceView(type: mediumSpaceLeft, scale: .small)
-                    SpaceView(type: mediumSpaceRight, scale: .small)
+                    SpaceView(type: mediumSpaceLeft, scale: .small, layoutType: .iphoneLandscape)
+                    SpaceView(type: mediumSpaceRight, scale: .small, layoutType: .iphoneLandscape)
                     
                 }.frame(maxWidth: .infinity, maxHeight: .infinity)
                 
                 VStack(spacing: 15) {
                     
-                    SpaceView(type: largeSpaceTop, scale: .small)
-                    SpaceView(type: largeSpaceBottom, scale: .small)
+                    SpaceView(type: largeSpaceTop, scale: .small, layoutType: .iphoneLandscape)
+                    SpaceView(type: largeSpaceBottom, scale: .small, layoutType: .iphoneLandscape)
                     
                 }.frame(maxWidth: .infinity, maxHeight: .infinity)
             }
@@ -54,7 +54,7 @@ struct iPhoneLandscapeView: View {
 }
 
 #Preview {
-    iPhoneLandscapeView()
+    iPhoneWeekView()
         .environmentObject(DateHolder())
         .environmentObject(ThemeController())
 }

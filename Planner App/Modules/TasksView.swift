@@ -10,14 +10,17 @@ import Foundation
 
 class TasksUpdateNotifier: ObservableObject {
     @Published var needsUpdate: Bool = false
+    
 }
 
 
 struct TasksView: View {
     @EnvironmentObject var tasksUpdateNotifier: TasksUpdateNotifier
+    
     @EnvironmentObject var dateHolder: DateHolder
+    @EnvironmentObject var permissions: Permissions
+    var date: Date
     @State private var tasks: [(task: EKReminder, listColor: Color)] = []
-    private let eventStore = EKEventStore()
     @State private var showingAddTaskView = false
     @State private var permissionGranted = false
     @State private var showingAlert = false
@@ -25,10 +28,12 @@ struct TasksView: View {
     @State private var dueDate: Date = Date()
     @State private var showingTaskMenu = false
 
-
+    init(date: Date) {
+        self.date = date
+    }
     
     var body: some View {
-        if permissionGranted {
+        if permissions.remindersPermissionGranted {
             ZStack {
                 ScrollView {
                     LazyVStack {
@@ -134,13 +139,14 @@ struct TasksView: View {
                 VStack(alignment: .center) {
                 Text("Unable to retrieve reminders. Please enable access to Reminders in Settings.")
                     Button("Request Reminders Access") {
-                        requestAccess()
+                        permissions.requestRemindersAccess()
                     }
                 }.padding()
                     .onAppear {
-                        if permissionGranted == false {
+                        if permissions.remindersPermissionGranted == false {
+                            permissions.requestRemindersAccess()
                             print("requesting access")
-                            requestAccess()
+                            
                         } else {
                            print("loading reminders")
                             loadTodaysReminders()
@@ -156,7 +162,7 @@ struct TasksView: View {
         DispatchQueue.main.async {
             reminder.isCompleted.toggle()
             do {
-                try self.eventStore.save(reminder, commit: true)
+                try permissions.eventStore.save(reminder, commit: true)
                 // Refresh your tasks list here
                 self.loadTodaysReminders()
             } catch {
@@ -167,7 +173,7 @@ struct TasksView: View {
     func deleteTask(taskToDelete: EKReminder) {
         DispatchQueue.main.async {
             do {
-                try self.eventStore.remove(taskToDelete, commit: true)
+                try permissions.eventStore.remove(taskToDelete, commit: true)
                 // After deleting from the event store, also remove it from the local tasks array
                 self.tasks.removeAll { $0.task.calendarItemIdentifier == taskToDelete.calendarItemIdentifier }
             } catch let error as NSError {
@@ -176,29 +182,15 @@ struct TasksView: View {
         }
     }
     
-    private func requestAccess() {
-        
-        eventStore.requestFullAccessToReminders { granted, error in
-            DispatchQueue.main.async {
-                
-                if granted {
-                    self.permissionGranted = true
-                    print(self.permissionGranted)
-                    loadTodaysReminders()
-                } else {
-                    self.showingAlert = true
-                    print("Access to reminders was denied.")
-                }
-            }
-        }
-    }
+    
+   
     
     private func loadTodaysReminders() {
         let calendar = Calendar.current
-        let startOfDay = calendar.startOfDay(for: dateHolder.displayedDate)
+        let startOfDay = calendar.startOfDay(for: date)
         let endOfDay = calendar.date(byAdding: .hour, value: 23, to: startOfDay)!
-        let predicate = eventStore.predicateForReminders(in: nil)
-        eventStore.fetchReminders(matching: predicate) { [self] fetchedTasks in
+        let predicate = permissions.eventStore.predicateForReminders(in: nil)
+            permissions.eventStore.fetchReminders(matching: predicate) { [self] fetchedTasks in
             guard let fetchedTasks = fetchedTasks else { return }
             self.tasks = fetchedTasks.compactMap { task in
                 guard let dueDate = task.dueDateComponents?.date, dueDate >= startOfDay, dueDate < endOfDay else { return nil }
@@ -209,7 +201,7 @@ struct TasksView: View {
     }
     func saveTask() {
         var targetList: EKCalendar?
-        let lists = eventStore.calendars(for: .reminder)
+        let lists = permissions.eventStore.calendars(for: .reminder)
         
         for list in lists where list.title == "Inbox" {
             targetList = list
@@ -218,12 +210,12 @@ struct TasksView: View {
         
         if targetList == nil {
             // "Inbox" list not found, create a new one
-            let newList = EKCalendar(for: .reminder, eventStore: self.eventStore)
+            let newList = EKCalendar(for: .reminder, eventStore: permissions.eventStore)
             newList.title = "Inbox"
-            newList.source = eventStore.defaultCalendarForNewReminders()?.source
+            newList.source = permissions.eventStore.defaultCalendarForNewReminders()?.source
             
             do {
-                try eventStore.saveCalendar(newList, commit: true)
+                try permissions.eventStore.saveCalendar(newList, commit: true)
                 targetList = newList
             } catch {
                 print("Error creating new list: \(error.localizedDescription)")
@@ -233,16 +225,16 @@ struct TasksView: View {
         
         
         if let inboxList = targetList {
-            let task = EKReminder(eventStore: self.eventStore)
+            let task = EKReminder(eventStore: permissions.eventStore)
             task.title = self.reminderTitle
             task.calendar = inboxList
             
             // Set the due date for the reminder
-            let dueDateComponents = Calendar.current.dateComponents([.year, .month, .day], from: dateHolder.displayedDate)
+            let dueDateComponents = Calendar.current.dateComponents([.year, .month, .day], from: date)
             task.dueDateComponents = dueDateComponents
             if !task.title.isEmpty {
                 do {
-                    try eventStore.save(task, commit: true)
+                    try permissions.eventStore.save(task, commit: true)
                     tasksUpdateNotifier.needsUpdate.toggle()
                     
                     
@@ -262,6 +254,11 @@ struct TasksView: View {
 
 
 #Preview {
-    TasksView()
+    ContentView()
         .environmentObject(DateHolder())
+        .environmentObject(ThemeController())
+        .environmentObject(CustomColor())
+        .environmentObject(TasksUpdateNotifier())
+        .environmentObject(OrientationObserver())
+        .environmentObject(Permissions())
 }

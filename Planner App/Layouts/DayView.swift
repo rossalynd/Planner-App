@@ -8,7 +8,7 @@
 import SwiftUI
 import SwiftData
 
-struct TodayLayoutView: View {
+struct DayView: View {
     @EnvironmentObject var dateHolder: DateHolder
     private var smallSpaceTop: String = "Calendar"
     private var smallSpaceMiddleTop: String = "Mood"
@@ -25,27 +25,27 @@ struct TodayLayoutView: View {
             
                 VStack(spacing: 20) {
                     VStack {
-                        SpaceView(type: smallSpaceTop, scale: .small)
+                        SpaceView(type: smallSpaceTop, scale: .small, layoutType: .elsePortrait)
                     }
                     VStack {
-                        SpaceView(type: smallSpaceMiddleTop, scale: .small)
+                        SpaceView(type: smallSpaceMiddleTop, scale: .small, layoutType: .elsePortrait)
                     }
                     VStack {
-                        SpaceView(type: smallSpaceMiddleBottom, scale: .small)
+                        SpaceView(type: smallSpaceMiddleBottom, scale: .small, layoutType: .elsePortrait)
                     }
                     VStack {
-                        SpaceView(type: smallSpaceBottom, scale: .small)
+                        SpaceView(type: smallSpaceBottom, scale: .small, layoutType: .elsePortrait)
                     }
                     
                 }.frame(maxWidth: geometry.size.width / 3.5, maxHeight: geometry.size.height)
                 
                 VStack(spacing: 20) {
-                    SpaceView(type: largeSpaceTop, scale: .large)
-                    SpaceView(type: largeSpaceBottom, scale: .large)
+                    SpaceView(type: largeSpaceTop, scale: .large, layoutType: .elsePortrait)
+                    SpaceView(type: largeSpaceBottom, scale: .large, layoutType: .elsePortrait)
                     
                     HStack(spacing: 20) {
-                        SpaceView(type: mediumSpaceLeft, scale: .medium)
-                        SpaceView(type: mediumSpaceRight, scale: .medium)
+                        SpaceView(type: mediumSpaceLeft, scale: .medium, layoutType: .elsePortrait)
+                        SpaceView(type: mediumSpaceRight, scale: .medium, layoutType: .elsePortrait)
                     }
                     
                     
@@ -61,7 +61,7 @@ struct TodayLayoutView: View {
 
 
 #Preview {
-    TodayLayoutView()
+    DayView()
         .environmentObject(DateHolder())
         .environmentObject(ThemeController())
 }

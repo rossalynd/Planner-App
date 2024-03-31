@@ -89,6 +89,13 @@ class CalendarViewModel: ObservableObject {
         
         return days
     }
+    func startOfWeek(for date: Date) -> Date {
+        let calendar = Calendar.current
+        let components = calendar.dateComponents([.yearForWeekOfYear, .weekOfYear], from: date)
+        return calendar.date(from: components)!
+    }
+
+
 
     func nextMonth(date: Date) {
           let calendar = Calendar.current

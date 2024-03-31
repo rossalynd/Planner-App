@@ -48,7 +48,7 @@ struct ChooseThemeView: View {
                 }
                 
                 HStack {
-                    Text("Background")
+                    Text("Pattern")
                     Spacer()
                     Picker("Background Type", selection: $theme.overlayType) {
                         ForEach(ThemeController.OverlayType.allCases, id: \.self) { type in

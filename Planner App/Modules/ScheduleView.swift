@@ -10,7 +10,11 @@ import EventKitUI
 
 struct ScheduleView: View {
     @EnvironmentObject var dateHolder: DateHolder
+    @EnvironmentObject var permissions: Permissions
+    @EnvironmentObject var orientation: OrientationObserver
+    var layoutType: LayoutType
     var scale: SpaceView.Scale
+    var date: Date
     private var store = EKEventStore()
     @State private var permissionGranted = false
     @State private var showingAlert = false
@@ -19,16 +23,13 @@ struct ScheduleView: View {
     @State private var timedEvents: [EKEvent] = []
     @State private var showingEventView = true
     @State private var showingAddEventView = false
-    private var eventStore = EKEventStore()
-    let allDayColors: [Color] = [.indigo, .pink, .blue, .orange, .purple] // Add more colors as needed
-    let eventColors: [Color] = [.purple, .blue, .indigo]
-    
-    
+    @State private var expandedEventID: String? = nil
 
     
-    public init(scale: SpaceView.Scale) {
+    public init(layoutType: LayoutType, scale: SpaceView.Scale, date: Date) {
             self.scale = scale
-            
+            self.layoutType = layoutType
+            self.date = date
         }
 
     private var columns: [GridItem] {
@@ -40,37 +41,66 @@ struct ScheduleView: View {
         }
     }
     
+    private var eventFontSize: Font {
+        switch layoutType {
+        case .elseLandscape: return .caption
+        case .iphoneLandscape: return .subheadline
+        case .elsePortrait: return .headline
+        case .iphonePortrait: return .headline
+        }
+    }
+    private var eventTimeFontSize: Font {
+        switch layoutType {
+        case .elseLandscape: return .caption2
+        case .iphoneLandscape: return .caption
+        case .elsePortrait: return .subheadline
+        case .iphonePortrait: return .subheadline
+        }
+    }
     var body: some View {
         GeometryReader { geometry in
             VStack {
-                if permissionGranted {
+                if permissions.calendarPermissionGranted {
                     ZStack {
                         VStack {
                             ScrollView {
                                 
                                 VStack {
-                                    
-                                    HStack {
-                                        ForEach(allDayEvents.indices, id: \.self) { index in
-                                            let event = allDayEvents[index]
-                                            NavigationLink {
-                                                EventInfoView(event: event)
-                                            } label: {
-                                                ADEventView(event: event, backgroundColor: Color(event.calendar.cgColor))
-                                            }
-                                            
+                                    ScrollView(.horizontal, showsIndicators: false) {
+                                        ScrollViewReader { scrollView in
+                                            HStack {
+                                                Color.clear.frame(width: 0, height: 0)
+                                                        .id("start")
+                                                ForEach(allDayEvents.indices, id: \.self) { index in
+                                                    let event = allDayEvents[index]
+                                                    NavigationLink {
+                                                        EventInfoView(event: event)
+                                                    } label: {
+                                                        ADEventView(event: event, backgroundColor: Color(event.calendar.cgColor), fontSize: eventFontSize, expandedEventId: $expandedEventID).id(event.eventIdentifier)
+                                                    }
+                                                    
+                                                }
+                                                
+                                                Spacer()
+                                            }.padding(.horizontal)
+                                                .onChange(of: expandedEventID) { oldID, newID in
+                                                    withAnimation {
+                                                        if let newID = newID {
+                                                            scrollView.scrollTo(newID, anchor: .center)
+                                                        } else {
+                                                            scrollView.scrollTo("start", anchor: .leading)
+                                                        }
+                                                    }
+                                                }
                                         }
-                                       
-                                    Spacer()
-                                    }.frame(maxWidth: geometry.size.width * 0.9)
-                                   
+                                }
                                     ForEach(timedEvents.indices, id: \.self) { index in
                                         let event = timedEvents[index]
                                         
                                         NavigationLink {
                                             EventInfoView(event: event)
                                         } label: {
-                                            EventView(event: event, width: geometry.size.width * 0.9, backgroundColor: Color(event.calendar.cgColor)).foregroundStyle(.black)
+                                            EventView(event: event, width: geometry.size.width, backgroundColor: Color(event.calendar.cgColor), fontSize: eventFontSize, timeFontSize: eventTimeFontSize).foregroundStyle(.black).padding(.horizontal)
                                         }
                                     }
                                     
@@ -84,41 +114,44 @@ struct ScheduleView: View {
                             }
                            
                         }
-                        VStack {
-                            Spacer()
-                            HStack {
+                        if layoutType == .elsePortrait || layoutType == .iphonePortrait {
+                            VStack {
                                 Spacer()
-                               
+                                HStack {
+                                    Spacer()
+                                    
                                     Button("Add Event", systemImage: "plus.circle.fill", action: {
                                         showingAddEventView.toggle()
                                     }).labelStyle(.iconOnly).font(.title).background(.white).clipShape(Circle()).foregroundStyle(Color.black).padding(.horizontal, 5).shadow(radius: 2, x: 3, y: 3)
-                                    .popover(isPresented: $showingAddEventView) {
-                                        ZStack {
-                                            VStack {
-                                                // Gradient Background
-                                                LinearGradient(gradient: Gradient(colors: [.blue, .purple]), startPoint: .top, endPoint: .bottom)
-                                                    .edgesIgnoringSafeArea(.all)
+                                        .sheet(isPresented: $showingAddEventView, onDismiss: {loadEvents()}) {
+                                            ZStack {
+                                                VStack {
+                                                    // Gradient Background
+                                                    LinearGradient(gradient: Gradient(colors: [.blue, .purple]), startPoint: .top, endPoint: .bottom)
+                                                        .edgesIgnoringSafeArea(.all)
+                                                }
+                                                VStack{
+                                                    AddEventView(eventStore: permissions.eventStore).clipShape(RoundedRectangle(cornerRadius: 20))
+                                                    
+                                                    
+                                                    
+                                                }.padding()
                                             }
-                                            VStack{
-                                                AddEventView(eventStore: eventStore).clipShape(RoundedRectangle(cornerRadius: 20))
-                                                
-                                                
-                                                
-                                            }.padding()
-                                        }
-                                    }.clipShape(RoundedRectangle(cornerRadius: 20))
-                                
+                                        }.clipShape(RoundedRectangle(cornerRadius: 20))
+                                    
+                                }
                             }
                         }
                     }
                 } else {
                     VStack(alignment: .center) {
+                        Text("\(date)")
                     Text("Unable to retrieve events. Please enable access to Calendar in Settings.")
                         Button("Request Calendar Access") {
-                            requestAccess()
+                            permissions.requestCalendarAccess()
                         }
                     }.padding()
-                    .onAppear(perform: requestAccess)
+                        .onAppear(perform: permissions.requestCalendarAccess)
                 }
                 
             }
@@ -136,11 +169,15 @@ struct ScheduleView: View {
         var event: EKEvent
         var width: CGFloat
         var backgroundColor: Color
+        var fontSize: Font
+        var timeFontSize: Font
 
-        init(event: EKEvent, width: CGFloat, backgroundColor: Color) {
+        init(event: EKEvent, width: CGFloat, backgroundColor: Color, fontSize: Font, timeFontSize: Font) {
             self.event = event
             self.width = width
             self.backgroundColor = backgroundColor
+            self.fontSize = fontSize
+            self.timeFontSize = timeFontSize
         }
 
         var body: some View {
@@ -152,18 +189,17 @@ struct ScheduleView: View {
                 }
                 
                 VStack {
-                    Text(event.title.uppercased()).font(.headline)
+                    Text(event.title.uppercased()).font(fontSize)
                         .bold()
-                    if !event.isAllDay {
                         Text("\(event.startDate, style: .time) - \(event.endDate, style: .time)")
-                            .font(.subheadline)
-                    }
+                            .font(timeFontSize)
+                    
                 }
             }
             .padding(5)
-            .frame(maxWidth: width, maxHeight: 50)
+            .frame(maxWidth: width, maxHeight: 40)
             .background(backgroundColor)
-            .clipShape(RoundedRectangle(cornerRadius: 20))
+            .clipShape(RoundedRectangle(cornerRadius: 10))
             .shadow(radius: 3, x: 3, y: 3)
            
         }
@@ -171,79 +207,90 @@ struct ScheduleView: View {
     struct ADEventView: View {
         var event: EKEvent
         var backgroundColor: Color
-        @State var showEventTitle = false
+        var fontSize: Font
+        @State private var showEventTitle = false
+        @Binding var expandedEventId: String?
 
-        init(event: EKEvent, backgroundColor: Color) {
+        init(event: EKEvent, backgroundColor: Color, fontSize: Font, expandedEventId: Binding<String?>) {
             self.event = event
             self.backgroundColor = backgroundColor
+            self.fontSize = fontSize
+            self._expandedEventId = expandedEventId
         }
 
         var body: some View {
-            HStack {
-                Button(action: {showEventTitle.toggle()}) {
-                    HStack {
-                        if event.title.contains("Birthday") {
-                            Image(systemName: "gift.fill") // Using SF Symbols for the present icon
-                                .foregroundColor(.black).font(.title)
-                        } else if event.calendar.title.contains("Holiday") {
-                            Image(systemName: "star.circle.fill")
-                                .foregroundColor(.black).font(.title)
-                        } else if event .calendar.title.contains("Goals") {
-                            Image(systemName: "trophy.circle.fill")
-                                .foregroundColor(.black).font(.title)
-                        } else if event .calendar.title.contains("Bills") {
-                            Image(systemName: "creditcard.circle.fill")
-                                .foregroundColor(.black).font(.title)
-                        } else {
-                            Image(systemName: "calendar.circle.fill") //
-                                .foregroundColor(.black).font(.title)
-                        }
+            Button(action: {
+                withAnimation {
+                    showEventTitle.toggle()
+                    if self.expandedEventId == event.eventIdentifier {
+                        self.expandedEventId = nil // Collapse if it's already expanded
+                    } else {
+                        self.expandedEventId = event.eventIdentifier // Expand the event
                     }
+                }
+            }) {
+                HStack() {
+                    icon
+                    
+                    if showEventTitle {
+                        Text("hello world".uppercased())
+                            .font(fontSize)
+                            .bold()
+                            .foregroundColor(.black)
+                            .padding(.trailing, 5)
+                            
+                        
+                    }
+                            
                     
                 }
-                if showEventTitle == true {
-                    Text(event.title.uppercased()).font(.headline)
-                        .bold().foregroundStyle(.black).padding(.trailing, 5)
-                }
+                .padding(5)
+                .background(backgroundColor)
+                .clipShape(RoundedRectangle(cornerRadius: 20))
+                .shadow(radius: 3, x: 3, y: 3)
+                
+                
             }
-            .padding(5)
-            .frame(maxHeight: 50)
-            .background(backgroundColor)
-            .clipShape(ConditionalShape(showEventTitle: showEventTitle, radius: 20))
-            .shadow(radius: 3, x: 3, y: 3)
-            
+           
+        }
+
+        @ViewBuilder
+        var icon: some View {
+            if event.title.contains("Birthday") {
+                Image(systemName: "gift.fill").iconStyle
+            } else if event.calendar.title.contains("Holiday") {
+                Image(systemName: "star.circle.fill").iconStyle
+            } else if event.calendar.title.contains("Goals") {
+                Image(systemName: "trophy.circle.fill").iconStyle
+            } else if event.calendar.title.contains("Bills") {
+                Image(systemName: "creditcard.circle.fill").iconStyle
+            } else {
+                Image(systemName: "calendar.circle.fill").iconStyle
+            }
         }
     }
+
+    
+
     
 
     
     
-    func requestAccess() {
-        store.requestFullAccessToEvents { granted, error in
-            DispatchQueue.main.async {
-                if granted {
-                    self.permissionGranted = true
-                } else {
-                    self.showingAlert = true
-                }
-            }
-        }
-    }
+
     func loadEvents() {
-        let calendars = eventStore.calendars(for: .event)
-        var startDate = dateHolder.displayedDate
-        if dateHolder.displayedDate.formatted(date: .numeric, time: .omitted) == Date().formatted(date: .numeric, time: .omitted) {
-        startDate = Date()
-            
+        let calendars = permissions.eventStore.calendars(for: .event)
+        var startDate = date
+        if date.formatted(date: .numeric, time: .omitted) == Date().formatted(date: .numeric, time: .omitted) {
+            startDate = Date()
         } else {
-            startDate = dateHolder.displayedDate
+            startDate = date
         }
         
         let endDate = Calendar.current.date(bySettingHour: 23, minute: 59, second: 59, of: startDate)!
         
-        let predicate = eventStore.predicateForEvents(withStart: startDate, end: endDate, calendars: calendars)
+        let predicate = permissions.eventStore.predicateForEvents(withStart: startDate, end: endDate, calendars: calendars)
         
-        let fetchedEvents = eventStore.events(matching: predicate).sorted { $0.startDate < $1.startDate }
+        let fetchedEvents = permissions.eventStore.events(matching: predicate).sorted { $0.startDate < $1.startDate }
         
         // Split events into all-day and timed
         allDayEvents = fetchedEvents.filter { $0.isAllDay }
@@ -290,5 +337,10 @@ struct ConditionalShape: Shape {
     ContentView()
         .environmentObject(DateHolder())
         .environmentObject(ThemeController())
+        .environmentObject(CustomColor())
+        .environmentObject(TasksUpdateNotifier())
+        .environmentObject(OrientationObserver())
+        .environmentObject(Permissions())
+    
         
 }

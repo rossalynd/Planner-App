@@ -23,7 +23,7 @@ struct MainMenuView: View {
                     
                     
                     NavigationStack{
-                        NavigationLink {MiniMonthCalendarView(scale: .large)} label: {Text("Menu Item One")}
+                        NavigationLink {MiniMonthCalendarView(scale: .large, layoutType: .elsePortrait)} label: {Text("Menu Item One")}
                             
                         
                        

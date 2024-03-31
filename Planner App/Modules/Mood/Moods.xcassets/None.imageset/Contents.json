@@ -1,0 +1,23 @@
+{
+  "images" : [
+    {
+      "filename" : "DALL·E_2024-03-28_14.46.01_-_Create_a_set_of_five_simple,_flat,_solid_color_smiley_faces,_each_representing_a_different_emotion_ 4.png",
+      "idiom" : "universal",
+      "scale" : "1x"
+    },
+    {
+      "filename" : "DALL·E_2024-03-28_14.46.01_-_Create_a_set_of_five_simple,_flat,_solid_color_smiley_faces,_each_representing_a_different_emotion_ 5.png",
+      "idiom" : "universal",
+      "scale" : "2x"
+    },
+    {
+      "filename" : "DALL·E_2024-03-28_14.46.01_-_Create_a_set_of_five_simple,_flat,_solid_color_smiley_faces,_each_representing_a_different_emotion_ 6.png",
+      "idiom" : "universal",
+      "scale" : "3x"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}

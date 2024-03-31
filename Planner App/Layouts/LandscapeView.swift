@@ -17,9 +17,9 @@ struct LandscapeView: View {
 #if os(iOS)
             // Dynamically choose between iPad and iPhone views at runtime
         if UIDevice.current.userInterfaceIdiom == .pad {
-            TodayLayoutView()
+            WeekView()
         } else {
-            iPhoneLandscapeView()
+            iPhoneWeekView()
         }
 #elseif os(watchOS)
             Text("Hello, watchOS!")

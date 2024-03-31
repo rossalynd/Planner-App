@@ -8,9 +8,14 @@
 import SwiftUI
 import SwiftData
 import UIKit
+
+
+import SwiftUI
+    
+
 struct ContentView: View {
+    @EnvironmentObject var orientationObserver: OrientationObserver
     @Environment(\.modelContext) private var modelContext
-    @Environment(\.horizontalSizeClass) var horizontalSizeClass
     @EnvironmentObject var dateHolder: DateHolder
     @EnvironmentObject var themeController: ThemeController
     @State var isCoverVisible = false
@@ -58,12 +63,6 @@ struct ContentView: View {
                 .themedBackground(themeController: themeController)
                 
 
-                
-                
-       
-                    
-                    
-                        
                 
                 VStack {
                     
@@ -147,15 +146,19 @@ struct ContentView: View {
                         
                     } // END HEADER
                     VStack {
-                        if horizontalSizeClass == .compact {
-                            
-                            PortraitView()
-                            
-                        } else {
+                        
+                        // Using the size classes to determine the orientation
+                        if orientationObserver.isLandscape {
                             LandscapeView()
-                           
-                            
-                        }}
+                        } else {
+                            PortraitView()
+                        }
+                        // Portrait orientation
+                        
+                        
+                    }
+                        
+                       
                 }.padding(.horizontal, padding)
 
                 
@@ -212,6 +215,8 @@ struct ContentView: View {
         .environmentObject(DateHolder())
         .environmentObject(ThemeController())
         .environmentObject(CustomColor())
-      
+        .environmentObject(TasksUpdateNotifier())
+        .environmentObject(OrientationObserver())
+        .environmentObject(Permissions())
 
 }
