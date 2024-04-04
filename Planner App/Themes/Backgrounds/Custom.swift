@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct CustomBackground: View {
-    @EnvironmentObject var color: CustomColor
+    @EnvironmentObject var appModel: AppModel
     var mainColor: Color = .white
     var secondaryColor: Color? = nil
     
@@ -16,7 +16,7 @@ struct CustomBackground: View {
         Group {
             if secondaryColor != mainColor {
                 // If secondaryColor is not nil, create a LinearGradient with both colors
-                LinearGradient(gradient: Gradient(colors: [color.color, color.secondaryColor]), startPoint: .top, endPoint: .bottom)
+                LinearGradient(gradient: Gradient(colors: [appModel.color, appModel.secondaryColor]), startPoint: .top, endPoint: .bottom)
                     .edgesIgnoringSafeArea(.all)
             } else {
                 // If secondaryColor is nil, use mainColor as a solid background
@@ -30,5 +30,5 @@ struct CustomBackground: View {
 
 #Preview {
     CustomBackground(mainColor: .blue, secondaryColor: .gray)
-        .environmentObject(CustomColor())
+        .environmentObject(AppModel())
 }

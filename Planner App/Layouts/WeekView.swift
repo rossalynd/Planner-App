@@ -9,22 +9,19 @@ import Foundation
 import SwiftUI
 
 struct WeekView: View {
-    @EnvironmentObject var themeController: ThemeController
-    @EnvironmentObject var dateHolder: DateHolder
+    @EnvironmentObject var appModel: AppModel
     private var smallSpaceLeft: String = "Calendar"
     private var smallSpaceLeftMiddle: String = "Weather"
     private var smallSpaceRightMiddle: String = "Gratitude"
     private var smallSpaceRight: String = "Notes"
+    @State private var datesInWeekList: [Date] = []
     
     
     var body: some View {
         GeometryReader { geometry in
             
             ZStack() {
-                VStack {
-                    
-                }.frame(maxWidth: .infinity, maxHeight: .infinity)
-                .themedBackground(themeController: themeController)
+               
                 
                 VStack {
                     // Dynamic generation of dates in the week
@@ -35,7 +32,7 @@ struct WeekView: View {
                         SpaceView(type: smallSpaceRight, scale: .small, layoutType: .elseLandscape)
                     }.frame(maxHeight: geometry.size.height / 2.9)
                     HStack(alignment: .top) {
-                        ForEach(dateHolder.datesInWeek(from: dateHolder.displayedDate, weekStartsOn: dateHolder.startOfWeek), id: \.self) { date in
+                        ForEach(datesInWeekList, id: \.self) { date in
                             
                             VStack(spacing: 10) {
                                 // Format the date to display however you prefer
@@ -44,7 +41,7 @@ struct WeekView: View {
                                     Text(date.dateNum).padding([.trailing, .top]).font(.title).bold()
                                 }
                                 ScheduleView(layoutType: .elseLandscape, scale: .small, date: date)
-                                TasksView(date: date)
+                                TasksView(date: date, scale: .small)
                                 
                                 
                                 
@@ -54,27 +51,53 @@ struct WeekView: View {
                                 
                             
                             
-                        }.background(Color("DefaultWhite")).clipShape(RoundedRectangle(cornerRadius: 20))
+                        }.background(Color("DefaultWhite")).clipShape(RoundedRectangle(cornerRadius: appModel.moduleCornerRadius))
                        
                     }
                     .frame(maxHeight: .infinity)
                     
                     
                     
-                }.padding(.horizontal)
+                }.onChange(of: appModel.startOfWeek) {
+                    print("Date changed, updating dates in week list")
+                    datesInWeekList = datesInWeek(from: appModel.displayedDate, weekStartsOn: appModel.startOfWeek)
+                }
+                .onAppear {
+                    datesInWeekList = datesInWeek(from: appModel.displayedDate, weekStartsOn: appModel.startOfWeek)
+                }
             }
         }
+    }
+    
+    func datesInWeek(from date: Date, weekStartsOn startDay: WeekStartDay) -> [Date] {
+        var calendar = Calendar.current
+        
+        switch startDay {
+        case .sunday:
+            calendar.firstWeekday = 1 // Sunday
+        case .monday:
+            calendar.firstWeekday = 2 // Monday
+        
+        
+        }
+
+        
+        // Find the start of the week
+        guard let startDateOfWeek = calendar.date(from: calendar.dateComponents([.yearForWeekOfYear, .weekOfYear], from: date)) else {
+            return []
+        }
+        
+        // Generate the list of dates in the week
+        var dates: [Date] = []
+        for i in 0..<7 {
+            if let date = calendar.date(byAdding: .day, value: i, to: startDateOfWeek) {
+                dates.append(date)
+            }
+        }
+        
+        return dates
     }
    
     
 }
 
-#Preview {
-    ContentView()
-        .environmentObject(DateHolder())
-        .environmentObject(ThemeController())
-        .environmentObject(CustomColor())
-        .environmentObject(TasksUpdateNotifier())
-        .environmentObject(OrientationObserver())
-        .environmentObject(Permissions())
-}

@@ -10,7 +10,7 @@
 import SwiftUI
 
 struct SpaceView: View {
-    @EnvironmentObject var dateHolder: DateHolder
+    @EnvironmentObject var appModel: AppModel
     @State var type: String
     @State var showingAssignView = false
     var scale: Scale
@@ -33,17 +33,26 @@ struct SpaceView: View {
                     
                     HStack {
                         if type != "Calendar" {
-                            Text(type.uppercased()).font(.headline)
+                            Text(type.uppercased()).font(.headline)  
+                                .onLongPressGesture(perform:{
+                                showingAssignView = true
+                            })
+                        
                         } else {
-                            
-                            Text(dateHolder.displayedDate.monthName)
-                                .textCase(.uppercase).font(.headline)
-                            Text(dateHolder.displayedDate.year).font(.headline)
+                            HStack {
+                                Text(appModel.displayedDate.monthName)
+                                    .textCase(.uppercase).font(.headline)
+                                Text(appModel.displayedDate.year).font(.headline)
+                            }  
+                            .onLongPressGesture(perform:{
+                                showingAssignView = true
+                            })
+                        
                         }
                     }.padding(.top, 12.0)
                     
                     if type == "Calendar" {
-                        MiniMonthCalendarView(scale: scale, layoutType: layoutType)
+                        MiniMonthCalendarView(scale: scale, layoutType: layoutType, appModel: appModel)
                     } else if type == "Notes" {
                         NotesView()
                     } else if type == "Mood" {
@@ -51,10 +60,10 @@ struct SpaceView: View {
                     } else if type == "Weather" {
                         WeatherView()
                     } else if type == "Tasks" {
-                        TasksView(date: dateHolder.displayedDate)
+                        TasksView(date: appModel.displayedDate, scale: scale)
                             .environmentObject(TasksUpdateNotifier())
                     } else if type == "Schedule" {
-                        ScheduleView(layoutType: layoutType, scale: scale, date: dateHolder.displayedDate)
+                        ScheduleView(layoutType: layoutType, scale: scale, date: appModel.displayedDate)
                     } else if type == "Gratitude" {
                         GratitudeView()
                     } else if type == "Water" {
@@ -69,7 +78,7 @@ struct SpaceView: View {
                 .frame(maxWidth: geometry.size.width, maxHeight: geometry.size.height)
                 .clipShape(RoundedRectangle(cornerRadius: 10))
                 .background(Color("DefaultWhite"))
-                .clipShape(RoundedRectangle(cornerRadius: 20))
+                .clipShape(RoundedRectangle(cornerRadius: appModel.moduleCornerRadius))
                 .sheet(isPresented: $showingAssignView) {
                     AddModuleView(type: $type).onDisappear()
                 }
@@ -78,22 +87,17 @@ struct SpaceView: View {
                 
             }
         }
-        .onLongPressGesture(perform:{ showingAssignView = true})
+        
+          
     }
 
     func currentMonthName() -> String {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "MMMM" // "MMMM" is the format string for the full month name.
-        let monthName = dateFormatter.string(from: dateHolder.displayedDate)
+        let monthName = dateFormatter.string(from: appModel.displayedDate)
         return monthName
     }
 }
 
 
 
-#Preview {
-    SpaceView(type: "Calendar", scale: .small, layoutType: .elsePortrait)
-        .environmentObject(DateHolder())
-        .environmentObject(ThemeController())
-        .environmentObject(Permissions())
-}

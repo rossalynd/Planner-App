@@ -34,7 +34,3 @@ class DateHolder: ObservableObject {
     
 }
 
-enum WeekStartDay: String {
-    case sunday = "Sunday"
-    case monday = "Monday"
-}

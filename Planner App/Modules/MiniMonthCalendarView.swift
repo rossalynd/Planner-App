@@ -7,50 +7,79 @@
 
 import SwiftUI
 
+
 struct MiniMonthCalendarView: View {
    
-    @EnvironmentObject var dateHolder: DateHolder
-    var scale: SpaceView.Scale
-    var layoutType: LayoutType
-    private var viewModel: CalendarViewModel {
-           CalendarViewModel(date: dateHolder.displayedDate)
+    @EnvironmentObject var appModel: AppModel
+    @StateObject private var viewModel: CalendarViewModel = CalendarViewModel(date: Date(), startOfWeek: .monday, dayColor: .pink) // Default values
+       
+       var scale: SpaceView.Scale
+       var layoutType: LayoutType
+    
+   
+    init(scale: SpaceView.Scale, layoutType: LayoutType, appModel: AppModel) {
+           self.scale = scale
+           self.layoutType = layoutType
+        _viewModel = StateObject(wrappedValue: CalendarViewModel(date: appModel.displayedDate, startOfWeek: appModel.startOfWeek, dayColor: appModel.color))
        }
     
     private var baseFontSize: CGFloat {
         switch scale {
         case .small: return 14 // Smaller parent view
-        case .medium: return 16 // Medium parent view
-        case .large: return 18 // Larger parent view
+        case .medium: return 24 // Medium parent view
+        case .large: return 50 // Larger parent view
         }
     }
     
     private var paddingScale: CGFloat {
         switch scale {
         case .small: return 1 // Reduced padding for smaller view
-        case .medium: return 3 // Standard padding for medium view
-        case .large: return 6 // Increased padding for larger view
+        case .medium: return 5 // Standard padding for medium view
+        case .large: return 10 // Increased padding for larger view
         }
     }
     
     private var spacingScale: CGFloat {
         switch scale {
         case .small: return 1 // Tighter spacing for smaller view
-        case .medium: return 3 // Standard spacing for medium view
-        case .large: return 4 // Looser spacing for larger view
+        case .medium: return 6 // Standard spacing for medium view
+        case .large: return 15 // Looser spacing for larger view
         }
     }
+    
+    private var circleSize: CGFloat {
+        switch scale {
+        case .small: return 20 // Tighter spacing for smaller view
+        case .medium: return 45 // Standard spacing for medium view
+        case .large: return 100 // Looser spacing for larger view
+        }
+    }
+    
     private func previousMonth() {
         let calendar = Calendar.current
-        if let newDate = calendar.date(byAdding: .month, value: -1, to: dateHolder.displayedDate) {
-            dateHolder.displayedDate = newDate
+        if let newDate = calendar.date(byAdding: .month, value: -1, to: appModel.displayedDate) {
+            appModel.displayedDate = newDate
+            // Now displayedDate is one month earlier
+        } else {
+            // Handle potential error if the date subtraction fails
+            print("Could not calculate the new date.")
         }
+        viewModel.previousMonth()
+       
     }
+    
     private func nextMonth() {
         let calendar = Calendar.current
-        if let newDate = calendar.date(byAdding: .month, value: 1, to: dateHolder.displayedDate) {
-            dateHolder.displayedDate = newDate
+        if let newDate = calendar.date(byAdding: .month, value: 1, to: appModel.displayedDate) {
+            appModel.displayedDate = newDate
+            // Now displayedDate is one month earlier
+        } else {
+            // Handle potential error if the date subtraction fails
+            print("Could not calculate the new date.")
         }
+        viewModel.nextMonth()
     }
+    
     var body: some View {
         VStack(spacing: spacingScale) { // Use spacingScale for Vstack spacing
            
@@ -62,12 +91,12 @@ struct MiniMonthCalendarView: View {
                             Spacer()
                 ZStack {
                     
-                    Text("TODAY").font(.headline).padding(5).background(Color("DefaultWhite")).clipShape(RoundedRectangle(cornerRadius: 20)).foregroundStyle(Color("DefaultWhite")).padding(.bottom, 10).shadow(radius: 2, x: 3, y: 3)
                     
                     
-                    Button("TODAY   ", action: {
-                        dateHolder.displayedDate = Date()
-                    }).font(.caption).padding(5).bold().background(.black).clipShape(RoundedRectangle(cornerRadius: 20)).foregroundStyle(.white).padding(.bottom, 10)
+                    
+                    Button("TODAY", action: {
+                        appModel.displayedDate = Date()
+                    }).font(.caption).padding(5).bold().background(.black).clipShape(RoundedRectangle(cornerRadius: 10)).foregroundStyle(.white).padding(.bottom, 10)
                 }
                             Spacer()
                             Button("Next Month", systemImage: "arrowshape.right.circle.fill", action: {
@@ -78,12 +107,23 @@ struct MiniMonthCalendarView: View {
 
 
             HStack(spacing: 0) {
-                ForEach(viewModel.daysOfWeek, id: \.self) { day in
-                    Text(day)
-                        .textCase(.uppercase)
-                        .font(.system(size: baseFontSize * 0.85))
-                        .frame(maxWidth: .infinity)
-                        .padding(.vertical, paddingScale) // Use paddingScale for internal padding
+                if appModel.startOfWeek == .monday {
+                    ForEach(viewModel.daysOfWeekMonday, id: \.self) { day in
+                        Text(day)
+                            .textCase(.uppercase)
+                            .font(.system(size: baseFontSize * 0.85))
+                            .frame(maxWidth: .infinity)
+                            .padding(.vertical, paddingScale) // Use paddingScale for internal padding
+                    }
+                } else {
+                    ForEach(viewModel.daysOfWeekSunday, id: \.self) { day in
+                        Text(day)
+                            .textCase(.uppercase)
+                            .font(.system(size: baseFontSize * 0.85))
+                            .frame(maxWidth: .infinity)
+                            .padding(.vertical, paddingScale) // Use paddingScale for internal padding
+                    }
+
                 }
             }
             .background(Color.black).clipShape(RoundedRectangle(cornerRadius: 20))
@@ -96,39 +136,47 @@ struct MiniMonthCalendarView: View {
                 
                 if layoutType == .elsePortrait || layoutType == .iphonePortrait {
                     ForEach(viewModel.days, id: \.self) { day in
-                        Text("\(day.number)")
-                            .font(.system(size: baseFontSize))
-                            .padding(paddingScale) // Adjust padding to scale with the text
-                            .background(day.isCurrentDay ? Color("DefaultBlack") : Color.clear)
-                            .clipShape(Circle())
-                            .foregroundColor(day.color)
-                            .onTapGesture {
-                                let calendar = Calendar.current
-                                var dateComponents = DateComponents()
-                                dateComponents.year = day.year
-                                dateComponents.month = day.month
-                                dateComponents.day = day.number
-                                
-                                if let date = calendar.date(from: dateComponents) {
-                                    dateHolder.displayedDate = date
-                                }
+                        
+                        ZStack {
+                            if day.isCurrentDay {
+                                Circle()
+                                    .foregroundStyle(day.isCurrentDay ? Color("DefaultBlack") : Color.clear)
+                                    .padding(paddingScale).frame(maxWidth: circleSize)
+                                    
+                                    
                             }
+                            Text("\(day.number)")
+                                .font(.system(size: baseFontSize))
+                                .foregroundColor(day.color)
+                                .onTapGesture {
+                                    let calendar = Calendar.current
+                                    var dateComponents = DateComponents()
+                                    dateComponents.year = day.year
+                                    dateComponents.month = day.month
+                                    dateComponents.day = day.number
+                                    
+                                    if let date = calendar.date(from: dateComponents) {
+                                        appModel.displayedDate = date
+                                    }
+                                }
+                        }
+                        
                     }
                 } else {
                     // Inside LazyVGrid in MiniMonthCalendarView
 
                     ForEach(viewModel.days, id: \.self) { day in
-                        let dayDate = Calendar.current.date(from: DateComponents(year: day.year, month: day.month, day: day.number))!
-                        let startOfWeekDisplayedDate = viewModel.startOfWeek(for: dateHolder.displayedDate)
-                        let startOfWeekDay = viewModel.startOfWeek(for: dayDate)
-                        let isSameWeekAsDisplayedDate = startOfWeekDisplayedDate == startOfWeekDay
+                        
 
                         Text("\(day.number)")
                             .font(.system(size: baseFontSize))
-                            .padding(paddingScale) // Adjust padding to scale with the text
-                            .background(isSameWeekAsDisplayedDate ? Color.blue : (day.isCurrentDay ? Color("DefaultBlack") : Color.clear))
+                            // Adjust padding to scale with the text
+                            .frame(maxWidth: 40, maxHeight: 20)
+                            .padding(paddingScale)
+                            .background(day.isCurrentDay ? Color("DefaultBlack") : Color.clear)
                             .clipShape(Circle())
                             .foregroundColor(day.color)
+                            
                             .onTapGesture {
                                 let calendar = Calendar.current
                                 var dateComponents = DateComponents()
@@ -137,7 +185,7 @@ struct MiniMonthCalendarView: View {
                                 dateComponents.day = day.number
 
                                 if let date = calendar.date(from: dateComponents) {
-                                    dateHolder.displayedDate = date
+                                    appModel.displayedDate = date
                                 }
                             }
                     }
@@ -148,34 +196,25 @@ struct MiniMonthCalendarView: View {
             }
                            
         }.padding(.horizontal, 10)
-            .onChange(of: dateHolder.displayedDate) { oldDate, newDate in
-                
-                print("date updated to \(newDate.formatted(date: .numeric, time: .omitted)) from \(oldDate.formatted(date: .numeric, time: .omitted))")
-                
-                viewModel.updateMonth(date: newDate)
-                
-                
-                
-            }
-      Spacer()
-        
-    }
     
-   
+            .padding(.horizontal, 10)
+            .background(.clear)
+            .onAppear {
+                // Initialize or update viewModel here if needed
+                viewModel.updateMonth(date: appModel.displayedDate)
+               
+            }
+            .onChange(of: appModel.displayedDate) { oldDate, newDate in
+                        // Assuming you have an updateMonth method in your viewModel
+                        viewModel.updateMonth(date: newDate)
+                    }
+                    .onChange(of: appModel.startOfWeek) { oldStartOfWeek, newStartOfWeek in
+                        viewModel.updateStartOfWeek(newStartOfWeek: newStartOfWeek)
+                    }
+        
+        }
+    
+
 }
 
 
-
-
-
-
-#Preview {
-    ContentView()
-        .environmentObject(DateHolder())
-        .environmentObject(ThemeController())
-        .environmentObject(CustomColor())
-        .environmentObject(TasksUpdateNotifier())
-        .environmentObject(OrientationObserver())
-        .environmentObject(Permissions())
-
-}

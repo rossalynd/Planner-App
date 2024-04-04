@@ -13,6 +13,3 @@ struct GratitudeView: View {
     }
 }
 
-#Preview {
-    GratitudeView()
-}

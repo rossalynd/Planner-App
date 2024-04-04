@@ -11,16 +11,19 @@ import SwiftData
 
 struct PortraitView: View {
     @Environment(\.modelContext) private var modelContext
-    @EnvironmentObject var dateHolder: DateHolder
+    @EnvironmentObject var appModel: AppModel
 
     var body: some View {
 #if os(iOS)
+        VStack {
+            
             // Dynamically choose between iPad and iPhone views at runtime
-        if UIDevice.current.userInterfaceIdiom == .pad {
-            DayView()
-        } else {
-            iPhoneDayView()
-        }
+            if UIDevice.current.userInterfaceIdiom == .pad {
+                DayView()
+            } else {
+                iPhoneDayView()
+            }
+        }.background(.clear)
 #elseif os(watchOS)
             Text("Hello, watchOS!")
             #elseif os(macOS)
@@ -37,8 +40,3 @@ struct PortraitView: View {
 
 
 
-#Preview {
-    PortraitView()
-        .environmentObject(DateHolder())
-        .environmentObject(ThemeController())
-}

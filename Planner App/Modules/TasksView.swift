@@ -17,9 +17,9 @@ class TasksUpdateNotifier: ObservableObject {
 struct TasksView: View {
     @EnvironmentObject var tasksUpdateNotifier: TasksUpdateNotifier
     
-    @EnvironmentObject var dateHolder: DateHolder
-    @EnvironmentObject var permissions: Permissions
+    @EnvironmentObject var appModel: AppModel
     var date: Date
+    var scale: SpaceView.Scale
     @State private var tasks: [(task: EKReminder, listColor: Color)] = []
     @State private var showingAddTaskView = false
     @State private var permissionGranted = false
@@ -27,25 +27,36 @@ struct TasksView: View {
     @State private var reminderTitle: String = ""
     @State private var dueDate: Date = Date()
     @State private var showingTaskMenu = false
+    @State private var showDeletedTask = false
+    @State private var previouslyDeletedTask: EKReminder? = nil
+    
+    
 
-    init(date: Date) {
+    init(date: Date, scale: SpaceView.Scale) {
         self.date = date
+        self.scale = scale
     }
     
     var body: some View {
-        if permissions.remindersPermissionGranted {
+        if appModel.remindersPermissionGranted {
             ZStack {
-                ScrollView {
-                    LazyVStack {
+                List {
                         ForEach(tasks, id: \.task.calendarItemIdentifier) { item in
-                            
+                            let calendar = Calendar.current
+                            let dueDate = calendar.date(from: item.task.dueDateComponents!)!
+                            let isOverDue = dueDate < Date().startOfDay
+                           
                                 HStack {
                                     Button(action: {
                                         markTaskAsCompleted(reminder: item.task)
+                                        loadTodaysReminders()
+                                        DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
+                                        loadTodaysRemindersWithOverDueWithoutCompleted()
+                                        }
                                     }) {
                                         Image(systemName: item.task.isCompleted ? "button.programmable" : "circle")
                                             .foregroundColor(item.task.isCompleted ? .black : .black)
-                                            .font(.title)
+                                            .font(scale == .small ? .headline : .title3)
                                             .background(.white).clipShape(Circle())
                                     }
                                     .buttonStyle(PlainButtonStyle())
@@ -54,9 +65,11 @@ struct TasksView: View {
                                     NavigationLink(destination: TaskView(task: item.task)) {
                                         HStack{
                                             Text(item.task.title.uppercased())
-                                                .font(.headline)
-                                                .foregroundStyle(item.task.isCompleted ? .gray : .black)
-                                                .fontWeight(item.task.isCompleted ? .regular : .bold)
+                                                .font(scale == .small ? .caption : .subheadline)
+                                                .foregroundStyle(isOverDue ? Color.red : Color.black)
+
+                                                .fontWeight(item.task.isCompleted ? .regular : .semibold)
+                                            
                                             Spacer()
                                         }
                                     }
@@ -64,39 +77,93 @@ struct TasksView: View {
                                     Spacer()
                                     if showingTaskMenu == true {
                                         HStack {
-                                            Image(systemName: "arrow.uturn.right.circle.fill").font(.title).background(.white).clipShape(Circle())
-                                            Image(systemName: "minus.circle.fill").font(.title).background(.white).clipShape(Circle())
-                                            Image(systemName: "trash.circle.fill").font(.title).background(.white).clipShape(Circle())
+                                            Image(systemName: "arrow.triangle.turn.up.right.circle.fill").foregroundStyle(.black).font(scale == .small ? .headline : .title3).background(.white).clipShape(Circle())
+                                            Image(systemName: "minus.circle.fill").foregroundStyle(.black).font(scale == .small ? .headline : .title3).background(.white).clipShape(Circle())
+                                            Button(action: { deleteTask(taskToDelete: item.task)
+                                            }, label: {Image(systemName: "trash.circle.fill").foregroundStyle(.black).font(scale == .small ? .headline : .title3).background(.white).clipShape(Circle())})
+                                            
                                         }.padding(.leading, 10)
                                     }
                                     
+                                } .listRowSeparator(.hidden)
+                                .listRowInsets(EdgeInsets(top: 5, leading: 5, bottom: 5, trailing: 5))// Hide the row separators
+                                .listRowBackground(Color.clear)
+                                
+                                .padding(.horizontal, 5)
+                                .swipeActions(edge: .leading, allowsFullSwipe: true) {
+                                    // Swipe left to delete
+                                    Button(role: .destructive) {
+                                        // Your delete action goes here
+                                        print("Deleting...")
+                                        deleteTask(taskToDelete: item.task)
+                                    } label: {
+                                        Text("Delete")
+                                        
+                                    }
                                 }
-                                .padding()
-                                .frame(maxWidth: .infinity, maxHeight: 50)
+                                .swipeActions(edge: .trailing, allowsFullSwipe: true) {
+                                    // Swipe right to move to a new date
+                                    Button {
+                                        // Your move action goes here
+                                        print("Moving to a new date...")
+                                    } label: {
+                                        Label("Move Date", systemImage: "calendar.circle.fill")
+                                    }
+                                    .tint(.white)
+                                    
+                                    // Swipe right to remove date
+                                    Button {
+                                        // Your remove date action goes here
+                                        print("Removing date...")
+                                    } label: {
+                                        Label("Remove Date", systemImage: "calendar.badge.minus")
+                                    }.labelStyle(.titleAndIcon)
+                                    .tint(.white)
+                                }
+                                .padding(scale == .small ? 5 : 10)
+                                .frame(maxWidth: .infinity)
                                 .background(item.task.isCompleted ? item.listColor.opacity(0.5) : item.listColor)
-                                .clipShape(RoundedRectangle(cornerRadius: 20))
+                                .clipShape(RoundedRectangle(cornerRadius: 10))
                                 .shadow(radius: 3, x: 3, y: 3)
-                                .padding(.horizontal, 14)
-                                .onChange(of: item.task.isCompleted) {
-                                    loadTodaysReminders()
-                                }
-                            
-                           
-                            
+                                
                         }
-                        
-                        
-                    }
                     
+                    
+                }.listStyle(PlainListStyle()) // Use a plain list style
+                    .background(Color.clear)
+                
+                .onChange(of: appModel.displayedDate) {
+                     loadTodaysRemindersWithOverDueWithoutCompleted()
                 }
                 
-                .onChange(of: dateHolder.displayedDate) {
-                     loadTodaysReminders()
-                }
                 
                 
                 VStack {
                     Spacer()
+               
+                    VStack {
+                  
+                        if showDeletedTask, let taskToUndo = previouslyDeletedTask {
+                            VStack {
+                                Text("Deleted task: \(taskToUndo.title)").font(.caption)
+                                Button(action: {
+                                    undoDeleteTask()
+                                }, label: {
+                                    Text("Undo Delete")
+                                })
+                                .font(.caption2)
+                            }.background(.white)
+                                .clipShape(RoundedRectangle(cornerRadius: 20))
+                        }
+                    }.onAppear {
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 10) {
+                            withAnimation(.easeInOut) {
+                                self.showDeletedTask = false
+                            }
+                        }
+                    }
+                        
+                    
                     HStack {
                        
                         Button("Edit Tasks", systemImage: "ellipsis.circle.fill", action: {
@@ -113,9 +180,10 @@ struct TasksView: View {
                                     HStack {
                                         TextField("Task", text: $reminderTitle)
                                             .padding()
-                                        Button("Add Reminder", systemImage: "plus.circle.fill") {
+                                        Button("Add Task", systemImage: "plus.circle.fill") {
                                             saveTask()
-                                            showingAddTaskView = false
+                                            loadTodaysRemindersWithOverDueWithoutCompleted()
+                                           
                                         }
                                         .labelStyle(.iconOnly)
                                         .padding()
@@ -132,76 +200,208 @@ struct TasksView: View {
                     }
                 }
             }.onChange(of: tasksUpdateNotifier.needsUpdate) {
-                loadTodaysReminders()
+                loadTodaysRemindersWithOverDueWithoutCompleted()
             }
             
             } else {
                 VStack(alignment: .center) {
                 Text("Unable to retrieve reminders. Please enable access to Reminders in Settings.")
                     Button("Request Reminders Access") {
-                        permissions.requestRemindersAccess()
+                        appModel.requestRemindersAccess { granted in
+                            if granted {
+                                self.loadTodaysRemindersWithOverDueWithoutCompleted()
+                            }
+                        }
                     }
                 }.padding()
                     .onAppear {
-                        if permissions.remindersPermissionGranted == false {
-                            permissions.requestRemindersAccess()
-                            print("requesting access")
-                            
+                        // Check if reminders permission is already granted
+                        if appModel.remindersPermissionGranted {
+                            self.loadTodaysRemindersWithOverDueWithoutCompleted()
                         } else {
-                           print("loading reminders")
-                            loadTodaysReminders()
+                            // Request permission and then load the reminders if granted
+                            appModel.requestRemindersAccess { granted in
+                                if granted {
+                                    self.loadTodaysRemindersWithOverDueWithoutCompleted()
+                                }
+                            }
                         }
-                        
+                    }
+
+                    .onChange(of: appModel.remindersPermissionGranted) { oldValue, newValue in
+                        // Load reminders when permission is granted
+                        if newValue {
+                            self.loadTodaysRemindersWithOverDueWithoutCompleted()
+                        }
                     }
             }
         
     }
-
+    
     
     func markTaskAsCompleted(reminder: EKReminder) {
-        DispatchQueue.main.async {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
             reminder.isCompleted.toggle()
             do {
-                try permissions.eventStore.save(reminder, commit: true)
-                // Refresh your tasks list here
-                self.loadTodaysReminders()
+                try appModel.eventStore.save(reminder, commit: true)
             } catch {
                 print("Error saving reminder: \(error.localizedDescription)")
             }
         }
     }
+     
+    
     func deleteTask(taskToDelete: EKReminder) {
         DispatchQueue.main.async {
             do {
-                try permissions.eventStore.remove(taskToDelete, commit: true)
-                // After deleting from the event store, also remove it from the local tasks array
+                self.previouslyDeletedTask = taskToDelete
+                try appModel.eventStore.remove(taskToDelete, commit: true)
+                // Remove from the local tasks array
                 self.tasks.removeAll { $0.task.calendarItemIdentifier == taskToDelete.calendarItemIdentifier }
+                // Store the deleted task for potential undo
+                self.showDeletedTask = true // Show the undo option
             } catch let error as NSError {
                 print("Failed to delete the reminder: \(error)")
             }
         }
     }
+    func undoDeleteTask() {
+        guard let reminderToRestore = previouslyDeletedTask else { return }
+        
+        let task = EKReminder(eventStore: appModel.eventStore)
+        
+        // Set the properties from the reminderToRestore
+        task.title = reminderToRestore.title
+        task.dueDateComponents = reminderToRestore.dueDateComponents
+        task.notes = reminderToRestore.notes
+        task.url = reminderToRestore.url
+        task.priority = reminderToRestore.priority
+        if let calendar = reminderToRestore.calendar {
+            task.calendar = calendar
+        } else {
+            task.calendar = appModel.eventStore.defaultCalendarForNewReminders()
+        }
+        
+        // Set alarms
+        if reminderToRestore.alarms != nil {
+            task.alarms = reminderToRestore.alarms
+        }
+        
+        // Set recurrence rules
+        if let recurrence = reminderToRestore.recurrenceRules {
+            task.recurrenceRules = recurrence
+        }
+        
     
-    
-   
-    
-    private func loadTodaysReminders() {
-        let calendar = Calendar.current
-        let startOfDay = calendar.startOfDay(for: date)
-        let endOfDay = calendar.date(byAdding: .hour, value: 23, to: startOfDay)!
-        let predicate = permissions.eventStore.predicateForReminders(in: nil)
-            permissions.eventStore.fetchReminders(matching: predicate) { [self] fetchedTasks in
-            guard let fetchedTasks = fetchedTasks else { return }
-            self.tasks = fetchedTasks.compactMap { task in
-                guard let dueDate = task.dueDateComponents?.date, dueDate >= startOfDay, dueDate < endOfDay else { return nil }
-                return (task, Color(task.calendar.cgColor))
+        do {
+            try appModel.eventStore.save(task, commit: true)
+            // Add more detailed logging here to confirm operation success
+            print("Successfully restored reminder: \(String(describing: task.title))")
+            self.tasksUpdateNotifier.needsUpdate.toggle() // Trigger a refresh
+            
+            withAnimation(.easeInOut) {
+                self.showDeletedTask = false
             }
             
+            self.previouslyDeletedTask = nil
+        } catch {
+            print("Error restoring reminder: \(error.localizedDescription)")
         }
     }
+
+
+    
+    private func loadTodaysReminders() {
+            let calendar = Calendar.current
+            let startOfDay = calendar.startOfDay(for: date)
+            let endOfDay = calendar.date(byAdding: .day, value: 1, to: startOfDay)!
+            let predicate = appModel.eventStore.predicateForReminders(in: nil)
+            
+            appModel.eventStore.fetchReminders(matching: predicate) { fetchedTasks in
+                guard let fetchedTasks = fetchedTasks else { return }
+                
+                DispatchQueue.main.async {
+                    self.tasks = fetchedTasks.compactMap { task in
+                        guard !task.isCompleted,
+                              let dueDate = task.dueDateComponents?.date,
+                              dueDate >= startOfDay,
+                              dueDate < endOfDay else {
+                            return nil
+                        }
+                        return (task, Color(task.calendar.cgColor))
+                    }
+                }
+            }
+        }
+   
+    
+    private func loadTodaysRemindersWithoutCompleted() {
+       
+        let calendar = Calendar.current
+        let startOfDay = calendar.startOfDay(for: date)
+        let endOfDay = calendar.date(byAdding: .day, value: 1, to: startOfDay)!
+        let predicate = appModel.eventStore.predicateForReminders(in: nil)
+        
+        appModel.eventStore.fetchReminders(matching: predicate) { fetchedTasks in
+            guard let fetchedTasks = fetchedTasks else { return }
+            
+            DispatchQueue.main.async {
+                self.tasks = fetchedTasks.compactMap { task in
+                    guard !task.isCompleted,
+                          let dueDate = task.dueDateComponents?.date,
+                          dueDate >= startOfDay,
+                          dueDate < endOfDay else {
+                        return nil
+                    }
+                    return (task, Color(task.calendar.cgColor))
+                }
+            }
+        }
+    }
+    private func loadTodaysRemindersWithOverDueWithoutCompleted() {
+        let calendar = Calendar.current
+        
+            // Replace 'date' with your variable that represents the displayed date
+            let displayedDate = date // Assuming 'date' is the displayed date variable
+            let displayedStartOfDay = calendar.startOfDay(for: displayedDate)
+            let displayedEndOfDay = calendar.date(byAdding: .day, value: 1, to: displayedStartOfDay)!
+            let predicate = appModel.eventStore.predicateForReminders(in: nil)
+            
+            appModel.eventStore.fetchReminders(matching: predicate) { fetchedTasks in
+                guard let fetchedTasks = fetchedTasks else { return }
+                
+                DispatchQueue.main.async {
+                    self.tasks = fetchedTasks.compactMap { task in
+                        guard !task.isCompleted,
+                              let dueDate = task.dueDateComponents?.date else {
+                            return nil
+                        }
+                        
+                        if displayedDate.startOfDay == Date().startOfDay {
+                            // If displaying today's date, include overdue and today's reminders
+                            if dueDate < displayedEndOfDay {
+                                return (task, Color(task.calendar.cgColor))
+                            }
+                        } else {
+                            // For any other date, include only that day's reminders
+                            if dueDate >= displayedStartOfDay && dueDate < displayedEndOfDay {
+                                return (task, Color(task.calendar.cgColor))
+                            }
+                        }
+                        
+                        return nil
+                    }
+                }
+            }
+    }
+
+    
+
+
+    
     func saveTask() {
         var targetList: EKCalendar?
-        let lists = permissions.eventStore.calendars(for: .reminder)
+        let lists = appModel.eventStore.calendars(for: .reminder)
         
         for list in lists where list.title == "Inbox" {
             targetList = list
@@ -210,12 +410,12 @@ struct TasksView: View {
         
         if targetList == nil {
             // "Inbox" list not found, create a new one
-            let newList = EKCalendar(for: .reminder, eventStore: permissions.eventStore)
+            let newList = EKCalendar(for: .reminder, eventStore: appModel.eventStore)
             newList.title = "Inbox"
-            newList.source = permissions.eventStore.defaultCalendarForNewReminders()?.source
+            newList.source = appModel.eventStore.defaultCalendarForNewReminders()?.source
             
             do {
-                try permissions.eventStore.saveCalendar(newList, commit: true)
+                try appModel.eventStore.saveCalendar(newList, commit: true)
                 targetList = newList
             } catch {
                 print("Error creating new list: \(error.localizedDescription)")
@@ -225,7 +425,7 @@ struct TasksView: View {
         
         
         if let inboxList = targetList {
-            let task = EKReminder(eventStore: permissions.eventStore)
+            let task = EKReminder(eventStore: appModel.eventStore)
             task.title = self.reminderTitle
             task.calendar = inboxList
             
@@ -234,7 +434,7 @@ struct TasksView: View {
             task.dueDateComponents = dueDateComponents
             if !task.title.isEmpty {
                 do {
-                    try permissions.eventStore.save(task, commit: true)
+                    try appModel.eventStore.save(task, commit: true)
                     tasksUpdateNotifier.needsUpdate.toggle()
                     
                     
@@ -252,13 +452,3 @@ struct TasksView: View {
 
 
 
-
-#Preview {
-    ContentView()
-        .environmentObject(DateHolder())
-        .environmentObject(ThemeController())
-        .environmentObject(CustomColor())
-        .environmentObject(TasksUpdateNotifier())
-        .environmentObject(OrientationObserver())
-        .environmentObject(Permissions())
-}

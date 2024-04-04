@@ -10,8 +10,8 @@ import EventKit
 
 struct AddEventView: View {
     var eventStore: EKEventStore
-    @EnvironmentObject var dateholder: DateHolder
-    @EnvironmentObject var themeController: ThemeController
+
+    @EnvironmentObject var appModel: AppModel
     @State private var eventTitle: String = ""
     @State private var startDate: Date = Date()
     @State private var endDate: Date = Date().addingTimeInterval(+3600)
@@ -238,8 +238,4 @@ extension EKAlarm {
 }
 
 
-#Preview {
-    ContentView()
-        .environmentObject(DateHolder())
-        .environmentObject(ThemeController())
-}
+

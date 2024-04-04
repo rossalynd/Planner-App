@@ -9,9 +9,7 @@ import EventKit
 import EventKitUI
 
 struct ScheduleView: View {
-    @EnvironmentObject var dateHolder: DateHolder
-    @EnvironmentObject var permissions: Permissions
-    @EnvironmentObject var orientation: OrientationObserver
+    @EnvironmentObject var appModel: AppModel
     var layoutType: LayoutType
     var scale: SpaceView.Scale
     var date: Date
@@ -60,7 +58,7 @@ struct ScheduleView: View {
     var body: some View {
         GeometryReader { geometry in
             VStack {
-                if permissions.calendarPermissionGranted {
+                if appModel.calendarPermissionGranted {
                     ZStack {
                         VStack {
                             ScrollView {
@@ -82,7 +80,7 @@ struct ScheduleView: View {
                                                 }
                                                 
                                                 Spacer()
-                                            }.padding(.horizontal)
+                                            }
                                                 .onChange(of: expandedEventID) { oldID, newID in
                                                     withAnimation {
                                                         if let newID = newID {
@@ -93,23 +91,23 @@ struct ScheduleView: View {
                                                     }
                                                 }
                                         }
-                                }
+                                }.scrollIndicators(.hidden)
                                     ForEach(timedEvents.indices, id: \.self) { index in
                                         let event = timedEvents[index]
                                         
                                         NavigationLink {
                                             EventInfoView(event: event)
                                         } label: {
-                                            EventView(event: event, width: geometry.size.width, backgroundColor: Color(event.calendar.cgColor), fontSize: eventFontSize, timeFontSize: eventTimeFontSize).foregroundStyle(.black).padding(.horizontal)
+                                            EventView(event: event, width: geometry.size.width, backgroundColor: Color(event.calendar.cgColor), fontSize: eventFontSize, timeFontSize: eventTimeFontSize, scale: scale).foregroundStyle(.black).padding(.horizontal, 5)
                                         }
                                     }
                                     
 
                                 }
                                 
-                            }
+                            }.scrollIndicators(.hidden)
                             .onAppear(perform: loadEvents)
-                            .onChange(of: dateHolder.displayedDate) { newValue, oldValue in
+                            .onChange(of: appModel.displayedDate) { newValue, oldValue in
                                 loadEvents()
                             }
                            
@@ -131,7 +129,7 @@ struct ScheduleView: View {
                                                         .edgesIgnoringSafeArea(.all)
                                                 }
                                                 VStack{
-                                                    AddEventView(eventStore: permissions.eventStore).clipShape(RoundedRectangle(cornerRadius: 20))
+                                                    AddEventView(eventStore: appModel.eventStore).clipShape(RoundedRectangle(cornerRadius: 20))
                                                     
                                                     
                                                     
@@ -148,10 +146,10 @@ struct ScheduleView: View {
                         Text("\(date)")
                     Text("Unable to retrieve events. Please enable access to Calendar in Settings.")
                         Button("Request Calendar Access") {
-                            permissions.requestCalendarAccess()
+                            appModel.requestCalendarAccess()
                         }
                     }.padding()
-                        .onAppear(perform: permissions.requestCalendarAccess)
+                        .onAppear(perform: appModel.requestCalendarAccess)
                 }
                 
             }
@@ -171,33 +169,46 @@ struct ScheduleView: View {
         var backgroundColor: Color
         var fontSize: Font
         var timeFontSize: Font
+        var scale: SpaceView.Scale
 
-        init(event: EKEvent, width: CGFloat, backgroundColor: Color, fontSize: Font, timeFontSize: Font) {
+        init(event: EKEvent, width: CGFloat, backgroundColor: Color, fontSize: Font, timeFontSize: Font, scale: SpaceView.Scale) {
             self.event = event
             self.width = width
             self.backgroundColor = backgroundColor
             self.fontSize = fontSize
             self.timeFontSize = timeFontSize
+            self.scale = scale
         }
 
         var body: some View {
             HStack {
-                
-                if event.title.contains("Birthday") {
-                    Image(systemName: "gift.fill") // Using SF Symbols for the present icon
-                        .foregroundColor(Color("DefaultBlack")) // Optional: Change the color to fit your design
-                }
-                
-                VStack {
-                    Text(event.title.uppercased()).font(fontSize)
-                        .bold()
+                if scale != .large {
+                    VStack(spacing: -1) {
+                        HStack {
+                            Text("\(event.startDate, style: .time) - \(event.endDate, style: .time)")
+                                .font(timeFontSize)
+                            Spacer()
+                        }
+                        HStack {
+                            Text(event.title.uppercased()).font(fontSize)
+                                .bold().lineLimit(2)
+                            Spacer()
+                        }
+                        
+                    }
+                } else {
+                    
+                    HStack(spacing: -5) {
                         Text("\(event.startDate, style: .time) - \(event.endDate, style: .time)")
                             .font(timeFontSize)
-                    
+                        Spacer()
+                        Text(event.title.uppercased()).font(fontSize)
+                            .bold()
+                    }
                 }
             }
-            .padding(5)
-            .frame(maxWidth: width, maxHeight: 40)
+            .padding(scale == .small ? 5 : 10)
+            .frame(maxWidth: .infinity)
             .background(backgroundColor)
             .clipShape(RoundedRectangle(cornerRadius: 10))
             .shadow(radius: 3, x: 3, y: 3)
@@ -233,7 +244,7 @@ struct ScheduleView: View {
                     icon
                     
                     if showEventTitle {
-                        Text("hello world".uppercased())
+                        Text(event.title.uppercased())
                             .font(fontSize)
                             .bold()
                             .foregroundColor(.black)
@@ -247,7 +258,7 @@ struct ScheduleView: View {
                 .padding(5)
                 .background(backgroundColor)
                 .clipShape(RoundedRectangle(cornerRadius: 20))
-                .shadow(radius: 3, x: 3, y: 3)
+                .shadow(radius: 3, x: 3, y: 3).padding(.bottom, 5)
                 
                 
             }
@@ -278,7 +289,7 @@ struct ScheduleView: View {
     
 
     func loadEvents() {
-        let calendars = permissions.eventStore.calendars(for: .event)
+        let calendars = appModel.eventStore.calendars(for: .event)
         var startDate = date
         if date.formatted(date: .numeric, time: .omitted) == Date().formatted(date: .numeric, time: .omitted) {
             startDate = Date()
@@ -288,9 +299,9 @@ struct ScheduleView: View {
         
         let endDate = Calendar.current.date(bySettingHour: 23, minute: 59, second: 59, of: startDate)!
         
-        let predicate = permissions.eventStore.predicateForEvents(withStart: startDate, end: endDate, calendars: calendars)
+        let predicate = appModel.eventStore.predicateForEvents(withStart: startDate, end: endDate, calendars: calendars)
         
-        let fetchedEvents = permissions.eventStore.events(matching: predicate).sorted { $0.startDate < $1.startDate }
+        let fetchedEvents = appModel.eventStore.events(matching: predicate).sorted { $0.startDate < $1.startDate }
         
         // Split events into all-day and timed
         allDayEvents = fetchedEvents.filter { $0.isAllDay }
@@ -333,14 +344,3 @@ struct ConditionalShape: Shape {
 
 
 
-#Preview {
-    ContentView()
-        .environmentObject(DateHolder())
-        .environmentObject(ThemeController())
-        .environmentObject(CustomColor())
-        .environmentObject(TasksUpdateNotifier())
-        .environmentObject(OrientationObserver())
-        .environmentObject(Permissions())
-    
-        
-}

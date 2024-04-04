@@ -24,18 +24,14 @@ class Permissions: ObservableObject {
             }
         }
     }
-    func requestRemindersAccess() {
+
+    func requestRemindersAccess(completion: @escaping (Bool) -> Void) {
         eventStore.requestFullAccessToReminders { granted, error in
             DispatchQueue.main.async {
-                if granted {
-                    self.remindersPermissionGranted = true
-                    print("reminders permission set to \(self.remindersPermissionGranted)")
-                } else {
-                    self.remindersPermissionGranted = false
-                    print("Access to reminders was denied. Reminders permission set to \(self.remindersPermissionGranted)")
-                }
+                self.remindersPermissionGranted = granted
+                completion(granted)
             }
         }
     }
-    
+
 }

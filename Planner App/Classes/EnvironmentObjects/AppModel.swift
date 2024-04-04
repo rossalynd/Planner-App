@@ -17,9 +17,13 @@ class AppModel: ObservableObject {
             self?.isLandscape = self?.isLandscapeOrientation ?? false
         }
         self.startOfWeek = loadStartOfWeek()
+        self.loadSettings()
+        print("initiating app model")
     }
     
-    
+    //MENUS
+    @Published var isCoverVisible: Bool = false
+    @Published var isMenuVisible: Bool = false
     //DATES
     @Published var displayedDate: Date = Date()
     @Published var startOfWeek: WeekStartDay = WeekStartDay.monday {
@@ -111,18 +115,23 @@ class AppModel: ObservableObject {
     //THEMES
     @Published var backgroundType: BackgroundType = .bluePurpleGradient
     @Published var overlayType: OverlayType = .none
+    @Published var backgroundImage: String = "celestial"
+    @Published var photoBackgroundImage: UIImage?
+    @Published var photoBackgroundPath: String?
+    @Published var moduleCornerRadius: CGFloat = 20
     
     enum BackgroundType: String, CaseIterable {
         case bluePurpleGradient = "Blue > Purple"
         case beige = "Beige"
         case custom = "Custom"
         
+        
         var id: Self { self }
     }
     enum OverlayType: String, CaseIterable {
-        case hearts = "Hearts"
-        case stripes = "Stripes"
-        case customPattern = "Custom"
+        case hearts = "Transparent Hearts"
+        case backgroundImage = "Image"
+        case photoBackground = "Photo"
         case none = "None"
         
         var id: Self { self }
@@ -144,14 +153,118 @@ class AppModel: ObservableObject {
             switch self.overlayType {
             case .hearts:
                 return AnyView(Hearts())
-            case .stripes:
-                return AnyView(Text("Stripes"))
-            case .customPattern:
-                return AnyView(Text("Custom"))
+            case .backgroundImage:
+                return AnyView(SeamlessPattern(image: backgroundImage))
+            case .photoBackground:
+                print("Background is photo")
+                if let imageName = UserDefaults.standard.string(forKey: "photoBackgroundKey") {
+                    let fullPath = getDocumentsDirectory().appendingPathComponent(imageName).path
+                    if FileManager.default.fileExists(atPath: fullPath), let photoBackgroundImage = UIImage(contentsOfFile: fullPath) {
+                        print("Loading image from \(fullPath)")
+                        return AnyView(Image(uiImage: photoBackgroundImage).resizable(resizingMode: .stretch).frame(maxWidth: .infinity, maxHeight: .infinity).ignoresSafeArea())
+                    } else {
+                        print("No file found at path \(fullPath)")
+                        return AnyView(Image(systemName: "questionmark"))
+                    }
+                } else {
+                    print("No image name in UserDefaults")
+                    return AnyView(Image(systemName: "questionmark"))
+                }
+
+                
+                
+                
+               
+                
             case .none:
                 return AnyView(Text(""))
+                
             }
         }
+
+    
+   func saveSettings() {
+        // Save BackgroundType
+        UserDefaults.standard.set(backgroundType.rawValue, forKey: "backgroundType")
+
+        // Save OverlayType
+        UserDefaults.standard.set(overlayType.rawValue, forKey: "overlayType")
+
+        // Save backgroundImage
+        UserDefaults.standard.set(backgroundImage, forKey: "backgroundImage")
+
+        // Assume photoBackground holds a reference (e.g., filename) to an image
+       UserDefaults.standard.set("CurrentAppBackground", forKey: "photoBackgroundKey")
+
+        // Save Color
+        if let encodedColor = try? NSKeyedArchiver.archivedData(withRootObject: UIColor(color), requiringSecureCoding: false) {
+            UserDefaults.standard.set(encodedColor, forKey: "color")
+        }
+
+        // Save SecondaryColor
+        if let encodedSecondaryColor = try? NSKeyedArchiver.archivedData(withRootObject: UIColor(secondaryColor), requiringSecureCoding: false) {
+            UserDefaults.standard.set(encodedSecondaryColor, forKey: "secondaryColor")
+        }
+
+        // Save moduleCornerRadius
+        UserDefaults.standard.set(moduleCornerRadius, forKey: "moduleCornerRadius")
+    }
+
+    
+    
+    func loadImageFromDocumentsDirectory() -> Image? {
+        guard let imagePath = UserDefaults.standard.string(forKey: "photoImagePath"),
+              let uiImage = UIImage(contentsOfFile: imagePath) else { return nil }
+        return Image(uiImage: uiImage)
+    }
+    func getDocumentsDirectory() -> URL {
+        let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
+        return paths[0]
+    }
+    
+    
+    private func loadSettings() {
+        // Load BackgroundType
+        if let backgroundTypeRawValue = UserDefaults.standard.string(forKey: "backgroundType"),
+           let savedBackgroundType = BackgroundType(rawValue: backgroundTypeRawValue) {
+            backgroundType = savedBackgroundType
+        }
+
+        // Load OverlayType
+        if let overlayTypeRawValue = UserDefaults.standard.string(forKey: "overlayType"),
+           let savedOverlayType = OverlayType(rawValue: overlayTypeRawValue) {
+            overlayType = savedOverlayType
+        }
+
+        // Load backgroundImage
+         let backgroundImage = UserDefaults.standard.string(forKey: "backgroundImage")
+         
+        //Load Photo Background
+        if let imageName = UserDefaults.standard.string(forKey: "photoBackgroundKey") {
+            let fullPath = getDocumentsDirectory().appendingPathComponent(imageName).path
+            if FileManager.default.fileExists(atPath: fullPath), let uiImage = UIImage(contentsOfFile: fullPath) {
+                let photoBackgroundPath = UserDefaults.standard.string(forKey: "photoBackgroundKey")
+            }
+        }
+
+        // Load Color
+        if let colorData = UserDefaults.standard.data(forKey: "color"),
+           let decodedColor = try? NSKeyedUnarchiver.unarchivedObject(ofClass: UIColor.self, from: colorData) {
+            color = Color(decodedColor)
+        }
+
+        // Load SecondaryColor
+        if let secondaryColorData = UserDefaults.standard.data(forKey: "secondaryColor"),
+           let decodedSecondaryColor = try? NSKeyedUnarchiver.unarchivedObject(ofClass: UIColor.self, from: secondaryColorData) {
+            secondaryColor = Color(decodedSecondaryColor)
+        }
+
+        // Load moduleCornerRadius
+        moduleCornerRadius = CGFloat(UserDefaults.standard.double(forKey: "moduleCornerRadius"))
+        
+        
+        print("Settings loaded")
+    }
 
     
     

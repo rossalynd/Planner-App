@@ -8,7 +8,6 @@
 import SwiftUI
 
 struct iPhoneDayView: View {
-    @EnvironmentObject var dateHolder: DateHolder
     private var smallSpaceTop: String = "Calendar"
     private var smallSpaceMiddleTop: String = "Schedule"
     private var smallSpaceMiddleBottom: String = "Tasks"
@@ -51,10 +50,4 @@ struct iPhoneDayView: View {
         }.shadow(radius: 4, x:3,y:3)
         
     }
-}
-
-#Preview {
-    iPhoneDayView()
-        .environmentObject(DateHolder())
-        .environmentObject(ThemeController())
 }

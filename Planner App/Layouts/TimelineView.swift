@@ -457,8 +457,3 @@ struct TimelineView: View {
 }
 
 
-
-#Preview {
-    TimelineView(layoutType: .elsePortrait, scale: .large, date: Date().startOfDay)
-        .environmentObject(AppModel())
-}

@@ -1,6 +1,8 @@
 
 import SwiftUI
+#if canImport(UIKit)
 import UIKit
+#endif
 import PencilKit
 
 extension PKDrawing {
@@ -34,12 +36,13 @@ struct CanvasView: UIViewRepresentable {
     @Binding var isMenuVisible: Bool
 
     func makeUIView(context: Context) -> PKCanvasView {
-           let canvasView = PKCanvasView()
-           canvasView.drawingPolicy = .anyInput
-           canvasView.backgroundColor = .clear
-           canvasView.delegate = context.coordinator
-           return canvasView
-       }
+        let canvasView = PKCanvasView()
+        canvasView.drawingPolicy = .anyInput // Explicitly allow any input
+        canvasView.backgroundColor = .clear
+        canvasView.delegate = context.coordinator
+
+        return canvasView
+    }
 
     func updateUIView(_ uiView: PKCanvasView, context: Context) {
         uiView.drawing = drawing // This should be outside any conditionals to always update
@@ -58,21 +61,25 @@ struct CanvasView: UIViewRepresentable {
         }
 
         func canvasViewDrawingDidChange(_ canvasView: PKCanvasView) {
-            parent.drawing = canvasView.drawing
+            DispatchQueue.main.async {
+                self.parent.drawing = canvasView.drawing
+            }
         }
+
         func canvasViewDidBeginDrawing(_ canvasView: PKCanvasView) {
-                    parent.isMenuVisible = false
-            
-                }
-       
+            DispatchQueue.main.async {
+                self.parent.isMenuVisible = false
+            }
+        }
     }
+
 }
 
 
 
 
 struct NotesView: View {
-    @EnvironmentObject var dateholder: DateHolder
+    @EnvironmentObject var appModel: AppModel
     @State private var drawing = PKDrawing()
     @State private var tool: PKTool = PKInkingTool(.monoline, color: .black, width: 0.5) // Default tool
     @State private var penWidth: CGFloat = 0.5
@@ -81,10 +88,35 @@ struct NotesView: View {
     @State private var showEraserMenu = false
     @State private var isMenuVisible = false
     @State private var currentDisplayedDate: Date
+    @State private var undoStack: [PKDrawing] = []
+    @State private var redoStack: [PKDrawing] = []
+
+
 
     init() {
-           _currentDisplayedDate = State(initialValue: DateHolder().displayedDate) // Initialize with your default or current date
+           _currentDisplayedDate = State(initialValue: AppModel().displayedDate) // Initialize with your default or current date
        }
+    
+    private func captureForUndo() {
+            undoStack.append(drawing)
+ 
+        }
+
+    private func undo() {
+        guard !undoStack.isEmpty else { return }
+        var lastState = undoStack.removeLast()
+        lastState = undoStack.removeLast()
+        redoStack.append(drawing) // Move current drawing to redo stack before undoing
+        drawing = lastState
+    }
+
+    private func redo() {
+        guard !redoStack.isEmpty else { return }
+        let nextState = redoStack.removeLast()
+        undoStack.append(drawing) // Move current drawing to undo stack before redoing
+
+        drawing = nextState
+    }
     
     var body: some View {
         GeometryReader { geometry in
@@ -94,18 +126,23 @@ struct NotesView: View {
                     .border(Color(hue: 1.0, saturation: 0.01, brightness: 0.546, opacity: 0.553), width: /*@START_MENU_TOKEN@*/1/*@END_MENU_TOKEN@*/)
                     .onAppear {
                         DispatchQueue.main.async {
-                            drawing = PKDrawing.loadFromUserDefaults(for: dateholder.displayedDate)
-                            currentDisplayedDate = dateholder.displayedDate
+                            drawing = PKDrawing.loadFromUserDefaults(for: appModel.displayedDate)
+                            currentDisplayedDate = appModel.displayedDate
                         }
                     }
-                    .onChange(of: dateholder.displayedDate) { oldDate, newDate in
+                    .onChange(of: appModel.displayedDate) { oldDate, newDate in
                         DispatchQueue.main.async {
                             guard newDate != currentDisplayedDate else { return }
                             drawing.saveToUserDefaults(for: currentDisplayedDate) // Save drawing for the old/current date
                             drawing = PKDrawing.loadFromUserDefaults(for: newDate) // Load drawing for the new date
                             currentDisplayedDate = newDate // Update the current date tracker
+                            redoStack.removeAll() // Clear redo stack whenever a new drawing is added
+                            undoStack.removeAll() // Clear undo stack whenever a new drawing is added
                         }
                     }
+                    .onChange(of: drawing) {
+                                captureForUndo()
+                            }
 
                 VStack {
                     Spacer()
@@ -149,6 +186,20 @@ struct NotesView: View {
                     }
                     //End Eraser Slider
                     HStack {
+                        HStack {
+                                                Button(action: undo) {
+                                                    Image(systemName: "arrow.uturn.backward.circle.fill")
+                                                        
+                                                }.foregroundColor(Color.black).font(.title).background(.white).clipShape(Circle()).shadow(radius: 2, x: 3, y: 3)
+                                                .disabled(undoStack.isEmpty)
+
+                                                Button(action: redo) {
+                                                    Image(systemName: "arrow.uturn.forward.circle.fill")
+                                                        
+                                                }.foregroundColor(Color.black).font(.title).background(.white).clipShape(Circle()).shadow(radius: 2, x: 3, y: 3)
+                                                .disabled(redoStack.isEmpty)
+                                            }
+                        
                             // Pencil Button
                             Button(action: {
                                 if tool is PKInkingTool {
@@ -189,9 +240,4 @@ struct NotesView: View {
 
 
 
-#Preview {
-    ContentView()
-        .environmentObject(DateHolder())
-        .environmentObject(CustomColor())
-        .environmentObject(ThemeController())
-}
+

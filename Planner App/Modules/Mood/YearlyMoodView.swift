@@ -11,7 +11,7 @@ struct YearlyMoodView: View {
     @Environment(\.modelContext) private var context
     @EnvironmentObject var appModel: AppModel
     @State private var showPopover: Bool = false
-    @State private var selectedDate: Date? // Track the selected date for mood assignment
+    @State private var selectedDate: Date = Date() // Track the selected date for mood assignment
     private let columns: [GridItem] = Array(repeating: .init(.flexible()), count: 7) // 7 days for each week
     @State private var refreshTrigger: Bool = false
     @Query var entries: [MoodEntry]
@@ -19,10 +19,7 @@ struct YearlyMoodView: View {
     
     var body: some View {
         ZStack(alignment: .leading) {
-            VStack {
-            }.frame(maxWidth: .infinity, maxHeight: .infinity)
-                // Assuming themedBackground is a custom modifier you have defined elsewhere.
-                .themedBackground(appModel: appModel)
+           
             VStack(alignment: .leading) {
                 Text("Moods of the Year").font(.largeTitle).bold().padding([.top, .leading])
                 ScrollView {
@@ -47,7 +44,7 @@ struct YearlyMoodView: View {
                                         }
                                         .frame(width: 50, height: 50)
                                         .onTapGesture {
-                                            self.selectedDate = dateForDay(year: currentYear(), month: month, day: day)
+                                            self.selectedDate = dateForDay(year: currentYear(), month: month, day: day)!
                                             print("\(String(describing: selectedDate))")
                                             print("showing popover")
                                             self.showPopover = true
@@ -64,7 +61,7 @@ struct YearlyMoodView: View {
                     moodSelectionPopover()
                 }
                 .background(.white)
-                .clipShape(RoundedRectangle(cornerRadius: 20))
+                .clipShape(RoundedRectangle(cornerRadius: appModel.moduleCornerRadius))
                 .padding([.leading, .trailing, .bottom])
                 
             }
@@ -79,13 +76,19 @@ struct YearlyMoodView: View {
               .scaledToFit()
               .frame(width: 50, height: 50)
               .onTapGesture {
-                  if selectedDate != nil {
-                      print("saving \(mood.rawValue) to \(selectedDate!)")
-                      context.insert(MoodEntry(mood: mood, date: selectedDate!))
-                      context.processPendingChanges()
-                  } else {
-                      print("No date selected")
-                  }
+                  
+                      if selectedDate.startOfDay == Date().startOfDay {
+                    
+                          context.insert(MoodEntry(mood: mood, date: Date()))
+                          context.processPendingChanges()
+                          print("Saved mood \(mood) to \(selectedDate)")
+                      } else {
+                          
+                          context.insert(MoodEntry(mood: mood, date: selectedDate))
+                          context.processPendingChanges()
+                          print("Saved mood \(mood) to \(selectedDate)")
+                      }
+                  
                 // Save mood using SwiftData (implementation needed)
                 self.showPopover = false
               }
@@ -116,7 +119,7 @@ struct YearlyMoodView: View {
     
     private func moodForDay(year: Int, month: Int, day: Int) -> MoodEntry? {
         guard let date = dateForDay(year: year, month: month, day: day) else { return nil }
-        return entries.filter { $0.date.startOfDay == date.startOfDay }.sorted(by: { $0.date > $1.date }).last
+        return entries.filter { $0.date.startOfDay == date.startOfDay }.sorted(by: { $0.date > $1.date }).first
     }
 
     private func dateForDay(year: Int, month: Int, day: Int) -> Date? {

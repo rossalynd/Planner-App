@@ -14,13 +14,12 @@ import SwiftUI
     
 
 struct ContentView: View {
-    @EnvironmentObject var orientationObserver: OrientationObserver
-    @Environment(\.modelContext) private var modelContext
-    @EnvironmentObject var dateHolder: DateHolder
-    @EnvironmentObject var themeController: ThemeController
-    @State var isCoverVisible = false
-    @State var isMenuVisible = false
+    @Environment(\.modelContext) private var context
+    @EnvironmentObject var appModel: AppModel
 
+    init() {
+        UITabBar.appearance().unselectedItemTintColor = UIColor.gray
+    }
     private var padding: CGFloat {
             switch currentDeviceType() {
             case .iPhone:
@@ -60,106 +59,36 @@ struct ContentView: View {
                 VStack {
                     
                 }.frame(maxWidth: .infinity, maxHeight: .infinity)
-                .themedBackground(themeController: themeController)
+                .themedBackground(appModel: appModel)
                 
 
                 
                 VStack {
                     
+                    AppHeader()
                     
-                    if UIDevice.current.userInterfaceIdiom == .phone { //IPHONE HEADER
+                    
+                    TabView {
+                       DayView().background(.clear)
+                        .tabItem{
+                            Label("Daily", systemImage: "chart.bar.xaxis")
+                            
+                        }.transition(.slide).background(BackgroundHelper())
+                        WeekView()
+                            .tabItem{
+                                Label("Weekly", systemImage: "chart.bar.xaxis")
+                            }.transition(.slide).background(BackgroundHelper())
+                        MiniMonthCalendarView(scale: .large, layoutType: .elsePortrait, appModel: appModel).background(.clear)
+                            .tabItem{
+                                Label("Monthly", systemImage: "calendar")
+                            }.transition(.slide).background(BackgroundHelper())
+                        YearlyMoodView()
+                            .tabItem{
+                                Label("Yearly", systemImage: "globe.desk.fill")
+                            }.transition(.slide).background(BackgroundHelper())
                         
-                        HStack {
-                            Button("Menu", systemImage:"line.horizontal.3.circle.fill", action: {
-                                isMenuVisible.toggle()
-                            }).foregroundStyle(Color("DefaultBlack")).padding(.leading,padding).labelStyle(.iconOnly).font(.title2)
-                            Button("Previous Day", systemImage: "arrowshape.backward.circle.fill", action: {
-                                dateHolder.displayedDate = Calendar.current.date(byAdding: .day, value: -1, to: dateHolder.displayedDate)!
-                            }).foregroundStyle(Color("DefaultBlack")).labelStyle(.iconOnly).font(.title2)
-                            
-                            Spacer()
-                            
-                            
-                            Button(action: {
-                                dateHolder.displayedDate = Date()
-                            }, label: {
-                                HStack{
-                                    
-                                    
-                                    Text("\(dateHolder.displayedDate.shortDate.uppercased())").font(.headline).foregroundColor((Color("DefaultBlack"))).bold()
-                                    
-                                }
-                            })
-                            
-                            Spacer()
-                            
-                            Button("Next Day", systemImage: "arrowshape.forward.circle.fill", action: {
-                                dateHolder.displayedDate = Calendar.current.date(byAdding: .day, value: 1, to: dateHolder.displayedDate)!
-                            }).foregroundStyle(Color("DefaultBlack")).padding([.trailing, .top, .bottom], padding).labelStyle(.iconOnly).font(.title2)
-                            NavigationLink(destination: SettingsView()) {
-                                Image(systemName: "gearshape.circle.fill").foregroundStyle(Color("DefaultBlack")).padding([.trailing, .top, .bottom], padding).labelStyle(.iconOnly).font(.title2)
-                            }
-                            
-                            
-                        }.background(Color("DefaultWhite")).cornerRadius(20).shadow(radius: 5, x: 5, y: 5)
-                            .padding(.bottom, 10)
-                        
-                        
-                    } else { //IPAD HEADER
-                        
-                        
-                        HStack {
-                            
-                            Button("Menu", systemImage: "line.3.horizontal.circle.fill", action: {
-                                withAnimation {
-                                    isMenuVisible.toggle()
-                                }
-                            }).foregroundStyle(Color("DefaultBlack")).font(.title).padding(2).background(Color("DefaultWhite")).cornerRadius(20).shadow(radius: 5, x: 5, y: 5).labelStyle(.iconOnly)
-                            
-                            HStack {
-                                Button("Previous Day", systemImage: "arrowshape.backward.circle.fill", action: {
-                                    dateHolder.displayedDate = Calendar.current.date(byAdding: .day, value: -1, to: dateHolder.displayedDate)!
-                                }).foregroundStyle(Color("DefaultBlack")).font(.title).padding(2).labelStyle(.iconOnly)
-                                
-                                Spacer()
-                                
-                                Button("\(dateHolder.displayedDate.formatted(date: .complete, time: .omitted).uppercased())", action: {
-                                    dateHolder.displayedDate = Date()
-                                }).font(.title2).foregroundColor((Color("DefaultBlack")))
-                                
-                                Spacer()
-                                
-                                Button("Next Day", systemImage: "arrowshape.forward.circle.fill", action: {
-                                    dateHolder.displayedDate = Calendar.current.date(byAdding: .day, value: 1, to: dateHolder.displayedDate)!
-                                }).foregroundStyle(Color("DefaultBlack")).font(.title).padding(2).labelStyle(.iconOnly)
-                                
-                                
-                                
-                            }.background(Color("DefaultWhite")).cornerRadius(20).shadow(radius: 5, x: 5, y: 5)
-                            
-                            
-                            
-                            NavigationLink(destination: SettingsView()) {
-                                Image(systemName: "gearshape.circle.fill").foregroundStyle(Color("DefaultBlack")).font(.title).padding(2).background(Color("DefaultWhite")).cornerRadius(20).shadow(radius: 5, x: 5, y: 5).labelStyle(.iconOnly)
-                            }
-                        }.padding(.bottom, 10)
-                        
-                    } // END HEADER
-                    VStack {
-                        
-                        // Using the size classes to determine the orientation
-                        if orientationObserver.isLandscape {
-                            LandscapeView()
-                        } else {
-                            PortraitView()
-                        }
-                        // Portrait orientation
-                        
-                        
-                    }
-                        
-                       
-                }.padding(.horizontal, padding)
+                    }.background(.clear).accentColor(.white)
+                }.padding()
 
                 
 
@@ -169,8 +98,8 @@ struct ContentView: View {
                     VStack {
                         VStack(alignment: .leading) {
                             Spacer()
-                            if isMenuVisible {
-                                MainMenuView(isMenuVisible: $isMenuVisible)
+                            if appModel.isMenuVisible {
+                                MainMenuView(isMenuVisible: $appModel.isMenuVisible)
                                     .frame(maxWidth: .infinity)
                                     .transition(.move(edge: .leading))
                                     .gesture(
@@ -180,20 +109,46 @@ struct ContentView: View {
                                                                    if drag.translation.width < 0 {
                                                                        // This means the user swiped from trailing to leading
                                                                        withAnimation {
-                                                                           isMenuVisible = false
+                                                                           appModel.isMenuVisible = false
                                                                        }
                                                                    }
                                                                }
                                                        )
                             }
                             Spacer()
-                        }.frame(maxWidth: geometry.size.width / 2, maxHeight: geometry.size.height).shadow(radius: 10, x: 10, y: 10)
+                        }.frame(maxWidth:  UIDevice.current.userInterfaceIdiom != .phone ? geometry.size.width / 3 : geometry.size.width / 1.25, maxHeight: .infinity).shadow(radius: 10, x: 10, y: 10).ignoresSafeArea()
                             
                     }.frame(maxHeight: geometry.size.height)
+                        
                     
                 }
+
+                
+                HStack(spacing: 0) {
+                    Rectangle()
+                        .fill(Color.clear) // Make the rectangle invisible
+                        .frame(width: 20) // Adjust the width to increase or decrease the sensitive area
+                        .contentShape(Rectangle()) // Ensure the invisible area is still tappable
+                        .gesture(
+                            DragGesture(minimumDistance: 20) // Adjust minimumDistance as needed
+                                .onEnded { drag in
+                                    if drag.translation.width > 0 {
+                                        // Detect swipe right
+                                        withAnimation {
+                                            appModel.isMenuVisible = true
+                                        }
+                                    }
+                                }
+                        )
+                    Spacer() // Ensures the rectangle stays at the left edge
+                }
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
+                
+                
             }.frame(maxWidth: .infinity, maxHeight: .infinity)
                 
+            
+                //END ZSTACK ^^
             
             
         }
@@ -209,14 +164,22 @@ struct ContentView: View {
 }
 
 
+struct BackgroundHelper: UIViewRepresentable {
+    func makeUIView(context: Context) -> UIView {
+        let view = UIView()
+        DispatchQueue.main.async {
+            // find first superview with color and make it transparent
+            var parent = view.superview
+            repeat {
+                if parent?.backgroundColor != nil {
+                    parent?.backgroundColor = UIColor.clear
+                    break
+                }
+                parent = parent?.superview
+            } while (parent != nil)
+        }
+        return view
+    }
 
-#Preview {
-    ContentView()
-        .environmentObject(DateHolder())
-        .environmentObject(ThemeController())
-        .environmentObject(CustomColor())
-        .environmentObject(TasksUpdateNotifier())
-        .environmentObject(OrientationObserver())
-        .environmentObject(Permissions())
-
+    func updateUIView(_ uiView: UIView, context: Context) {}
 }

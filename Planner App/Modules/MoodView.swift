@@ -6,19 +6,20 @@
 //
 
 import SwiftUI
-import SwiftUI
+import SwiftData
 
-import SwiftUI
 
 struct MoodView: View {
-    @EnvironmentObject var dateHolder: DateHolder // Inject DateHolder to access the displayedDate
+    @EnvironmentObject var appModel: AppModel // Inject DateHolder to access the displayedDate
+    @Environment(\.modelContext) private var context
     @State private var showPopover: Bool = false
-    @State private var currentMood: Mood = .none // Default mood, will be updated based on the displayedDate
-
+    @Query var entries: [MoodEntry]
+    
+    
     var body: some View {
         VStack {
             HStack(alignment: .center) {
-                Image(currentMood.imageName) // Assuming you're using system images or have these named images in your assets
+                Image(entries.filter { $0.date.startOfDay == appModel.displayedDate.startOfDay }.sorted(by: { $0.date > $1.date }).first?.mood.rawValue ?? "none")
                     .resizable()
                     .scaledToFit()
                     .frame(width: 100, height: 100)
@@ -28,44 +29,40 @@ struct MoodView: View {
                     }
                     .popover(isPresented: $showPopover) {
                         HStack(spacing: 10) {
-                            ForEach(Mood.allCases.filter {$0 != .none}, id: \.self) { mood in
-                                Image(mood.imageName)
+                            ForEach(Mood.allCases.filter { $0 != .none }, id: \.self) { mood in
+                                Image("\(mood.rawValue)")
                                     .resizable()
                                     .scaledToFit()
                                     .frame(width: 50, height: 50)
                                     .onTapGesture {
-                                        self.currentMood = mood
-                                        MoodManager.shared.saveMood(mood, forDate: dateHolder.displayedDate)
+                                        
+                                            if appModel.displayedDate.startOfDay == Date().startOfDay {
+                                                let savedDate = Date()
+                                                context.insert(MoodEntry(mood: mood, date: savedDate))
+                                                context.processPendingChanges()
+                                                print("Saved mood \(mood) to \(savedDate)")
+                                            } else {
+                                                let savedDate = appModel.displayedDate
+                                                context.insert(MoodEntry(mood: mood, date: savedDate))
+                                                context.processPendingChanges()
+                                                print("Saved mood \(mood) to \(savedDate)")
+                                            }
                                         self.showPopover = false
                                     }
                             }
-                        }.padding(10)
+                        }
+                        .padding(10)
                     }
             }
         }
         .frame(maxHeight: .infinity)
-        .onAppear {
-            loadMoodForDisplayedDate()
-        }
-        .onChange(of: dateHolder.displayedDate) {
-            loadMoodForDisplayedDate()
-        }
-    }
-
-    private func loadMoodForDisplayedDate() {
-        if let moodForDate = MoodManager.shared.mood(forDate: dateHolder.displayedDate) {
-            self.currentMood = moodForDate
-        } else {
-            self.currentMood = .none
-        }
     }
 }
 
-// Ensure you have an ObservableObject that holds the displayed date.
-// You should already have this based on your previous code
 
 
-#Preview {
-    MoodView()
-        .environmentObject(DateHolder())
-}
+
+
+
+
+

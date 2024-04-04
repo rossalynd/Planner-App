@@ -53,11 +53,4 @@ class ThemeController: ObservableObject {
         }
 }
 
-extension View {
-    func themedBackground(themeController: ThemeController) -> some View {
-        self.background(ZStack {
-            themeController.getBackgroundView()
-            themeController.getOverlayView()
-        })
-    }
-}
+

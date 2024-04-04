@@ -10,20 +10,25 @@ import SwiftData
 
 @main
 struct Planner_App: App {
-    var orientationObserver = OrientationObserver()
+    @EnvironmentObject var appModel: AppModel
+
+    
 
 
     var body: some Scene {
         WindowGroup {
             ContentView()
-                .environmentObject(DateHolder())
-                .environmentObject(ThemeController())
-                .environmentObject(CustomColor())
-                .environmentObject(OrientationObserver())
-                .environmentObject(Permissions())
+                .environmentObject(AppModel())
                 .environmentObject(TasksUpdateNotifier())
+                .modelContainer(for: MoodEntry.self)
+                
                 
         }
+        
+        
 
     }
+    
+
+    
 }

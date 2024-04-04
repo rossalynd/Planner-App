@@ -11,7 +11,7 @@ import SwiftData
 
 struct LandscapeView: View {
     @Environment(\.modelContext) private var modelContext
-    @EnvironmentObject var dateHolder: DateHolder
+    @EnvironmentObject var appModel: AppModel
 
     var body: some View {
 #if os(iOS)
@@ -37,8 +37,4 @@ struct LandscapeView: View {
 
 
 
-#Preview {
-    LandscapeView()
-        .environmentObject(DateHolder())
-        .environmentObject(ThemeController())
-}
+

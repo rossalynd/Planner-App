@@ -8,8 +8,9 @@
 import SwiftUI
 
 struct MainMenuView: View {
-    @EnvironmentObject var themeController: ThemeController
+    @EnvironmentObject var appModel: AppModel
     @Binding var isMenuVisible: Bool
+    @State var smallSpaceTop = "Calendar"
     
     var body: some View {
         VStack(alignment: .leading) {
@@ -18,26 +19,28 @@ struct MainMenuView: View {
                 VStack {
                     
                 }.frame(maxWidth: .infinity, maxHeight: .infinity)
-                .themedBackground(themeController: themeController)
-                VStack {
-                    
+                .themedBackground(appModel: appModel)
+                VStack(spacing:15) {
+                    SpaceView(type: smallSpaceTop, scale: .small, layoutType: .elsePortrait).frame(maxHeight: 230).padding([.top, .leading, .trailing]).padding(.top, 30)
                     
                     NavigationStack{
-                        NavigationLink {MiniMonthCalendarView(scale: .large, layoutType: .elsePortrait)} label: {Text("Menu Item One")}
+                        NavigationLink {MiniMonthCalendarView(scale: .large, layoutType: .elsePortrait, appModel: appModel)} label: {Text("Calendar")}
+                        NavigationLink {TimelineView(layoutType: .elsePortrait, scale: .large, date: appModel.displayedDate)} label: {Text("Timeline")}
+                        NavigationLink {YearlyMoodView()} label: {Text("Yearly Mood")}
                             
                         
                        
                         Text("Menu Item One")
                         Text("Menu Item One")
                         
-                    }.frame(maxWidth: .infinity).padding().background(Color("DefaultWhite")).clipShape(RoundedRectangle(cornerRadius: 20)).padding()
+                    }.frame(maxWidth: .infinity).padding().background(Color("DefaultWhite")).clipShape(RoundedRectangle(cornerRadius: appModel.moduleCornerRadius)).padding(.horizontal)
                     Spacer()
                 }
             }
-        }.frame(maxWidth: .infinity, maxHeight: .infinity) // Adjust the menu width as needed
+        }// Adjust the menu width as needed
             .background(Color.white)
             .edgesIgnoringSafeArea(.all)
-            .clipShape(RightRoundedRectangle(radius: 20))
+            .clipShape(RightRoundedRectangle(radius: appModel.moduleCornerRadius))
     }
 }
 
@@ -68,9 +71,3 @@ struct RightRoundedRectangle: Shape {
     }
 }
 
-#Preview {
-    ContentView()
-        .environmentObject(DateHolder())
-        .environmentObject(ThemeController())
-        .environmentObject(CustomColor())
-}

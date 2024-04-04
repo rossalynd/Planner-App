@@ -14,7 +14,6 @@
 import SwiftUI
 
 struct iPhoneWeekView: View {
-    @EnvironmentObject var dateHolder: DateHolder
     private var smallSpaceTop: String = "Calendar"
     private var smallSpaceMiddleTop: String = "Schedule"
     private var smallSpaceMiddleBottom: String = "Tasks"
@@ -53,8 +52,3 @@ struct iPhoneWeekView: View {
     }
 }
 
-#Preview {
-    iPhoneWeekView()
-        .environmentObject(DateHolder())
-        .environmentObject(ThemeController())
-}

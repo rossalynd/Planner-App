@@ -13,8 +13,3 @@ struct CanvasView2: View {
     }
 }
 
-#Preview {
-    NotesView()
-        .environmentObject(AppModel())
-
-}
