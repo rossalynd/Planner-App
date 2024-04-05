@@ -10,8 +10,12 @@ import SwiftUI
 
 struct BluePurpleGradientBackground: View {
     var body: some View {
-        LinearGradient(gradient: Gradient(colors: [.blue, .purple]), startPoint: .top, endPoint: .bottom)
-            .edgesIgnoringSafeArea(.all)
+        ZStack {
+            
+            LinearGradient(gradient: Gradient(colors: [.blue, .purple]), startPoint: .top, endPoint: .bottom)
+                .edgesIgnoringSafeArea(.all)
+            Color.defaultClear.frame(maxWidth: .infinity, maxHeight: .infinity).ignoresSafeArea()
+        }
     }
 }
 

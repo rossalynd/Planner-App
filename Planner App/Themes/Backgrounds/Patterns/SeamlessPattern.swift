@@ -13,25 +13,41 @@ struct SeamlessPattern: View {
     
     
     var body: some View {
-        VStack(spacing: 0) {
-        
-        ForEach(0..<5) { column in
+        ZStack{
             
-            HStack(spacing: 0) {
-                ForEach(0..<5) { row in
-                  
+            
+            VStack(spacing: 0) {
+                
+                ForEach(0..<5) { column in
+                    
+                    HStack(spacing: 0) {
+                        ForEach(0..<5) { row in
+                            
+                            
+                            
+                            Image(image)
+                                .resizable()
+                                .scaledToFill()
+                                .frame(width: 500, height: 500)
+                                .blur(radius: 0)
+                        }
                         
                         
-                        Image(image)
-                            .resizable()
-                            .scaledToFill()
-                            .frame(width: 500, height: 500)
                     }
-                    
-                    
                 }
             }
+          
+            
+            
+            Color.defaultClear.frame(maxWidth: .infinity, maxHeight: .infinity).ignoresSafeArea()
         }
         
+        
     }
+}
+#Preview {
+   ContentView()
+        .environmentObject(AppModel())
+        .environmentObject(TasksUpdateNotifier())
+        .modelContainer(for: MoodEntry.self)
 }

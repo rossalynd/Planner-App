@@ -105,9 +105,11 @@ struct NotesView: View {
     private func undo() {
         guard !undoStack.isEmpty else { return }
         var lastState = undoStack.removeLast()
-        lastState = undoStack.removeLast()
-        redoStack.append(drawing) // Move current drawing to redo stack before undoing
-        drawing = lastState
+        if !undoStack.isEmpty{
+            lastState = undoStack.removeLast()
+            redoStack.append(drawing) // Move current drawing to redo stack before undoing
+            drawing = lastState
+        }
     }
 
     private func redo() {

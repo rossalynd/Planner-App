@@ -206,13 +206,9 @@ struct TasksView: View {
             } else {
                 VStack(alignment: .center) {
                 Text("Unable to retrieve reminders. Please enable access to Reminders in Settings.")
-                    Button("Request Reminders Access") {
-                        appModel.requestRemindersAccess { granted in
-                            if granted {
-                                self.loadTodaysRemindersWithOverDueWithoutCompleted()
-                            }
-                        }
-                    }
+                    Button("Settings", action: {
+                        UIApplication.shared.open(URL(string: UIApplication.openSettingsURLString)!)
+                    })
                 }.padding()
                     .onAppear {
                         // Check if reminders permission is already granted

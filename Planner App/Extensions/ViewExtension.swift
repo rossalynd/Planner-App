@@ -9,7 +9,7 @@ import Foundation
 extension View {
     func themedBackground(appModel: AppModel) -> some View {
         self.background(ZStack {
-            appModel.getBackgroundView()
+            appModel.getBackgroundView(for: appModel.backgroundType)
             appModel.getOverlayView()
         })
     }

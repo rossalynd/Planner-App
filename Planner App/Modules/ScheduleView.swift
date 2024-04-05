@@ -143,11 +143,10 @@ struct ScheduleView: View {
                     }
                 } else {
                     VStack(alignment: .center) {
-                        Text("\(date)")
                     Text("Unable to retrieve events. Please enable access to Calendar in Settings.")
-                        Button("Request Calendar Access") {
-                            appModel.requestCalendarAccess()
-                        }
+                        Button("Settings", action: {
+                            UIApplication.shared.open(URL(string: UIApplication.openSettingsURLString)!)
+                        })
                     }.padding()
                         .onAppear(perform: appModel.requestCalendarAccess)
                 }

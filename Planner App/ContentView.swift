@@ -69,26 +69,35 @@ struct ContentView: View {
                     
                     
                     TabView {
-                       DayView().background(.clear)
+                        
+                        
+                        VStack {
+                            DayView()
+                      
+                        }
                         .tabItem{
-                            Label("Daily", systemImage: "chart.bar.xaxis")
+                            Label("Daily", systemImage: "sun.max.fill")
                             
-                        }.transition(.slide).background(BackgroundHelper())
-                        WeekView()
+                        }.background(BackgroundHelper()).transition(.opacity)
+                        WeekView().padding(.bottom, 10)
                             .tabItem{
                                 Label("Weekly", systemImage: "chart.bar.xaxis")
-                            }.transition(.slide).background(BackgroundHelper())
-                        MiniMonthCalendarView(scale: .large, layoutType: .elsePortrait, appModel: appModel).background(.clear)
+                            }.background(BackgroundHelper()).transition(.opacity)
+                        MiniMonthCalendarView(scale: .large, layoutType: .elsePortrait, appModel: appModel)
                             .tabItem{
                                 Label("Monthly", systemImage: "calendar")
-                            }.transition(.slide).background(BackgroundHelper())
+                            }.background(BackgroundHelper()).transition(.opacity)
                         YearlyMoodView()
                             .tabItem{
                                 Label("Yearly", systemImage: "globe.desk.fill")
-                            }.transition(.slide).background(BackgroundHelper())
+                            }.background(BackgroundHelper()).transition(.opacity)
                         
-                    }.background(.clear).accentColor(.white)
-                }.padding()
+                        
+                        
+                        
+                        
+                    }.tint(.defaultWhite).shadow(color: .black.opacity(0.2), radius: 5, x: 5, y: 5)
+                }.padding([.top, .leading, .trailing])
 
                 
 
@@ -182,4 +191,11 @@ struct BackgroundHelper: UIViewRepresentable {
     }
 
     func updateUIView(_ uiView: UIView, context: Context) {}
+}
+
+#Preview {
+   ContentView()
+        .environmentObject(AppModel())
+        .environmentObject(TasksUpdateNotifier())
+        .modelContainer(for: MoodEntry.self)
 }

@@ -58,7 +58,7 @@ struct AppHeader: View {
                         HStack{
                             
                             
-                            Text("\(appModel.displayedDate.shortDate.uppercased())").font(.headline).foregroundColor((Color("DefaultBlack"))).bold()
+                            Text("\(appModel.displayedDate.shortDate.uppercased())").font(Font.custom(appModel.headerFont, size: 20)).foregroundColor((Color("DefaultBlack")))
                             
                         }
                     })
@@ -73,7 +73,7 @@ struct AppHeader: View {
                     }
                     
                     
-                }.background(Color("DefaultWhite")).cornerRadius(20).shadow(radius: 5, x: 5, y: 5)
+                }.background(Color("DefaultWhite")).cornerRadius(appModel.moduleCornerRadius).shadow(radius: 5, x: 5, y: 5)
                     .padding(.bottom, 10)
                 
                 
@@ -86,7 +86,7 @@ struct AppHeader: View {
                         withAnimation {
                             appModel.isMenuVisible.toggle()
                         }
-                    }).foregroundStyle(Color("DefaultBlack")).font(.title).padding(2).background(Color("DefaultWhite")).cornerRadius(20).shadow(radius: 5, x: 5, y: 5).labelStyle(.iconOnly)
+                    }).foregroundStyle(Color("DefaultBlack")).font(.title).padding(2).background(Color("DefaultWhite")).cornerRadius(appModel.moduleCornerRadius).shadow(radius: 5, x: 5, y: 5).labelStyle(.iconOnly)
                     
                     HStack {
                         Button("Previous Day", systemImage: "arrowshape.backward.circle.fill", action: {
@@ -97,7 +97,7 @@ struct AppHeader: View {
                         
                         Button("\(appModel.displayedDate.formatted(date: .complete, time: .omitted).uppercased())", action: {
                             appModel.displayedDate = Date()
-                        }).font(.title2).foregroundColor((Color("DefaultBlack")))
+                        }).font(Font.custom(appModel.headerFont, size: appModel.moduleCornerRadius)).foregroundColor((Color("DefaultBlack")))
                         
                         Spacer()
                         
@@ -107,12 +107,12 @@ struct AppHeader: View {
                         
                         
                         
-                    }.background(Color("DefaultWhite")).cornerRadius(20).shadow(radius: 5, x: 5, y: 5)
+                    }.background(Color("DefaultWhite")).cornerRadius(appModel.moduleCornerRadius).shadow(radius: 5, x: 5, y: 5)
                     
                     
                     
                     NavigationLink(destination: SettingsView()) {
-                        Image(systemName: "gearshape.circle.fill").foregroundStyle(Color("DefaultBlack")).font(.title).padding(2).background(Color("DefaultWhite")).cornerRadius(20).shadow(radius: 5, x: 5, y: 5).labelStyle(.iconOnly)
+                        Image(systemName: "gearshape.circle.fill").foregroundStyle(Color("DefaultBlack")).font(.title).padding(2).background(Color("DefaultWhite")).cornerRadius(appModel.moduleCornerRadius).shadow(radius: 5, x: 5, y: 5).labelStyle(.iconOnly)
                     }
                 }.padding(.bottom, 10)
                 

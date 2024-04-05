@@ -33,23 +33,25 @@ struct SpaceView: View {
                     
                     HStack {
                         if type != "Calendar" {
-                            Text(type.uppercased()).font(.headline)  
-                                .onLongPressGesture(perform:{
+                            HStack {
+                                Text(type.uppercased()).font(Font.custom("\(appModel.headerFont)", size: 20))
+                                    
+                            }.frame(maxHeight: 30)
+                            .onLongPressGesture(perform:{
                                 showingAssignView = true
                             })
-                        
                         } else {
                             HStack {
                                 Text(appModel.displayedDate.monthName)
-                                    .textCase(.uppercase).font(.headline)
-                                Text(appModel.displayedDate.year).font(.headline)
+                                    .textCase(.uppercase).font(Font.custom("\(appModel.headerFont)", size: 20))
+                                Text(appModel.displayedDate.year).font(Font.custom("\(appModel.headerFont)", size: 20))
                             }  
                             .onLongPressGesture(perform:{
                                 showingAssignView = true
                             })
                         
                         }
-                    }.padding(.top, 12.0)
+                    }.padding(.top, 5)
                     
                     if type == "Calendar" {
                         MiniMonthCalendarView(scale: scale, layoutType: layoutType, appModel: appModel)
@@ -101,3 +103,10 @@ struct SpaceView: View {
 
 
 
+
+#Preview {
+   ContentView()
+        .environmentObject(AppModel())
+        .environmentObject(TasksUpdateNotifier())
+        .modelContainer(for: MoodEntry.self)
+}

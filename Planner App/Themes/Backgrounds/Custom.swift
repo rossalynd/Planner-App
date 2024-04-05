@@ -13,16 +13,24 @@ struct CustomBackground: View {
     var secondaryColor: Color? = nil
     
     var body: some View {
-        Group {
-            if secondaryColor != mainColor {
-                // If secondaryColor is not nil, create a LinearGradient with both colors
-                LinearGradient(gradient: Gradient(colors: [appModel.color, appModel.secondaryColor]), startPoint: .top, endPoint: .bottom)
-                    .edgesIgnoringSafeArea(.all)
-            } else {
-                // If secondaryColor is nil, use mainColor as a solid background
-                mainColor
-                    .edgesIgnoringSafeArea(.all)
+        
+        ZStack {
+            
+            
+            Group {
+                if secondaryColor != mainColor {
+                    // If secondaryColor is not nil, create a LinearGradient with both colors
+                    LinearGradient(gradient: Gradient(colors: [appModel.color, appModel.secondaryColor]), startPoint: .top, endPoint: .bottom)
+                        .edgesIgnoringSafeArea(.all)
+                } else {
+                    // If secondaryColor is nil, use mainColor as a solid background
+                    mainColor
+                        .edgesIgnoringSafeArea(.all)
+                }
             }
+            
+            Color.defaultClear.frame(maxWidth: .infinity, maxHeight: .infinity).ignoresSafeArea()
+            
         }
     }
 }

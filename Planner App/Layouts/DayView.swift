@@ -58,7 +58,7 @@ struct DayView: View {
                         
                     }.frame(maxWidth: .infinity, maxHeight: geometry.size.height).background(.clear)
                 }
-            }.shadow(radius: 5, x:5,y:5)
+            }
             
         }.background(.clear)
     }
@@ -67,3 +67,9 @@ struct DayView: View {
 }
 
 
+#Preview {
+   ContentView()
+        .environmentObject(AppModel())
+        .environmentObject(TasksUpdateNotifier())
+        .modelContainer(for: MoodEntry.self)
+}

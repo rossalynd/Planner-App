@@ -137,7 +137,6 @@ class CalendarViewModel: ObservableObject {
     func updateMonth(date: Date) {
         
         self.date = date
-        print(date)
         self.days = self.generateDaysInMonth()
     }
     

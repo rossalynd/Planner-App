@@ -119,7 +119,7 @@ class AppModel: ObservableObject {
     @Published var photoBackgroundImage: UIImage?
     @Published var photoBackgroundPath: String?
     @Published var moduleCornerRadius: CGFloat = 20
-    
+    @Published var headerFont: String = ""
     enum BackgroundType: String, CaseIterable {
         case bluePurpleGradient = "Blue > Purple"
         case beige = "Beige"
@@ -129,6 +129,7 @@ class AppModel: ObservableObject {
         var id: Self { self }
     }
     enum OverlayType: String, CaseIterable {
+        case color = "Color"
         case hearts = "Transparent Hearts"
         case backgroundImage = "Image"
         case photoBackground = "Photo"
@@ -138,7 +139,7 @@ class AppModel: ObservableObject {
     }
 
 
-    func getBackgroundView() -> some View {
+    func getBackgroundView(for backgroundType: BackgroundType) -> some View {
         switch self.backgroundType {
         case .bluePurpleGradient:
             return AnyView(BluePurpleGradientBackground())
@@ -151,6 +152,8 @@ class AppModel: ObservableObject {
     }
     func getOverlayView() -> some View {
             switch self.overlayType {
+            case .color:
+                return AnyView(getBackgroundView(for: self.backgroundType))
             case .hearts:
                 return AnyView(Hearts())
             case .backgroundImage:
@@ -208,6 +211,9 @@ class AppModel: ObservableObject {
 
         // Save moduleCornerRadius
         UserDefaults.standard.set(moduleCornerRadius, forKey: "moduleCornerRadius")
+       
+       // Save Header Font
+       UserDefaults.standard.set(headerFont, forKey: "headerFont")
     }
 
     
@@ -261,6 +267,11 @@ class AppModel: ObservableObject {
 
         // Load moduleCornerRadius
         moduleCornerRadius = CGFloat(UserDefaults.standard.double(forKey: "moduleCornerRadius"))
+        
+        // Load Header Font
+        if let loadedHeaderFont = UserDefaults.standard.string(forKey: "headerFont") {
+            headerFont = loadedHeaderFont
+        }
         
         
         print("Settings loaded")

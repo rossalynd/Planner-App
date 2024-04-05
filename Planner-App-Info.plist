@@ -15,5 +15,48 @@
 	<string>Needs access to calendar display, edit, add, and delete events upon user request</string>
 	<key>NSRemindersFullAccessUsageDescription</key>
 	<string>This app needs full access to reminders to create and add tasks and lists</string>
+	<key>UIAppFonts</key>
+	<array>
+		<string>Ariana Violeta.ttf</string>
+		<string>Babylove.ttf</string>
+		<string>Barely Enough.ttf</string>
+		<string>Buster Down.ttf</string>
+		<string>Buycat.otf</string>
+		<string>Cambridge.otf</string>
+		<string>Catways.otf</string>
+		<string>Cheflat.otf</string>
+		<string>Chintzy.otf</string>
+		<string>Chronica.ttf</string>
+		<string>Cracker Banana.otf</string>
+		<string>Cute Aurora.ttf</string>
+		<string>Duckname.otf</string>
+		<string>Daveau.otf</string>
+		<string>Farmshow.otf</string>
+		<string>Freshman.ttf</string>
+		<string>Great Vibes.otf</string>
+		<string>Lofty Goals.otf</string>
+		<string>Lowball Neue.ttf</string>
+		<string>Milk Mango.otf</string>
+		<string>Mocaroni.otf</string>
+		<string>Morning Breeze.otf</string>
+		<string>Pacifico.ttf</string>
+		<string>Pacify Angry.ttf</string>
+		<string>Parklane.ttf</string>
+		<string>Party Confetti.ttf</string>
+		<string>Pixeloid Sans.ttf</string>
+		<string>Pixgamer.ttf</string>
+		<string>Playfair Display.ttf</string>
+		<string>Robusta Show.otf</string>
+		<string>Sacramento.ttf</string>
+		<string>Sandana.ttf</string>
+		<string>Sansilk.otf</string>
+		<string>Shabina.otf</string>
+		<string>Sparky Stones.ttf</string>
+		<string>Sunny Spells.ttf</string>
+		<string>Super Carbon.ttf</string>
+		<string>Super Dream.ttf</string>
+		<string>Take Coffee.otf</string>
+		<string>Wiggly Curves.ttf</string>
+	</array>
 </dict>
 </plist>

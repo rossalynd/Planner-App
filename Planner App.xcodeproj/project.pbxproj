@@ -28,6 +28,48 @@
 		0100EB172BB5D7EC00734275 /* WeekView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0100EB162BB5D7EC00734275 /* WeekView.swift */; };
 		0100EB192BB5DAB700734275 /* HealthViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0100EB182BB5DAB700734275 /* HealthViewModel.swift */; };
 		010AB3322BBF3426007B3056 /* AppHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 010AB3312BBF3426007B3056 /* AppHeader.swift */; };
+		010E344D2BC078E700F67E4F /* Farmshow.otf in Resources */ = {isa = PBXBuildFile; fileRef = 010E34242BC078E600F67E4F /* Farmshow.otf */; };
+		010E344E2BC078E700F67E4F /* Cheflat.otf in Resources */ = {isa = PBXBuildFile; fileRef = 010E34252BC078E600F67E4F /* Cheflat.otf */; };
+		010E344F2BC078E700F67E4F /* Great Vibes.otf in Resources */ = {isa = PBXBuildFile; fileRef = 010E34262BC078E600F67E4F /* Great Vibes.otf */; };
+		010E34502BC078E700F67E4F /* Sandana.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 010E34272BC078E600F67E4F /* Sandana.ttf */; };
+		010E34512BC078E700F67E4F /* Mathelica.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 010E34282BC078E600F67E4F /* Mathelica.ttf */; };
+		010E34522BC078E700F67E4F /* Chronica.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 010E34292BC078E600F67E4F /* Chronica.ttf */; };
+		010E34532BC078E700F67E4F /* Sparky Stones.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 010E342A2BC078E600F67E4F /* Sparky Stones.ttf */; };
+		010E34542BC078E700F67E4F /* Morning Breeze.otf in Resources */ = {isa = PBXBuildFile; fileRef = 010E342B2BC078E600F67E4F /* Morning Breeze.otf */; };
+		010E34552BC078E700F67E4F /* Pacify Angry.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 010E342C2BC078E600F67E4F /* Pacify Angry.ttf */; };
+		010E34562BC078E700F67E4F /* Cute Aurora.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 010E342D2BC078E600F67E4F /* Cute Aurora.ttf */; };
+		010E34572BC078E700F67E4F /* Buster Down.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 010E342E2BC078E600F67E4F /* Buster Down.ttf */; };
+		010E34582BC078E700F67E4F /* Buycat.otf in Resources */ = {isa = PBXBuildFile; fileRef = 010E342F2BC078E600F67E4F /* Buycat.otf */; };
+		010E34592BC078E700F67E4F /* Cambridge.otf in Resources */ = {isa = PBXBuildFile; fileRef = 010E34302BC078E600F67E4F /* Cambridge.otf */; };
+		010E345A2BC078E700F67E4F /* Robusta Show.otf in Resources */ = {isa = PBXBuildFile; fileRef = 010E34312BC078E600F67E4F /* Robusta Show.otf */; };
+		010E345B2BC078E700F67E4F /* Super Dream.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 010E34322BC078E600F67E4F /* Super Dream.ttf */; };
+		010E345C2BC078E700F67E4F /* Pixgamer.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 010E34332BC078E600F67E4F /* Pixgamer.ttf */; };
+		010E345D2BC078E700F67E4F /* Shabina.otf in Resources */ = {isa = PBXBuildFile; fileRef = 010E34342BC078E600F67E4F /* Shabina.otf */; };
+		010E345E2BC078E700F67E4F /* Wiggly Curves.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 010E34352BC078E600F67E4F /* Wiggly Curves.ttf */; };
+		010E345F2BC078E700F67E4F /* Cracker Banana.otf in Resources */ = {isa = PBXBuildFile; fileRef = 010E34362BC078E600F67E4F /* Cracker Banana.otf */; };
+		010E34602BC078E700F67E4F /* Lofty Goals.otf in Resources */ = {isa = PBXBuildFile; fileRef = 010E34372BC078E600F67E4F /* Lofty Goals.otf */; };
+		010E34612BC078E700F67E4F /* Pixeloid Sans.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 010E34382BC078E600F67E4F /* Pixeloid Sans.ttf */; };
+		010E34622BC078E700F67E4F /* Duckname.otf in Resources */ = {isa = PBXBuildFile; fileRef = 010E34392BC078E600F67E4F /* Duckname.otf */; };
+		010E34632BC078E700F67E4F /* Take Coffee.otf in Resources */ = {isa = PBXBuildFile; fileRef = 010E343A2BC078E600F67E4F /* Take Coffee.otf */; };
+		010E34642BC078E700F67E4F /* Babylove.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 010E343B2BC078E600F67E4F /* Babylove.ttf */; };
+		010E34652BC078E700F67E4F /* Parklane.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 010E343C2BC078E600F67E4F /* Parklane.ttf */; };
+		010E34662BC078E700F67E4F /* Sacramento.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 010E343D2BC078E600F67E4F /* Sacramento.ttf */; };
+		010E34672BC078E700F67E4F /* Barely Enough.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 010E343E2BC078E600F67E4F /* Barely Enough.ttf */; };
+		010E34682BC078E700F67E4F /* Mocaroni.otf in Resources */ = {isa = PBXBuildFile; fileRef = 010E343F2BC078E600F67E4F /* Mocaroni.otf */; };
+		010E34692BC078E700F67E4F /* Chintzy.otf in Resources */ = {isa = PBXBuildFile; fileRef = 010E34402BC078E600F67E4F /* Chintzy.otf */; };
+		010E346A2BC078E700F67E4F /* Pacifico.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 010E34412BC078E600F67E4F /* Pacifico.ttf */; };
+		010E346B2BC078E700F67E4F /* Ariana Violeta.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 010E34422BC078E600F67E4F /* Ariana Violeta.ttf */; };
+		010E346C2BC078E700F67E4F /* Catways.otf in Resources */ = {isa = PBXBuildFile; fileRef = 010E34432BC078E600F67E4F /* Catways.otf */; };
+		010E346D2BC078E700F67E4F /* Daveau.otf in Resources */ = {isa = PBXBuildFile; fileRef = 010E34442BC078E600F67E4F /* Daveau.otf */; };
+		010E346E2BC078E700F67E4F /* Milk Mango.otf in Resources */ = {isa = PBXBuildFile; fileRef = 010E34452BC078E600F67E4F /* Milk Mango.otf */; };
+		010E346F2BC078E700F67E4F /* Playfair Display.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 010E34462BC078E600F67E4F /* Playfair Display.ttf */; };
+		010E34702BC078E700F67E4F /* Party Confetti.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 010E34472BC078E600F67E4F /* Party Confetti.ttf */; };
+		010E34712BC078E700F67E4F /* Sansilk.otf in Resources */ = {isa = PBXBuildFile; fileRef = 010E34482BC078E600F67E4F /* Sansilk.otf */; };
+		010E34722BC078E700F67E4F /* Sunny Spells.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 010E34492BC078E700F67E4F /* Sunny Spells.ttf */; };
+		010E34732BC078E700F67E4F /* Lowball Neue.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 010E344A2BC078E700F67E4F /* Lowball Neue.ttf */; };
+		010E34742BC078E700F67E4F /* Super Carbon.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 010E344B2BC078E700F67E4F /* Super Carbon.ttf */; };
+		010E34752BC078E700F67E4F /* Freshman.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 010E344C2BC078E700F67E4F /* Freshman.ttf */; };
+		010E34772BC07BCD00F67E4F /* FontsList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 010E34762BC07BCD00F67E4F /* FontsList.swift */; };
 		011DEC502BAF048100B2249F /* DayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 011DEC4F2BAF048100B2249F /* DayView.swift */; };
 		011DEC542BAF0A9D00B2249F /* SpaceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 011DEC532BAF0A9D00B2249F /* SpaceView.swift */; };
 		011DEC582BAF0C0D00B2249F /* ScheduleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 011DEC572BAF0C0D00B2249F /* ScheduleView.swift */; };
@@ -58,7 +100,7 @@
 		01478CBA2BBA1FED002A57AD /* CanvasView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01478CB92BBA1FED002A57AD /* CanvasView.swift */; };
 		01478CBC2BBA2215002A57AD /* LongPressGesture.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01478CBB2BBA2215002A57AD /* LongPressGesture.swift */; };
 		01478D032BBAEDCD002A57AD /* MoodView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 011DEC552BAF0BFC00B2249F /* MoodView.swift */; };
-		014F1B7E2BB885A3004C89DB /* TaskView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 014F1B7D2BB885A3004C89DB /* TaskView.swift */; };
+		014F1B7E2BB885A3004C89DB /* InboxView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 014F1B7D2BB885A3004C89DB /* InboxView.swift */; };
 		016B52EF2BB1D05D007DC286 /* EventInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 016B52EE2BB1D05D007DC286 /* EventInfoView.swift */; };
 		016B52F12BB1D89D007DC286 /* MainMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 016B52F02BB1D89D007DC286 /* MainMenuView.swift */; };
 		016B52F32BB1F62E007DC286 /* AddEventView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 016B52F22BB1F62E007DC286 /* AddEventView.swift */; };
@@ -124,6 +166,48 @@
 		0100EB162BB5D7EC00734275 /* WeekView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeekView.swift; sourceTree = "<group>"; };
 		0100EB182BB5DAB700734275 /* HealthViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthViewModel.swift; sourceTree = "<group>"; };
 		010AB3312BBF3426007B3056 /* AppHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppHeader.swift; sourceTree = "<group>"; };
+		010E34242BC078E600F67E4F /* Farmshow.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Farmshow.otf; sourceTree = "<group>"; };
+		010E34252BC078E600F67E4F /* Cheflat.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Cheflat.otf; sourceTree = "<group>"; };
+		010E34262BC078E600F67E4F /* Great Vibes.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Great Vibes.otf"; sourceTree = "<group>"; };
+		010E34272BC078E600F67E4F /* Sandana.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Sandana.ttf; sourceTree = "<group>"; };
+		010E34282BC078E600F67E4F /* Mathelica.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Mathelica.ttf; sourceTree = "<group>"; };
+		010E34292BC078E600F67E4F /* Chronica.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Chronica.ttf; sourceTree = "<group>"; };
+		010E342A2BC078E600F67E4F /* Sparky Stones.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Sparky Stones.ttf"; sourceTree = "<group>"; };
+		010E342B2BC078E600F67E4F /* Morning Breeze.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Morning Breeze.otf"; sourceTree = "<group>"; };
+		010E342C2BC078E600F67E4F /* Pacify Angry.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pacify Angry.ttf"; sourceTree = "<group>"; };
+		010E342D2BC078E600F67E4F /* Cute Aurora.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Cute Aurora.ttf"; sourceTree = "<group>"; };
+		010E342E2BC078E600F67E4F /* Buster Down.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Buster Down.ttf"; sourceTree = "<group>"; };
+		010E342F2BC078E600F67E4F /* Buycat.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Buycat.otf; sourceTree = "<group>"; };
+		010E34302BC078E600F67E4F /* Cambridge.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Cambridge.otf; sourceTree = "<group>"; };
+		010E34312BC078E600F67E4F /* Robusta Show.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Robusta Show.otf"; sourceTree = "<group>"; };
+		010E34322BC078E600F67E4F /* Super Dream.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Super Dream.ttf"; sourceTree = "<group>"; };
+		010E34332BC078E600F67E4F /* Pixgamer.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Pixgamer.ttf; sourceTree = "<group>"; };
+		010E34342BC078E600F67E4F /* Shabina.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Shabina.otf; sourceTree = "<group>"; };
+		010E34352BC078E600F67E4F /* Wiggly Curves.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Wiggly Curves.ttf"; sourceTree = "<group>"; };
+		010E34362BC078E600F67E4F /* Cracker Banana.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Cracker Banana.otf"; sourceTree = "<group>"; };
+		010E34372BC078E600F67E4F /* Lofty Goals.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Lofty Goals.otf"; sourceTree = "<group>"; };
+		010E34382BC078E600F67E4F /* Pixeloid Sans.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pixeloid Sans.ttf"; sourceTree = "<group>"; };
+		010E34392BC078E600F67E4F /* Duckname.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Duckname.otf; sourceTree = "<group>"; };
+		010E343A2BC078E600F67E4F /* Take Coffee.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Take Coffee.otf"; sourceTree = "<group>"; };
+		010E343B2BC078E600F67E4F /* Babylove.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Babylove.ttf; sourceTree = "<group>"; };
+		010E343C2BC078E600F67E4F /* Parklane.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Parklane.ttf; sourceTree = "<group>"; };
+		010E343D2BC078E600F67E4F /* Sacramento.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Sacramento.ttf; sourceTree = "<group>"; };
+		010E343E2BC078E600F67E4F /* Barely Enough.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Barely Enough.ttf"; sourceTree = "<group>"; };
+		010E343F2BC078E600F67E4F /* Mocaroni.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Mocaroni.otf; sourceTree = "<group>"; };
+		010E34402BC078E600F67E4F /* Chintzy.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Chintzy.otf; sourceTree = "<group>"; };
+		010E34412BC078E600F67E4F /* Pacifico.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Pacifico.ttf; sourceTree = "<group>"; };
+		010E34422BC078E600F67E4F /* Ariana Violeta.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Ariana Violeta.ttf"; sourceTree = "<group>"; };
+		010E34432BC078E600F67E4F /* Catways.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Catways.otf; sourceTree = "<group>"; };
+		010E34442BC078E600F67E4F /* Daveau.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Daveau.otf; sourceTree = "<group>"; };
+		010E34452BC078E600F67E4F /* Milk Mango.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Milk Mango.otf"; sourceTree = "<group>"; };
+		010E34462BC078E600F67E4F /* Playfair Display.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Playfair Display.ttf"; sourceTree = "<group>"; };
+		010E34472BC078E600F67E4F /* Party Confetti.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Party Confetti.ttf"; sourceTree = "<group>"; };
+		010E34482BC078E600F67E4F /* Sansilk.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Sansilk.otf; sourceTree = "<group>"; };
+		010E34492BC078E700F67E4F /* Sunny Spells.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Sunny Spells.ttf"; sourceTree = "<group>"; };
+		010E344A2BC078E700F67E4F /* Lowball Neue.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Lowball Neue.ttf"; sourceTree = "<group>"; };
+		010E344B2BC078E700F67E4F /* Super Carbon.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Super Carbon.ttf"; sourceTree = "<group>"; };
+		010E344C2BC078E700F67E4F /* Freshman.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Freshman.ttf; sourceTree = "<group>"; };
+		010E34762BC07BCD00F67E4F /* FontsList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FontsList.swift; sourceTree = "<group>"; };
 		011DEC4F2BAF048100B2249F /* DayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DayView.swift; sourceTree = "<group>"; };
 		011DEC532BAF0A9D00B2249F /* SpaceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpaceView.swift; sourceTree = "<group>"; };
 		011DEC552BAF0BFC00B2249F /* MoodView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoodView.swift; sourceTree = "<group>"; };
@@ -160,7 +244,7 @@
 		01478CBB2BBA2215002A57AD /* LongPressGesture.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LongPressGesture.swift; sourceTree = "<group>"; };
 		01478CC52BBA4586002A57AD /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
 		01478CC72BBA4586002A57AD /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
-		014F1B7D2BB885A3004C89DB /* TaskView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskView.swift; sourceTree = "<group>"; };
+		014F1B7D2BB885A3004C89DB /* InboxView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InboxView.swift; sourceTree = "<group>"; };
 		016B52EE2BB1D05D007DC286 /* EventInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventInfoView.swift; sourceTree = "<group>"; };
 		016B52F02BB1D89D007DC286 /* MainMenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainMenuView.swift; sourceTree = "<group>"; };
 		016B52F22BB1F62E007DC286 /* AddEventView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddEventView.swift; sourceTree = "<group>"; };
@@ -372,7 +456,7 @@
 				0135C3BD2BAF7C2300D60E30 /* VerticalSlider.swift */,
 				DC0FB8402BB090F600DB4ABB /* HorizontalSlider.swift */,
 				011DEC592BAF0C5600B2249F /* TasksView.swift */,
-				014F1B7D2BB885A3004C89DB /* TaskView.swift */,
+				014F1B7D2BB885A3004C89DB /* InboxView.swift */,
 				011DEC612BAF0CE200B2249F /* WaterView.swift */,
 				011DEC5B2BAF0C7200B2249F /* WeatherView.swift */,
 				016B52F22BB1F62E007DC286 /* AddEventView.swift */,
@@ -410,6 +494,48 @@
 		01DC66982BBDB29B0053E2B7 /* Fonts */ = {
 			isa = PBXGroup;
 			children = (
+				010E34422BC078E600F67E4F /* Ariana Violeta.ttf */,
+				010E343B2BC078E600F67E4F /* Babylove.ttf */,
+				010E343E2BC078E600F67E4F /* Barely Enough.ttf */,
+				010E342E2BC078E600F67E4F /* Buster Down.ttf */,
+				010E342F2BC078E600F67E4F /* Buycat.otf */,
+				010E34302BC078E600F67E4F /* Cambridge.otf */,
+				010E34432BC078E600F67E4F /* Catways.otf */,
+				010E34252BC078E600F67E4F /* Cheflat.otf */,
+				010E34402BC078E600F67E4F /* Chintzy.otf */,
+				010E34292BC078E600F67E4F /* Chronica.ttf */,
+				010E34362BC078E600F67E4F /* Cracker Banana.otf */,
+				010E342D2BC078E600F67E4F /* Cute Aurora.ttf */,
+				010E34442BC078E600F67E4F /* Daveau.otf */,
+				010E34392BC078E600F67E4F /* Duckname.otf */,
+				010E34242BC078E600F67E4F /* Farmshow.otf */,
+				010E344C2BC078E700F67E4F /* Freshman.ttf */,
+				010E34262BC078E600F67E4F /* Great Vibes.otf */,
+				010E34372BC078E600F67E4F /* Lofty Goals.otf */,
+				010E344A2BC078E700F67E4F /* Lowball Neue.ttf */,
+				010E34282BC078E600F67E4F /* Mathelica.ttf */,
+				010E34452BC078E600F67E4F /* Milk Mango.otf */,
+				010E343F2BC078E600F67E4F /* Mocaroni.otf */,
+				010E342B2BC078E600F67E4F /* Morning Breeze.otf */,
+				010E34412BC078E600F67E4F /* Pacifico.ttf */,
+				010E342C2BC078E600F67E4F /* Pacify Angry.ttf */,
+				010E343C2BC078E600F67E4F /* Parklane.ttf */,
+				010E34472BC078E600F67E4F /* Party Confetti.ttf */,
+				010E34382BC078E600F67E4F /* Pixeloid Sans.ttf */,
+				010E34332BC078E600F67E4F /* Pixgamer.ttf */,
+				010E34462BC078E600F67E4F /* Playfair Display.ttf */,
+				010E34312BC078E600F67E4F /* Robusta Show.otf */,
+				010E343D2BC078E600F67E4F /* Sacramento.ttf */,
+				010E34272BC078E600F67E4F /* Sandana.ttf */,
+				010E34482BC078E600F67E4F /* Sansilk.otf */,
+				010E34342BC078E600F67E4F /* Shabina.otf */,
+				010E342A2BC078E600F67E4F /* Sparky Stones.ttf */,
+				010E34492BC078E700F67E4F /* Sunny Spells.ttf */,
+				010E344B2BC078E700F67E4F /* Super Carbon.ttf */,
+				010E34322BC078E600F67E4F /* Super Dream.ttf */,
+				010E343A2BC078E600F67E4F /* Take Coffee.otf */,
+				010E34352BC078E600F67E4F /* Wiggly Curves.ttf */,
+				010E34762BC07BCD00F67E4F /* FontsList.swift */,
 			);
 			path = Fonts;
 			sourceTree = "<group>";
@@ -541,11 +667,52 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				010E345E2BC078E700F67E4F /* Wiggly Curves.ttf in Resources */,
+				010E346D2BC078E700F67E4F /* Daveau.otf in Resources */,
+				010E34692BC078E700F67E4F /* Chintzy.otf in Resources */,
+				010E34592BC078E700F67E4F /* Cambridge.otf in Resources */,
+				010E34662BC078E700F67E4F /* Sacramento.ttf in Resources */,
+				010E345A2BC078E700F67E4F /* Robusta Show.otf in Resources */,
+				010E344E2BC078E700F67E4F /* Cheflat.otf in Resources */,
+				010E34622BC078E700F67E4F /* Duckname.otf in Resources */,
+				010E344D2BC078E700F67E4F /* Farmshow.otf in Resources */,
+				010E346E2BC078E700F67E4F /* Milk Mango.otf in Resources */,
+				010E34652BC078E700F67E4F /* Parklane.ttf in Resources */,
+				010E34712BC078E700F67E4F /* Sansilk.otf in Resources */,
+				010E34682BC078E700F67E4F /* Mocaroni.otf in Resources */,
+				010E345D2BC078E700F67E4F /* Shabina.otf in Resources */,
+				010E34732BC078E700F67E4F /* Lowball Neue.ttf in Resources */,
+				010E346A2BC078E700F67E4F /* Pacifico.ttf in Resources */,
+				010E344F2BC078E700F67E4F /* Great Vibes.otf in Resources */,
+				010E34532BC078E700F67E4F /* Sparky Stones.ttf in Resources */,
+				010E34722BC078E700F67E4F /* Sunny Spells.ttf in Resources */,
 				01D23BC02BAFA159009F364A /* Colors.xcassets in Resources */,
+				010E34702BC078E700F67E4F /* Party Confetti.ttf in Resources */,
+				010E34542BC078E700F67E4F /* Morning Breeze.otf in Resources */,
+				010E34612BC078E700F67E4F /* Pixeloid Sans.ttf in Resources */,
 				0100EAE82BB36A4B00734275 /* Themes.xcassets in Resources */,
+				010E34752BC078E700F67E4F /* Freshman.ttf in Resources */,
+				010E34552BC078E700F67E4F /* Pacify Angry.ttf in Resources */,
+				010E34572BC078E700F67E4F /* Buster Down.ttf in Resources */,
+				010E346F2BC078E700F67E4F /* Playfair Display.ttf in Resources */,
+				010E345C2BC078E700F67E4F /* Pixgamer.ttf in Resources */,
+				010E34672BC078E700F67E4F /* Barely Enough.ttf in Resources */,
+				010E346B2BC078E700F67E4F /* Ariana Violeta.ttf in Resources */,
+				010E345B2BC078E700F67E4F /* Super Dream.ttf in Resources */,
+				010E34742BC078E700F67E4F /* Super Carbon.ttf in Resources */,
+				010E34582BC078E700F67E4F /* Buycat.otf in Resources */,
+				010E34562BC078E700F67E4F /* Cute Aurora.ttf in Resources */,
+				010E34632BC078E700F67E4F /* Take Coffee.otf in Resources */,
+				010E34522BC078E700F67E4F /* Chronica.ttf in Resources */,
 				0134A9862BACA44400D5BB5C /* Preview Assets.xcassets in Resources */,
 				0185CBCA2BB5F14D00F7A2EC /* Moods.xcassets in Resources */,
+				010E34602BC078E700F67E4F /* Lofty Goals.otf in Resources */,
+				010E34642BC078E700F67E4F /* Babylove.ttf in Resources */,
+				010E34502BC078E700F67E4F /* Sandana.ttf in Resources */,
+				010E345F2BC078E700F67E4F /* Cracker Banana.otf in Resources */,
 				0134A9822BACA44400D5BB5C /* Assets.xcassets in Resources */,
+				010E34512BC078E700F67E4F /* Mathelica.ttf in Resources */,
+				010E346C2BC078E700F67E4F /* Catways.otf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -586,6 +753,7 @@
 				0100EB152BB5D7D600734275 /* iPhoneWeekView.swift in Sources */,
 				0100EAF12BB46DDE00734275 /* ColorPicker.swift in Sources */,
 				011DEC622BAF0CE200B2249F /* WaterView.swift in Sources */,
+				010E34772BC07BCD00F67E4F /* FontsList.swift in Sources */,
 				01478CBC2BBA2215002A57AD /* LongPressGesture.swift in Sources */,
 				01444F342BBAFABA00BDB35B /* AppModel.swift in Sources */,
 				0125144B2BB8A29B009C3E66 /* LayoutTypes.swift in Sources */,
@@ -600,7 +768,7 @@
 				0100EAEA2BB3868700734275 /* iPhoneDayView.swift in Sources */,
 				011DEC602BAF0C9A00B2249F /* NotesView.swift in Sources */,
 				012D05522BBC9B4800202E0C /* YearlyMoodView.swift in Sources */,
-				014F1B7E2BB885A3004C89DB /* TaskView.swift in Sources */,
+				014F1B7E2BB885A3004C89DB /* InboxView.swift in Sources */,
 				0100EB0F2BB5AC5400734275 /* Hearts.swift in Sources */,
 				0100EB0B2BB4C10A00734275 /* CustomPattern.swift in Sources */,
 				0134A97E2BACA44300D5BB5C /* ContentView.swift in Sources */,

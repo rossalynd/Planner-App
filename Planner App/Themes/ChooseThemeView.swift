@@ -29,9 +29,19 @@ struct ChooseThemeView: View {
         ZStack(alignment: .leading) {
             VStack {
                 HStack {
-                    Text("Background")
+                    Text("Background Type")
                     Spacer()
-                    Picker("Background Type", selection: $appModel.backgroundType) {
+                    Picker("Background Type", selection: $appModel.overlayType) {
+                        ForEach(AppModel.OverlayType.allCases, id: \.self) { type in
+                            Text(type.rawValue).tag(type)
+                        }
+                    }
+                }
+                if appModel.overlayType == .color {
+                HStack {
+                    Text("Background Color")
+                    Spacer()
+                    Picker("Background Color", selection: $appModel.backgroundType) {
                         ForEach(AppModel.BackgroundType.allCases, id: \.self) { type in
                             Text(type.rawValue).tag(type)
                         }
@@ -64,15 +74,7 @@ struct ChooseThemeView: View {
                     }
                 }
                 
-                HStack {
-                    Text("Pattern")
-                    Spacer()
-                    Picker("Background Type", selection: $appModel.overlayType) {
-                        ForEach(AppModel.OverlayType.allCases, id: \.self) { type in
-                            Text(type.rawValue).tag(type)
-                        }
-                    }
-                }
+            }
                 if appModel.overlayType == .backgroundImage {
                     GeometryReader { geometry in
                         HStack {
@@ -107,6 +109,12 @@ struct ChooseThemeView: View {
                         }
                     
 
+                    
+                }
+                
+                
+                HStack {
+                    FontsList()
                     
                 }
                 DisclosureGroup("Advanced Settings", isExpanded: $expandAdvanced) {
@@ -171,7 +179,8 @@ struct ChooseThemeView: View {
 
 
 #Preview {
-    ChooseThemeView()
+   ContentView()
         .environmentObject(AppModel())
-
+        .environmentObject(TasksUpdateNotifier())
+        .modelContainer(for: MoodEntry.self)
 }
