@@ -40,7 +40,7 @@ struct WeekView: View {
                                         Text(date.dayOfWeekFirstLetter).padding([.leading, .top]).font(.title).bold()
                                         Text(date.dateNum).padding([.trailing, .top]).font(.title).bold()
                                     }
-                                    ScheduleView(layoutType: .elseLandscape, scale: .small, date: date)
+                                    TimelineView(layoutType: .elsePortrait, scale: .small)
                                     TasksView(date: date, scale: .small)
                                     
                                     
@@ -63,6 +63,7 @@ struct WeekView: View {
                         datesInWeekList = datesInWeek(from: appModel.displayedDate, weekStartsOn: appModel.startOfWeek)
                     }
                     .onChange(of: appModel.displayedDate) {
+                        
                         print("Date changed, updating dates in week list")
                         datesInWeekList = datesInWeek(from: appModel.displayedDate, weekStartsOn: appModel.startOfWeek)
                     }
@@ -83,13 +84,14 @@ struct WeekView: View {
                             ForEach(datesInWeekList, id: \.self) { date in
                                 
                                 HStack(spacing: 10) {
-                                    HStack{
-                                        Text(date.dayOfWeekFirstLetter).padding([.leading, .top]).font(.title).bold()
-                                        Text(date.dateNum).padding([.trailing, .top]).font(.title).bold()
-                                    }
-                                    ScheduleView(layoutType: .elsePortrait, scale: .small, date: date)
-                                    TasksView(date: date, scale: .small)
-                                    
+                                    VStack{
+                                        HStack{
+                                            Text(date.dayOfWeekFirstLetter).padding([.leading, .top]).font(.title).bold()
+                                            Text(date.dateNum).padding([.trailing, .top]).font(.title).bold()
+                                        }
+                                        AllDayEventsView(date: date)
+                                    }.frame(maxWidth: geometry.size.width / 5)
+                                    HorizontalTimelineView(layoutType: .elsePortrait, scale: .small, date: date)
                                 }
                                 
                                 
@@ -150,5 +152,5 @@ struct WeekView: View {
     WeekView()
         .environmentObject(AppModel())
         .environmentObject(TasksUpdateNotifier())
-        .modelContainer(for: MoodEntry.self)
+        .modelContainer(for: [MoodEntry.self, Note.self])
 }

@@ -10,6 +10,7 @@ import EventKitUI
 
 struct ScheduleView: View {
     @EnvironmentObject var appModel: AppModel
+    
     var layoutType: LayoutType
     var scale: SpaceView.Scale
     var date: Date
@@ -19,9 +20,11 @@ struct ScheduleView: View {
     @State private var events: [EKEvent] = []
     @State private var allDayEvents: [EKEvent] = []
     @State private var timedEvents: [EKEvent] = []
-    @State private var showingEventView = true
+    @State private var showingEventView = false
     @State private var showingAddEventView = false
     @State private var expandedEventID: String? = nil
+    @State private var showMenu: Bool = false
+
 
     
     public init(layoutType: LayoutType, scale: SpaceView.Scale, date: Date) {
@@ -64,42 +67,23 @@ struct ScheduleView: View {
                             ScrollView {
                                 
                                 VStack {
-                                    ScrollView(.horizontal, showsIndicators: false) {
-                                        ScrollViewReader { scrollView in
-                                            HStack {
-                                                Color.clear.frame(width: 0, height: 0)
-                                                        .id("start")
-                                                ForEach(allDayEvents.indices, id: \.self) { index in
-                                                    let event = allDayEvents[index]
-                                                    NavigationLink {
-                                                        EventInfoView(event: event)
-                                                    } label: {
-                                                        ADEventView(event: event, backgroundColor: Color(event.calendar.cgColor), fontSize: eventFontSize, expandedEventId: $expandedEventID).id(event.eventIdentifier)
-                                                    }
-                                                    
-                                                }
-                                                
-                                                Spacer()
-                                            }
-                                                .onChange(of: expandedEventID) { oldID, newID in
-                                                    withAnimation {
-                                                        if let newID = newID {
-                                                            scrollView.scrollTo(newID, anchor: .center)
-                                                        } else {
-                                                            scrollView.scrollTo("start", anchor: .leading)
-                                                        }
-                                                    }
-                                                }
-                                        }
-                                }.scrollIndicators(.hidden)
+                                    AllDayEventsView(date: appModel.displayedDate)
+                                    
                                     ForEach(timedEvents.indices, id: \.self) { index in
                                         let event = timedEvents[index]
                                         
-                                        NavigationLink {
-                                            EventInfoView(event: event)
-                                        } label: {
+                                        
                                             EventView(event: event, width: geometry.size.width, backgroundColor: Color(event.calendar.cgColor), fontSize: eventFontSize, timeFontSize: eventTimeFontSize, scale: scale).foregroundStyle(.black).padding(.horizontal, 5)
-                                        }
+                                            .onTapGesture {
+                                            
+                                             showingEventView = true
+                                            }
+                                            .fullScreenCover(isPresented: $showingEventView, content: {
+                                                
+                                                    EventInfoView(event: event)
+                                                
+                                            })
+                                        
                                     }
                                     
 
@@ -110,6 +94,8 @@ struct ScheduleView: View {
                             .onChange(of: appModel.displayedDate) { newValue, oldValue in
                                 loadEvents()
                             }
+                            
+                            
                            
                         }
                         if layoutType == .elsePortrait || layoutType == .iphonePortrait {
@@ -125,9 +111,9 @@ struct ScheduleView: View {
                                             ZStack {
                                                 VStack {
                                                     // Gradient Background
-                                                    LinearGradient(gradient: Gradient(colors: [.blue, .purple]), startPoint: .top, endPoint: .bottom)
-                                                        .edgesIgnoringSafeArea(.all)
+                                                   
                                                 }
+                                                .themedBackground(appModel: appModel)
                                                 VStack{
                                                     AddEventView(eventStore: appModel.eventStore).clipShape(RoundedRectangle(cornerRadius: 20))
                                                     
@@ -214,71 +200,7 @@ struct ScheduleView: View {
            
         }
     }
-    struct ADEventView: View {
-        var event: EKEvent
-        var backgroundColor: Color
-        var fontSize: Font
-        @State private var showEventTitle = false
-        @Binding var expandedEventId: String?
-
-        init(event: EKEvent, backgroundColor: Color, fontSize: Font, expandedEventId: Binding<String?>) {
-            self.event = event
-            self.backgroundColor = backgroundColor
-            self.fontSize = fontSize
-            self._expandedEventId = expandedEventId
-        }
-
-        var body: some View {
-            Button(action: {
-                withAnimation {
-                    showEventTitle.toggle()
-                    if self.expandedEventId == event.eventIdentifier {
-                        self.expandedEventId = nil // Collapse if it's already expanded
-                    } else {
-                        self.expandedEventId = event.eventIdentifier // Expand the event
-                    }
-                }
-            }) {
-                HStack() {
-                    icon
-                    
-                    if showEventTitle {
-                        Text(event.title.uppercased())
-                            .font(fontSize)
-                            .bold()
-                            .foregroundColor(.black)
-                            .padding(.trailing, 5)
-                            
-                        
-                    }
-                            
-                    
-                }
-                .padding(5)
-                .background(backgroundColor)
-                .clipShape(RoundedRectangle(cornerRadius: 20))
-                .shadow(radius: 3, x: 3, y: 3).padding(.bottom, 5)
-                
-                
-            }
-           
-        }
-
-        @ViewBuilder
-        var icon: some View {
-            if event.title.contains("Birthday") {
-                Image(systemName: "gift.fill").iconStyle
-            } else if event.calendar.title.contains("Holiday") {
-                Image(systemName: "star.circle.fill").iconStyle
-            } else if event.calendar.title.contains("Goals") {
-                Image(systemName: "trophy.circle.fill").iconStyle
-            } else if event.calendar.title.contains("Bills") {
-                Image(systemName: "creditcard.circle.fill").iconStyle
-            } else {
-                Image(systemName: "calendar.circle.fill").iconStyle
-            }
-        }
-    }
+    
 
     
 
@@ -343,3 +265,7 @@ struct ConditionalShape: Shape {
 
 
 
+#Preview {
+    ScheduleView(layoutType: .elsePortrait, scale: .medium, date: Date())
+        .environmentObject(AppModel())
+}

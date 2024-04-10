@@ -39,48 +39,10 @@ struct AppHeader: View {
     }
     var body: some View {
         
-            if UIDevice.current.userInterfaceIdiom == .phone { //IPHONE HEADER
-                
-                HStack {
-                    Button("Menu", systemImage:"line.horizontal.3.circle.fill", action: {
-                        appModel.isMenuVisible.toggle()
-                    }).foregroundStyle(Color("DefaultBlack")).padding(.leading,padding).labelStyle(.iconOnly).font(.title2)
-                    Button("Previous Day", systemImage: "arrowshape.backward.circle.fill", action: {
-                        appModel.displayedDate = Calendar.current.date(byAdding: .day, value: -1, to: appModel.displayedDate)!
-                    }).foregroundStyle(Color("DefaultBlack")).labelStyle(.iconOnly).font(.title2)
-                    
-                    Spacer()
-                    
-                    
-                    Button(action: {
-                        appModel.displayedDate = Date()
-                    }, label: {
-                        HStack{
-                            
-                            
-                            Text("\(appModel.displayedDate.shortDate.uppercased())").font(Font.custom(appModel.headerFont, size: 20)).foregroundColor((Color("DefaultBlack")))
-                            
-                        }
-                    })
-                    
-                    Spacer()
-                    
-                    Button("Next Day", systemImage: "arrowshape.forward.circle.fill", action: {
-                        appModel.displayedDate = Calendar.current.date(byAdding: .day, value: 1, to: appModel.displayedDate)!
-                    }).foregroundStyle(Color("DefaultBlack")).padding([.trailing, .top, .bottom], padding).labelStyle(.iconOnly).font(.title2)
-                    NavigationLink(destination: SettingsView()) {
-                        Image(systemName: "gearshape.circle.fill").foregroundStyle(Color("DefaultBlack")).padding([.trailing, .top, .bottom], padding).labelStyle(.iconOnly).font(.title2)
-                    }
-                    
-                    
-                }.background(Color("DefaultWhite")).cornerRadius(appModel.moduleCornerRadius).shadow(radius: 5, x: 5, y: 5)
-                    .padding(.bottom, 10)
+       
                 
                 
-            } else { //IPAD HEADER
-                
-                
-                HStack {
+                HStack(spacing: appModel.moduleSpacing) {
                     
                     Button("Menu", systemImage: "line.3.horizontal.circle.fill", action: {
                         withAnimation {
@@ -95,9 +57,9 @@ struct AppHeader: View {
                         
                         Spacer()
                         
-                        Button("\(appModel.displayedDate.formatted(date: .complete, time: .omitted).uppercased())", action: {
+                        Button("\(appModel.headerCase.apply(to:appModel.displayedDate.formatted(date: .complete, time: .omitted)))", action: {
                             appModel.displayedDate = Date()
-                        }).font(Font.custom(appModel.headerFont, size: appModel.moduleCornerRadius)).foregroundColor((Color("DefaultBlack")))
+                        }).font(Font.custom(appModel.headerFont, size: 20)).foregroundColor(appModel.headerColor)
                         
                         Spacer()
                         
@@ -111,12 +73,18 @@ struct AppHeader: View {
                     
                     
                     
-                    NavigationLink(destination: SettingsView()) {
+                    NavigationLink(destination: SettingsView(appModel: appModel)) {
                         Image(systemName: "gearshape.circle.fill").foregroundStyle(Color("DefaultBlack")).font(.title).padding(2).background(Color("DefaultWhite")).cornerRadius(appModel.moduleCornerRadius).shadow(radius: 5, x: 5, y: 5).labelStyle(.iconOnly)
                     }
-                }.padding(.bottom, 10)
+                }
+                    
                 
-            } // END HEADER
+                
+           
+                
+                
+              
+                 // END HEADER
         }
     }
 

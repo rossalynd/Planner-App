@@ -8,13 +8,15 @@
 import SwiftUI
 import SwiftData
 
+
 struct DayView: View {
+    
     @EnvironmentObject var appModel: AppModel
     private var smallSpaceTop: String = "Calendar"
     private var smallSpaceMiddleTop: String = "Mood"
     private var smallSpaceMiddleBottom: String = "Gratitude"
     private var smallSpaceBottom: String = "Water"
-    private var largeSpaceTop: String = "Schedule"
+    private var largeSpaceTop: String = "Timeline (Horizontal)"
     private var largeSpaceBottom: String = "Tasks"
     private var mediumSpaceLeft: String = "Meals"
     private var mediumSpaceRight: String = "Notes"
@@ -28,9 +30,9 @@ struct DayView: View {
                 .background(.clear)
             
             GeometryReader { geometry in
-                HStack(spacing: 20) {
+                HStack(spacing: appModel.moduleSpacing) {
                     
-                    VStack(spacing: 20) {
+                    VStack(spacing: appModel.moduleSpacing) {
                         VStack {
                             SpaceView(type: smallSpaceTop, scale: .small, layoutType: .elsePortrait)
                         }
@@ -46,11 +48,11 @@ struct DayView: View {
                         
                     }.frame(maxWidth: geometry.size.width / 3.5, maxHeight: geometry.size.height)
                     
-                    VStack(spacing: 20) {
+                    VStack(spacing: appModel.moduleSpacing) {
                         SpaceView(type: largeSpaceTop, scale: .medium, layoutType: .elsePortrait)
                         SpaceView(type: largeSpaceBottom, scale: .medium, layoutType: .elsePortrait)
                         
-                        HStack(spacing: 20) {
+                        HStack(spacing: appModel.moduleSpacing) {
                             SpaceView(type: mediumSpaceLeft, scale: .medium, layoutType: .elsePortrait)
                             SpaceView(type: mediumSpaceRight, scale: .medium, layoutType: .elsePortrait)
                         }

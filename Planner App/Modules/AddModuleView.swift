@@ -19,7 +19,7 @@ struct AddModuleView: View {
         List {
             ForEach(moduleTypes.sorted(by: >), id: \.key) { key, displayName in
                 Text(displayName).onTapGesture {
-                    type = displayName
+                    type = key
                     dismiss()
                     
                 }

@@ -17,7 +17,9 @@ struct ModuleViews {
         "Gratitude":"Gratitude",
         "Water":"Water",
         "Meals":"Meals",
-        "Notes":"Notes"
+        "Notes":"Notes",
+        "Timeline (Vertical)":"Timeline (Vertical)",
+        "Timeline (Horizontal)":"Timeline (Horizontal)"
 ]
     
 }

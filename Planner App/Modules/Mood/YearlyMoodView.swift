@@ -16,7 +16,9 @@ struct YearlyMoodView: View {
     @State private var refreshTrigger: Bool = false
     @Query var entries: [MoodEntry]
    
-    
+    init() {
+        print("initializing yearly mood view")
+    }
     var body: some View {
         ZStack(alignment: .leading) {
            

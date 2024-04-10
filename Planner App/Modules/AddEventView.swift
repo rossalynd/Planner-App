@@ -7,144 +7,122 @@
 
 import SwiftUI
 import EventKit
+import NaturalLanguage
 
 struct AddEventView: View {
-    var eventStore: EKEventStore
-
+    @Environment(\.presentationMode) var presentationMode
     @EnvironmentObject var appModel: AppModel
+
+    var eventStore: EKEventStore
+    @State private var userInput: String = ""
     @State private var eventTitle: String = ""
-    @State private var startDate: Date = Date()
-    @State private var endDate: Date = Date().addingTimeInterval(+3600)
+    @State private var startDate: Date? = nil
+    @State private var endDate: Date? = nil
     @State private var eventLocation: String = ""
     @State private var eventURL: String = ""
     @State private var eventNotes: String = ""
     @State private var selectedCalendar: EKCalendar?
-    @Environment(\.presentationMode) var presentationMode
     @State private var eventAvailability: EKEventAvailability = .busy
-    @State private var  isAllDay: Bool = false
+    @State private var isAllDay: Bool = false
     @State private var selectedRecurrence: RecurrenceOption = .none
-    @State var showAlarmOptions = false
-    @State var alarms: [EKAlarm] = []
-    
+    @State private var showAlarmOptions = false
+    @State private var alarms: [EKAlarm] = []
 
     var body: some View {
         VStack {
-            
-            
             Form {
                 HStack {
-                    Text("Add Event".uppercased()).font(.title2).bold()
-                }.onTapGesture {
-                    UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
-                }
-                Section(header: Text("Event Details")) {
-                    TextField("Title", text: $eventTitle)
-                    TextField("Location", text: $eventLocation)
+                    Button(appModel.headerCase.apply(to:"Save"), systemImage: "plus.app.fill") {
+                        saveEventToStore()
+                        presentationMode.wrappedValue.dismiss()
+                    }.font(Font.custom(appModel.headerFont, size: 30)).foregroundColor(appModel.headerColor)
+                    Spacer()
+                    Text(appModel.headerCase.apply(to:"Add Event")).font(Font.custom(appModel.headerFont, size: 30)).foregroundColor(appModel.headerColor)
+                  
                     
+                }.background(.clear)
+                Section(header: Text("Event Details")) {
+                    TextField("Add Event (e.g., Dinner with mom on Saturday at 5 PM)", text: $userInput, onEditingChanged: { _ in
+                        parseInput()
+                    }, onCommit: parseInput)
+                    if let date = startDate {
+                        Text("Event: \(eventTitle) on \(date, style: .date) at \(date, style: .time)")
+                    }
+                    TextField("Location", text: $eventLocation)
+                    Toggle("All Day Event", isOn: $isAllDay)
                     if !isAllDay {
-                        DatePicker("Start Date", selection: $startDate, displayedComponents: [.date, .hourAndMinute])
-                        DatePicker("End Date", selection: $endDate, displayedComponents: [.date, .hourAndMinute])
+                        DatePicker("Start Date", selection: nonOptionalBinding($startDate, defaultValue: Date()), displayedComponents: isAllDay ? .date : [.date, .hourAndMinute])
+                        DatePicker("End Date", selection: nonOptionalBinding($endDate, defaultValue: Date()), displayedComponents: [.date, .hourAndMinute])
                     } else {
-                        DatePicker("Start Date", selection: $startDate, displayedComponents: .date)
+                        DatePicker("Start Date", selection: nonOptionalBinding($startDate, defaultValue: Date()), displayedComponents: isAllDay ? .date : [.date, .hourAndMinute])
                     }
-                   
-                    Toggle(isOn: $isAllDay) {
-                        Text("All Day Event")
-                    }
-                    Section(header: Text("Calendar")) {
-                        Picker("Select Calendar", selection: $selectedCalendar) {
-                            ForEach(eventStore.calendars(for: .event), id: \.self) { calendar in
-                                Text(calendar.title).tag(calendar as EKCalendar?)
-                            }
+                }
+
+                Section(header: Text("Calendar")) {
+                    Picker("Select Calendar", selection: $selectedCalendar) {
+                        ForEach(eventStore.calendars(for: .event), id: \.self) { calendar in
+                            Text(calendar.title).tag(calendar as EKCalendar?)
                         }
                     }
-
-                    
-                    
-                    TextField("URL", text: $eventURL)
-                    TextField("Notes", text: $eventNotes)
                 }
-                
+
+                TextField("URL", text: $eventURL)
+                TextField("Notes", text: $eventNotes)
 
                 Section(header: Text("Recurrence")) {
                     RecurrenceRuleView(selectedRecurrence: $selectedRecurrence)
                 }
 
                 Section(header: Text("Availability")) {
-                                    Picker("Availability", selection: $eventAvailability) {
-                                        Text("Busy").tag(EKEventAvailability.busy)
-                                        Text("Free").tag(EKEventAvailability.free)
-                                        }
-                                    
-                                }
+                    Picker("Availability", selection: $eventAvailability) {
+                        Text("Busy").tag(EKEventAvailability.busy)
+                        Text("Free").tag(EKEventAvailability.free)
+                    }
+                }
+
                 Section(header: Text("Alarms")) {
-                    
-                    Button(action: {
-                            showAlarmOptions = true
-                        }) {
-                            Text("Add Alarm")
-                        }
-                        .actionSheet(isPresented: $showAlarmOptions) {
-                            ActionSheet(title: Text("Select time before event"), buttons: alarmOptions)
-                        }
+                    Button("Add Alarm") {
+                        showAlarmOptions = true
+                    }
+                    .actionSheet(isPresented: $showAlarmOptions) {
+                        ActionSheet(title: Text("Select time before event"), buttons: alarmOptions)
+                    }
                     ForEach(alarms, id: \.self) { alarm in
                         Text("\(alarm.description)")
                     }
                     .onDelete(perform: deleteAlarm)
                 }
-                Button("Save") {
-                    if isAllDay == true {
-                        let calendar = Calendar.current
-                        startDate = calendar.date(bySettingHour: 0, minute: 0, second: 0, of: startDate)!
-                        endDate = calendar.date(bySettingHour: 23, minute: 59, second: 59, of: startDate)!
-                    }
-                    saveEventToStore()
-                    print("New Event Created: \(eventTitle)  \(startDate) \(endDate)  \(eventLocation)  \(eventURL)  \(eventNotes)  \(eventAvailability.description) \(isAllDay)  \(selectedRecurrence) \(alarms.description)")
-                    presentationMode.wrappedValue.dismiss()
-                }
-                
-            }.frame(minWidth: 400, minHeight:800)
-                .onAppear(perform: fetchCalendars)
-                
-            
+
+               
+            }
+        }.scrollContentBackground(.hidden)
+            .background(.defaultWhite)
+        .onAppear(perform: fetchCalendars)
+    }
+
+    
+    func nonOptionalBinding<T>(_ binding: Binding<T?>, defaultValue: T) -> Binding<T> {
+        Binding<T>(
+            get: { binding.wrappedValue ?? defaultValue },
+            set: { binding.wrappedValue = $0 }
+        )
+    }
+
+    func parseInput() {
+            let dates = try? NSDataDetector(types: NSTextCheckingResult.CheckingType.date.rawValue)
+            if let matches = dates?.matches(in: userInput, options: [], range: NSRange(location: 0, length: userInput.utf16.count)),
+               let match = matches.first {
+                startDate = match.date
+                endDate = startDate?.addingTimeInterval(3600) // Default to one hour later
+                let dateRange = Range(match.range, in: userInput)!
+                eventTitle = String(userInput[..<dateRange.lowerBound]).trimmingCharacters(in: .whitespacesAndNewlines)
+            } else {
+                // No date found, consider everything as potential title
+                eventTitle = userInput
+            }
         }
-    }
 
-    var cancelButton: some View {
-        Button("Cancel") {
-            presentationMode.wrappedValue.dismiss()
-        }
-    }
-
-    func fetchCalendars() {
-        let calendars = eventStore.calendars(for: .event) // Fetches all calendars that can have events
-        if let firstCalendar = calendars.first {
-            selectedCalendar = firstCalendar // Default to the first calendar if available
-        }
-    }
-    var alarmOptions: [ActionSheet.Button] {
-        let buttons: [ActionSheet.Button] = [
-            .default(Text("At time of event")) { addAlarm(minutesBefore: 0) },
-            .default(Text("5 minutes before")) { addAlarm(minutesBefore: 5) },
-            .default(Text("15 minutes before")) { addAlarm(minutesBefore: 15) },
-            .default(Text("30 minutes before")) { addAlarm(minutesBefore: 30) },
-            .default(Text("1 hour before")) { addAlarm(minutesBefore: 60) },
-            .default(Text("2 hours before")) { addAlarm(minutesBefore: 120) },
-            .default(Text("1 day before")) { addAlarm(minutesBefore: 1440) },
-            .default(Text("2 days before")) { addAlarm(minutesBefore: 2880) },
-            .cancel()
-        ]
-        return buttons
-    }
-
-    func addAlarm(minutesBefore: Int) {
-        let alarm = EKAlarm(relativeOffset: TimeInterval(-minutesBefore * 60))
-        alarms.append(alarm)
-
-    }
-    func deleteAlarm(at offsets: IndexSet) {
-        alarms.remove(atOffsets: offsets)
-    }
+        
     func saveEventToStore() {
         let event = EKEvent(eventStore: eventStore)
         event.title = eventTitle
@@ -181,6 +159,55 @@ struct AddEventView: View {
             print("Error saving event: \(error)")
         }
     }
+
+
+    var cancelButton: some View {
+        Button("Cancel") {
+            presentationMode.wrappedValue.dismiss()
+        }
+    }
+
+    func fetchCalendars() {
+        let calendars = eventStore.calendars(for: .event) // Fetches all calendars that can have events
+        if let firstCalendar = calendars.first {
+            selectedCalendar = firstCalendar // Default to the first calendar if available
+        }
+    }
+    
+   
+    
+   
+
+
+
+
+
+
+    
+    var alarmOptions: [ActionSheet.Button] {
+        let buttons: [ActionSheet.Button] = [
+            .default(Text("At time of event")) { addAlarm(minutesBefore: 0) },
+            .default(Text("5 minutes before")) { addAlarm(minutesBefore: 5) },
+            .default(Text("15 minutes before")) { addAlarm(minutesBefore: 15) },
+            .default(Text("30 minutes before")) { addAlarm(minutesBefore: 30) },
+            .default(Text("1 hour before")) { addAlarm(minutesBefore: 60) },
+            .default(Text("2 hours before")) { addAlarm(minutesBefore: 120) },
+            .default(Text("1 day before")) { addAlarm(minutesBefore: 1440) },
+            .default(Text("2 days before")) { addAlarm(minutesBefore: 2880) },
+            .cancel()
+        ]
+        return buttons
+    }
+
+    func addAlarm(minutesBefore: Int) {
+        let alarm = EKAlarm(relativeOffset: TimeInterval(-minutesBefore * 60))
+        alarms.append(alarm)
+
+    }
+    func deleteAlarm(at offsets: IndexSet) {
+        alarms.remove(atOffsets: offsets)
+    }
+
 
 
     
@@ -239,3 +266,16 @@ extension EKAlarm {
 
 
 
+extension NLTagger {
+    static func parseDate(from string: Substring) -> Date? {
+        let detector = try? NSDataDetector(types: NSTextCheckingResult.CheckingType.date.rawValue)
+        let matches = detector?.matches(in: String(string), options: [], range: NSRange(location: 0, length: string.utf16.count))
+        return matches?.first?.date
+    }
+}
+
+
+#Preview {
+    AddEventView(eventStore: EKEventStore())
+        .environmentObject(AppModel())
+}

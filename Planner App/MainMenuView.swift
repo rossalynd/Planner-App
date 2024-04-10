@@ -11,6 +11,7 @@ struct MainMenuView: View {
     @EnvironmentObject var appModel: AppModel
     @Binding var isMenuVisible: Bool
     @State var smallSpaceTop = "Calendar"
+    @State private var activeLink: String?
     
     var body: some View {
         VStack(alignment: .leading) {
@@ -23,16 +24,17 @@ struct MainMenuView: View {
                 VStack(spacing:15) {
                     SpaceView(type: smallSpaceTop, scale: .small, layoutType: .elsePortrait).frame(maxHeight: 230).padding([.top, .leading, .trailing]).padding(.top, 30)
                     
-                    NavigationStack{
-                        NavigationLink {MiniMonthCalendarView(scale: .large, layoutType: .elsePortrait, appModel: appModel)} label: {Text("Calendar")}
-                        NavigationLink {TimelineView(layoutType: .elsePortrait, scale: .large, date: appModel.displayedDate)} label: {Text("Timeline")}
-                        NavigationLink {YearlyMoodView()} label: {Text("Yearly Mood")}
-                            
-                        
-                       
-                        Text("Menu Item One")
-                        Text("Menu Item One")
-                        
+                   VStack {
+                       Button("Planner", action: {
+                           appModel.mainView = "Planner"
+                       })
+                       Button("Wellbeing", action: {
+                           appModel.mainView = "Wellbeing"
+                       })
+                       Button("Timeline", action: {
+                           appModel.mainView = "Timeline"
+                       })
+                      
                     }.frame(maxWidth: .infinity).padding().background(Color("DefaultWhite")).clipShape(RoundedRectangle(cornerRadius: appModel.moduleCornerRadius)).padding(.horizontal)
                     Spacer()
                 }

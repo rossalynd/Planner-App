@@ -34,7 +34,8 @@ struct SpaceView: View {
                     HStack {
                         if type != "Calendar" {
                             HStack {
-                                Text(type.uppercased()).font(Font.custom("\(appModel.headerFont)", size: 20))
+                                
+                                Text(appModel.headerCase.apply(to:type)).font(Font.custom("\(appModel.headerFont)", size: 20)).foregroundColor(appModel.headerColor)
                                     
                             }.frame(maxHeight: 30)
                             .onLongPressGesture(perform:{
@@ -42,10 +43,10 @@ struct SpaceView: View {
                             })
                         } else {
                             HStack {
-                                Text(appModel.displayedDate.monthName)
-                                    .textCase(.uppercase).font(Font.custom("\(appModel.headerFont)", size: 20))
-                                Text(appModel.displayedDate.year).font(Font.custom("\(appModel.headerFont)", size: 20))
-                            }  
+                                Text(appModel.headerCase.apply(to: appModel.displayedDate.monthName))
+                                    .font(Font.custom("\(appModel.headerFont)", size: 20)).foregroundColor(appModel.headerColor)
+                                Text(appModel.headerCase.apply(to: appModel.displayedDate.year)).font(Font.custom("\(appModel.headerFont)", size: 20)).foregroundColor(appModel.headerColor)
+                            }
                             .onLongPressGesture(perform:{
                                 showingAssignView = true
                             })
@@ -72,6 +73,10 @@ struct SpaceView: View {
                         WaterView()
                     } else if type == "Meals" {
                         MealsView()
+                    } else if type == "Timeline (Vertical)" {
+                        TimelineView(layoutType: layoutType, scale: scale)
+                    } else if type == "Timeline (Horizontal)" {
+                        HorizontalTimelineView(layoutType: layoutType, scale: scale, date: appModel.displayedDate)
                     } else {
                         Text("No view to display")
                     }

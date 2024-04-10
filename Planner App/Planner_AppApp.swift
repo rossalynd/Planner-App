@@ -20,7 +20,7 @@ struct Planner_App: App {
             ContentView()
                 .environmentObject(AppModel())
                 .environmentObject(TasksUpdateNotifier())
-                .modelContainer(for: MoodEntry.self)
+                .modelContainer(for: [MoodEntry.self, Note.self])
                 
                 
         }

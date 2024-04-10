@@ -4,6 +4,7 @@ import SwiftUI
 import UIKit
 #endif
 import PencilKit
+import SwiftData
 
 extension PKDrawing {
     static func loadFromUserDefaults(for date: Date) -> PKDrawing {
@@ -80,6 +81,10 @@ struct CanvasView: UIViewRepresentable {
 
 struct NotesView: View {
     @EnvironmentObject var appModel: AppModel
+    @Environment(\.modelContext) private var modelContext
+    @Environment(\.undoManager) private var undoManager
+    @Environment(\.scenePhase) private var scenePhase
+    @Query(sort: \Note.dateCreated) private var notes: [Note]
     @State private var drawing = PKDrawing()
     @State private var tool: PKTool = PKInkingTool(.monoline, color: .black, width: 0.5) // Default tool
     @State private var penWidth: CGFloat = 0.5
@@ -88,8 +93,7 @@ struct NotesView: View {
     @State private var showEraserMenu = false
     @State private var isMenuVisible = false
     @State private var currentDisplayedDate: Date
-    @State private var undoStack: [PKDrawing] = []
-    @State private var redoStack: [PKDrawing] = []
+
 
 
 
@@ -97,54 +101,78 @@ struct NotesView: View {
            _currentDisplayedDate = State(initialValue: AppModel().displayedDate) // Initialize with your default or current date
        }
     
-    private func captureForUndo() {
-            undoStack.append(drawing)
- 
+    func findNoteByDate(notes: [Note], targetDate: Date) -> Note? {
+        let calendar = Calendar.current
+        let filteredNotes = notes.filter { note in
+            calendar.isDate(note.dateCreated, inSameDayAs: targetDate)
         }
-
-    private func undo() {
-        guard !undoStack.isEmpty else { return }
-        var lastState = undoStack.removeLast()
-        if !undoStack.isEmpty{
-            lastState = undoStack.removeLast()
-            redoStack.append(drawing) // Move current drawing to redo stack before undoing
-            drawing = lastState
-        }
+        return filteredNotes.sorted { $0.dateModified < $1.dateModified }.last
     }
 
-    private func redo() {
-        guard !redoStack.isEmpty else { return }
-        let nextState = redoStack.removeLast()
-        undoStack.append(drawing) // Move current drawing to undo stack before redoing
-
-        drawing = nextState
-    }
+    
     
     var body: some View {
         GeometryReader { geometry in
             ZStack {
                 CanvasView(drawing: $drawing, tool: $tool, isMenuVisible: $isMenuVisible)
-                    .edgesIgnoringSafeArea(.all)
-                    .border(Color(hue: 1.0, saturation: 0.01, brightness: 0.546, opacity: 0.553), width: /*@START_MENU_TOKEN@*/1/*@END_MENU_TOKEN@*/)
-                    .onAppear {
-                        DispatchQueue.main.async {
-                            drawing = PKDrawing.loadFromUserDefaults(for: appModel.displayedDate)
-                            currentDisplayedDate = appModel.displayedDate
-                        }
-                    }
-                    .onChange(of: appModel.displayedDate) { oldDate, newDate in
-                        DispatchQueue.main.async {
-                            guard newDate != currentDisplayedDate else { return }
-                            drawing.saveToUserDefaults(for: currentDisplayedDate) // Save drawing for the old/current date
-                            drawing = PKDrawing.loadFromUserDefaults(for: newDate) // Load drawing for the new date
-                            currentDisplayedDate = newDate // Update the current date tracker
-                            redoStack.removeAll() // Clear redo stack whenever a new drawing is added
-                            undoStack.removeAll() // Clear undo stack whenever a new drawing is added
-                        }
-                    }
-                    .onChange(of: drawing) {
-                                captureForUndo()
+                            .edgesIgnoringSafeArea(.all)
+                            .border(Color(hue: 1.0, saturation: 0.01, brightness: 0.546, opacity: 0.553), width: 1)
+                            .onAppear {
+                               
+                                DispatchQueue.main.async {
+                                    if let drawingData = findNoteByDate(notes: notes, targetDate: appModel.displayedDate)?.data {
+                                        do {
+                                            drawing = try PKDrawing(data: drawingData)
+                                        } catch {
+                                            print("Failed to convert Data back to PKDrawing: \(error)")
+                                            drawing = PKDrawing()  // Use an empty PKDrawing as a fallback
+                                        }
+                                    } else {
+                                        drawing = PKDrawing()  // Use an empty PKDrawing if no note was found
+                                    }
+                                    currentDisplayedDate = appModel.displayedDate
+                                }
                             }
+                            .onChange(of: appModel.displayedDate) { oldDate, newDate in
+                                DispatchQueue.main.async {
+                                    let drawingData = drawing.dataRepresentation()
+                                    modelContext.insert(Note(data: drawingData, dateCreated: oldDate, dateModified: Date(), tags: ["SpaceView"]))
+                                    print("Saved drawing to \(oldDate) with data size: \(drawingData.count) bytes")
+                                    currentDisplayedDate = newDate
+                                    print("currentDisplayedDate changed to \(newDate) from \(oldDate)")
+
+                                    if let drawingData = findNoteByDate(notes: notes, targetDate: currentDisplayedDate)?.data {
+                                        do {
+                                            drawing = try PKDrawing(data: drawingData)
+                                            print("Loaded drawing for \(currentDisplayedDate)")
+                                        } catch {
+                                            print("Failed to convert Data back to PKDrawing: \(error)")
+                                            drawing = PKDrawing()  // Use an empty PKDrawing as a fallback
+                                        }
+                                    } else {
+                                        print("No drawing data found for \(currentDisplayedDate)")
+                                        drawing = PKDrawing()  // Use an empty PKDrawing if no note was found
+                                    }
+                                }
+                            }
+
+                    .onChange(of: scenePhase) { oldPhase, newPhase in
+                                    switch newPhase {
+                                    case .background:
+                                        print("App is in background")
+                                        let drawingData = drawing.dataRepresentation()
+                                        modelContext.insert(Note(data: drawingData, dateCreated: currentDisplayedDate, dateModified: Date(), tags: ["SpaceView"]))
+                                    case .inactive:
+                                        print("App has become inactive")
+                                        let drawingData = drawing.dataRepresentation()
+                                        modelContext.insert(Note(data: drawingData, dateCreated: currentDisplayedDate, dateModified: Date(), tags: ["SpaceView"]))
+                                    case .active:
+                                        print("App is active")
+                                    default:
+                                        break
+                                    }
+                                }
+                    
 
                 VStack {
                     Spacer()
@@ -189,18 +217,19 @@ struct NotesView: View {
                     //End Eraser Slider
                     HStack {
                         HStack {
-                                                Button(action: undo) {
-                                                    Image(systemName: "arrow.uturn.backward.circle.fill")
-                                                        
-                                                }.foregroundColor(Color.black).font(.title).background(.white).clipShape(Circle()).shadow(radius: 2, x: 3, y: 3)
-                                                .disabled(undoStack.isEmpty)
-
-                                                Button(action: redo) {
-                                                    Image(systemName: "arrow.uturn.forward.circle.fill")
-                                                        
-                                                }.foregroundColor(Color.black).font(.title).background(.white).clipShape(Circle()).shadow(radius: 2, x: 3, y: 3)
-                                                .disabled(redoStack.isEmpty)
-                                            }
+                            Button( action: {undoManager?.undo()} ) {
+                                Image(systemName: "arrow.uturn.backward.circle.fill")
+                                
+                            }.foregroundColor(Color.black).font(.title).background(.white).clipShape(Circle()).shadow(radius: 2, x: 3, y: 3)
+                            
+                            
+                            Button(action: {undoManager?.redo()} ) {
+                                Image(systemName: "arrow.uturn.forward.circle.fill")
+                                
+                            }.foregroundColor(Color.black).font(.title).background(.white).clipShape(Circle()).shadow(radius: 2, x: 3, y: 3)
+                            
+                        }
+                                            
                         
                             // Pencil Button
                             Button(action: {

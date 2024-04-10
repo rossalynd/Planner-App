@@ -70,6 +70,7 @@
 		010E34742BC078E700F67E4F /* Super Carbon.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 010E344B2BC078E700F67E4F /* Super Carbon.ttf */; };
 		010E34752BC078E700F67E4F /* Freshman.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 010E344C2BC078E700F67E4F /* Freshman.ttf */; };
 		010E34772BC07BCD00F67E4F /* FontsList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 010E34762BC07BCD00F67E4F /* FontsList.swift */; };
+		010E34792BC0B2DB00F67E4F /* ImageColors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 010E34782BC0B2DB00F67E4F /* ImageColors.swift */; };
 		011DEC502BAF048100B2249F /* DayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 011DEC4F2BAF048100B2249F /* DayView.swift */; };
 		011DEC542BAF0A9D00B2249F /* SpaceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 011DEC532BAF0A9D00B2249F /* SpaceView.swift */; };
 		011DEC582BAF0C0D00B2249F /* ScheduleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 011DEC572BAF0C0D00B2249F /* ScheduleView.swift */; };
@@ -83,6 +84,9 @@
 		0125144B2BB8A29B009C3E66 /* LayoutTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0125144A2BB8A29B009C3E66 /* LayoutTypes.swift */; };
 		012514512BB98E37009C3E66 /* ImageExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 012514502BB98E37009C3E66 /* ImageExtension.swift */; };
 		012D05522BBC9B4800202E0C /* YearlyMoodView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 012D05512BBC9B4800202E0C /* YearlyMoodView.swift */; };
+		012D9F3C2BC34DC9003E0246 /* EventExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 012D9F3B2BC34DC9003E0246 /* EventExtension.swift */; };
+		012D9F3E2BC35A07003E0246 /* Monthly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 012D9F3D2BC35A07003E0246 /* Monthly.swift */; };
+		012D9F402BC43E55003E0246 /* TimelineHorizontal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 012D9F3F2BC43E55003E0246 /* TimelineHorizontal.swift */; };
 		0134A97C2BACA44300D5BB5C /* Planner_AppApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0134A97B2BACA44300D5BB5C /* Planner_AppApp.swift */; };
 		0134A97E2BACA44300D5BB5C /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0134A97D2BACA44300D5BB5C /* ContentView.swift */; };
 		0134A9822BACA44400D5BB5C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0134A9812BACA44400D5BB5C /* Assets.xcassets */; };
@@ -107,6 +111,9 @@
 		0185CBC82BB5EFBB00F7A2EC /* MoodModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0185CBC72BB5EFBB00F7A2EC /* MoodModel.swift */; };
 		0185CBCA2BB5F14D00F7A2EC /* Moods.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0185CBC92BB5F14D00F7A2EC /* Moods.xcassets */; };
 		0185CBCC2BB7ACF100F7A2EC /* NotesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0185CBCB2BB7ACF100F7A2EC /* NotesViewModel.swift */; };
+		01CFF6672BC5A86C005D6697 /* Note.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01CFF6662BC5A86C005D6697 /* Note.swift */; };
+		01CFF6692BC5AA05005D6697 /* UTType+Notes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01CFF6682BC5AA05005D6697 /* UTType+Notes.swift */; };
+		01CFF66B2BC6F85D005D6697 /* AllDayEvents.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01CFF66A2BC6F85D005D6697 /* AllDayEvents.swift */; };
 		01D23BC02BAFA159009F364A /* Colors.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 01D23BBF2BAFA159009F364A /* Colors.xcassets */; };
 		01DC669D2BBE41240053E2B7 /* SeamlessPattern.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01DC669C2BBE41240053E2B7 /* SeamlessPattern.swift */; };
 		01DC66A12BBE47E00053E2B7 /* CreateSeamlessPattern.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01DC66A02BBE47E00053E2B7 /* CreateSeamlessPattern.swift */; };
@@ -208,6 +215,7 @@
 		010E344B2BC078E700F67E4F /* Super Carbon.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Super Carbon.ttf"; sourceTree = "<group>"; };
 		010E344C2BC078E700F67E4F /* Freshman.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Freshman.ttf; sourceTree = "<group>"; };
 		010E34762BC07BCD00F67E4F /* FontsList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FontsList.swift; sourceTree = "<group>"; };
+		010E34782BC0B2DB00F67E4F /* ImageColors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageColors.swift; sourceTree = "<group>"; };
 		011DEC4F2BAF048100B2249F /* DayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DayView.swift; sourceTree = "<group>"; };
 		011DEC532BAF0A9D00B2249F /* SpaceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpaceView.swift; sourceTree = "<group>"; };
 		011DEC552BAF0BFC00B2249F /* MoodView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoodView.swift; sourceTree = "<group>"; };
@@ -222,6 +230,9 @@
 		0125144A2BB8A29B009C3E66 /* LayoutTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LayoutTypes.swift; sourceTree = "<group>"; };
 		012514502BB98E37009C3E66 /* ImageExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageExtension.swift; sourceTree = "<group>"; };
 		012D05512BBC9B4800202E0C /* YearlyMoodView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YearlyMoodView.swift; sourceTree = "<group>"; };
+		012D9F3B2BC34DC9003E0246 /* EventExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventExtension.swift; sourceTree = "<group>"; };
+		012D9F3D2BC35A07003E0246 /* Monthly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Monthly.swift; sourceTree = "<group>"; };
+		012D9F3F2BC43E55003E0246 /* TimelineHorizontal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimelineHorizontal.swift; sourceTree = "<group>"; };
 		0134A9782BACA44300D5BB5C /* Planner App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Planner App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		0134A97B2BACA44300D5BB5C /* Planner_AppApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Planner_AppApp.swift; sourceTree = "<group>"; };
 		0134A97D2BACA44300D5BB5C /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -251,6 +262,9 @@
 		0185CBC72BB5EFBB00F7A2EC /* MoodModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoodModel.swift; sourceTree = "<group>"; };
 		0185CBC92BB5F14D00F7A2EC /* Moods.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Moods.xcassets; sourceTree = "<group>"; };
 		0185CBCB2BB7ACF100F7A2EC /* NotesViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotesViewModel.swift; sourceTree = "<group>"; };
+		01CFF6662BC5A86C005D6697 /* Note.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Note.swift; sourceTree = "<group>"; };
+		01CFF6682BC5AA05005D6697 /* UTType+Notes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UTType+Notes.swift"; sourceTree = "<group>"; };
+		01CFF66A2BC6F85D005D6697 /* AllDayEvents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllDayEvents.swift; sourceTree = "<group>"; };
 		01D23BBE2BAF99FA009F364A /* Planner-App-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "Planner-App-Info.plist"; sourceTree = SOURCE_ROOT; };
 		01D23BBF2BAFA159009F364A /* Colors.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Colors.xcassets; sourceTree = "<group>"; };
 		01DC669C2BBE41240053E2B7 /* SeamlessPattern.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeamlessPattern.swift; sourceTree = "<group>"; };
@@ -315,6 +329,7 @@
 				012514502BB98E37009C3E66 /* ImageExtension.swift */,
 				01478CBB2BBA2215002A57AD /* LongPressGesture.swift */,
 				01444F352BBAFD3E00BDB35B /* ViewExtension.swift */,
+				012D9F3B2BC34DC9003E0246 /* EventExtension.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -333,13 +348,13 @@
 				0100EAE92BB3868700734275 /* iPhoneDayView.swift */,
 				0100EB142BB5D7D600734275 /* iPhoneWeekView.swift */,
 				0100EB162BB5D7EC00734275 /* WeekView.swift */,
+				012D9F3D2BC35A07003E0246 /* Monthly.swift */,
 				011DEC4F2BAF048100B2249F /* DayView.swift */,
 				011DEC532BAF0A9D00B2249F /* SpaceView.swift */,
 				0100EB102BB5D76D00734275 /* PortraitView.swift */,
 				0100EB122BB5D79D00734275 /* LandscapeView.swift */,
 				0125144A2BB8A29B009C3E66 /* LayoutTypes.swift */,
 				01478CB92BBA1FED002A57AD /* CanvasView.swift */,
-				01DD37262BBB4E3E00C3AD63 /* TimelineView.swift */,
 			);
 			path = Layouts;
 			sourceTree = "<group>";
@@ -365,6 +380,7 @@
 				0100EAFF2BB4BCB300734275 /* Patterns */,
 				0100EB062BB4BEAE00734275 /* Beige.swift */,
 				0100EB082BB4BEB600734275 /* Custom.swift */,
+				010E34782BC0B2DB00F67E4F /* ImageColors.swift */,
 			);
 			path = Backgrounds;
 			sourceTree = "<group>";
@@ -440,6 +456,9 @@
 		0134A9B02BACFD2700D5BB5C /* Modules */ = {
 			isa = PBXGroup;
 			children = (
+				01CFF6652BC5A856005D6697 /* Notes */,
+				01DD37262BBB4E3E00C3AD63 /* TimelineView.swift */,
+				012D9F3F2BC43E55003E0246 /* TimelineHorizontal.swift */,
 				0185CBC62BB5EFAF00F7A2EC /* Mood */,
 				0185CBC52BB5EFA500F7A2EC /* Sliders */,
 				0134A9B32BAD1AA700D5BB5C /* AddModuleView.swift */,
@@ -449,9 +468,9 @@
 				0134A9AE2BACC7A900D5BB5C /* MiniMonthCalendarView.swift */,
 				0134A9B52BAD1B4900D5BB5C /* ModuleNames.swift */,
 				011DEC652BAF2E3800B2249F /* Modules.swift */,
-				011DEC552BAF0BFC00B2249F /* MoodView.swift */,
 				011DEC5F2BAF0C9A00B2249F /* NotesView.swift */,
 				011DEC572BAF0C0D00B2249F /* ScheduleView.swift */,
+				01CFF66A2BC6F85D005D6697 /* AllDayEvents.swift */,
 				016B52EE2BB1D05D007DC286 /* EventInfoView.swift */,
 				0135C3BD2BAF7C2300D60E30 /* VerticalSlider.swift */,
 				DC0FB8402BB090F600DB4ABB /* HorizontalSlider.swift */,
@@ -486,9 +505,19 @@
 			children = (
 				0185CBC72BB5EFBB00F7A2EC /* MoodModel.swift */,
 				0185CBC92BB5F14D00F7A2EC /* Moods.xcassets */,
+				011DEC552BAF0BFC00B2249F /* MoodView.swift */,
 				012D05512BBC9B4800202E0C /* YearlyMoodView.swift */,
 			);
 			path = Mood;
+			sourceTree = "<group>";
+		};
+		01CFF6652BC5A856005D6697 /* Notes */ = {
+			isa = PBXGroup;
+			children = (
+				01CFF6662BC5A86C005D6697 /* Note.swift */,
+				01CFF6682BC5AA05005D6697 /* UTType+Notes.swift */,
+			);
+			path = Notes;
 			sourceTree = "<group>";
 		};
 		01DC66982BBDB29B0053E2B7 /* Fonts */ = {
@@ -745,10 +774,12 @@
 				01DC66A12BBE47E00053E2B7 /* CreateSeamlessPattern.swift in Sources */,
 				01DC669D2BBE41240053E2B7 /* SeamlessPattern.swift in Sources */,
 				011DEC662BAF2E3800B2249F /* Modules.swift in Sources */,
+				012D9F3C2BC34DC9003E0246 /* EventExtension.swift in Sources */,
 				0100EAFE2BB48E5500734275 /* SettingsView.swift in Sources */,
 				016B52F32BB1F62E007DC286 /* AddEventView.swift in Sources */,
 				011DEC502BAF048100B2249F /* DayView.swift in Sources */,
 				0100EB0D2BB4C1BB00734275 /* SpacedPattern.swift in Sources */,
+				01CFF66B2BC6F85D005D6697 /* AllDayEvents.swift in Sources */,
 				011DEC5E2BAF0C7B00B2249F /* GratitudeView.swift in Sources */,
 				0100EB152BB5D7D600734275 /* iPhoneWeekView.swift in Sources */,
 				0100EAF12BB46DDE00734275 /* ColorPicker.swift in Sources */,
@@ -757,6 +788,7 @@
 				01478CBC2BBA2215002A57AD /* LongPressGesture.swift in Sources */,
 				01444F342BBAFABA00BDB35B /* AppModel.swift in Sources */,
 				0125144B2BB8A29B009C3E66 /* LayoutTypes.swift in Sources */,
+				01CFF6672BC5A86C005D6697 /* Note.swift in Sources */,
 				0185CBC82BB5EFBB00F7A2EC /* MoodModel.swift in Sources */,
 				0134A9B62BAD1B4900D5BB5C /* ModuleNames.swift in Sources */,
 				0134A9AF2BACC7A900D5BB5C /* MiniMonthCalendarView.swift in Sources */,
@@ -765,6 +797,8 @@
 				0100EB112BB5D76D00734275 /* PortraitView.swift in Sources */,
 				0100EB052BB4BE9800734275 /* BluePurple.swift in Sources */,
 				0134A9B42BAD1AA700D5BB5C /* AddModuleView.swift in Sources */,
+				01CFF6692BC5AA05005D6697 /* UTType+Notes.swift in Sources */,
+				010E34792BC0B2DB00F67E4F /* ImageColors.swift in Sources */,
 				0100EAEA2BB3868700734275 /* iPhoneDayView.swift in Sources */,
 				011DEC602BAF0C9A00B2249F /* NotesView.swift in Sources */,
 				012D05522BBC9B4800202E0C /* YearlyMoodView.swift in Sources */,
@@ -775,6 +809,7 @@
 				0100EB072BB4BEAE00734275 /* Beige.swift in Sources */,
 				01444F362BBAFD3E00BDB35B /* ViewExtension.swift in Sources */,
 				016B52F12BB1D89D007DC286 /* MainMenuView.swift in Sources */,
+				012D9F402BC43E55003E0246 /* TimelineHorizontal.swift in Sources */,
 				0135C3BE2BAF7C2300D60E30 /* VerticalSlider.swift in Sources */,
 				016B52EF2BB1D05D007DC286 /* EventInfoView.swift in Sources */,
 				011DEC642BAF0CEC00B2249F /* MealsView.swift in Sources */,
@@ -783,6 +818,7 @@
 				010AB3322BBF3426007B3056 /* AppHeader.swift in Sources */,
 				0100EB132BB5D79D00734275 /* LandscapeView.swift in Sources */,
 				011DEC582BAF0C0D00B2249F /* ScheduleView.swift in Sources */,
+				012D9F3E2BC35A07003E0246 /* Monthly.swift in Sources */,
 				01478D032BBAEDCD002A57AD /* MoodView.swift in Sources */,
 				012514512BB98E37009C3E66 /* ImageExtension.swift in Sources */,
 				0100EB092BB4BEB600734275 /* Custom.swift in Sources */,

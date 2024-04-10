@@ -18,7 +18,13 @@ typealias PlatformColor = NSColor
 
 extension Color {
     
+
+        static func from(uiColor: UIColor?) -> Color {
+            guard let uiColor = uiColor else { return Color.black } // Default color if nil
+            return Color(uiColor)
+        }
     
+
     func toHex(alpha: Bool = false) -> String? {
         // Convert Color to PlatformColor (UIColor or NSColor)
         #if canImport(UIKit)

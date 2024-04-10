@@ -17,13 +17,18 @@ class AppModel: ObservableObject {
             self?.isLandscape = self?.isLandscapeOrientation ?? false
         }
         self.startOfWeek = loadStartOfWeek()
-        self.loadSettings()
         print("initiating app model")
     }
     
     //MENUS
     @Published var isCoverVisible: Bool = false
     @Published var isMenuVisible: Bool = false
+    
+    //VIEWS
+    
+    @Published var mainView: String = "Planner"
+    
+    
     //DATES
     @Published var displayedDate: Date = Date()
     @Published var startOfWeek: WeekStartDay = WeekStartDay.monday {
@@ -116,10 +121,35 @@ class AppModel: ObservableObject {
     @Published var backgroundType: BackgroundType = .bluePurpleGradient
     @Published var overlayType: OverlayType = .none
     @Published var backgroundImage: String = "celestial"
+    @Published var imageColors: ImageColors?
     @Published var photoBackgroundImage: UIImage?
     @Published var photoBackgroundPath: String?
     @Published var moduleCornerRadius: CGFloat = 20
+    @Published var moduleSpacing: Double = 20
     @Published var headerFont: String = ""
+    @Published var headerCase: HeaderCapitalization = .capitalized
+    @Published var headerColor: Color = .black
+    
+    
+    enum HeaderCapitalization: String, CaseIterable, Identifiable {
+        case capitalized = "Capitalized"
+        case uppercased = "Uppercase"
+        case lowercased = "Lowercase"
+        
+        var id: String { self.rawValue }
+
+        func apply(to string: String) -> String {
+            switch self {
+            case .capitalized:
+                return string.capitalized
+            case .uppercased:
+                return string.uppercased()
+            case .lowercased:
+                return string.lowercased()
+            }
+        }
+    }
+    
     enum BackgroundType: String, CaseIterable {
         case bluePurpleGradient = "Blue > Purple"
         case beige = "Beige"
@@ -173,17 +203,27 @@ class AppModel: ObservableObject {
                     print("No image name in UserDefaults")
                     return AnyView(Image(systemName: "questionmark"))
                 }
-
-                
-                
-                
-               
-                
             case .none:
                 return AnyView(Text(""))
                 
             }
         }
+    func analyzeAndSaveAssetImageColors(imageName: String) {
+        DispatchQueue.global(qos: .userInitiated).async {
+            guard let uiImage = UIImage(named: imageName) else {
+                print("Failed to load the image from assets with name \(imageName)")
+                return
+            }
+
+            let colors = analyzeImageColors(uiImage: uiImage)
+            DispatchQueue.main.async {
+                self.imageColors = colors // Update the UI on the main thread
+            }
+        }
+    }
+
+
+
 
     
    func saveSettings() {
@@ -208,14 +248,22 @@ class AppModel: ObservableObject {
         if let encodedSecondaryColor = try? NSKeyedArchiver.archivedData(withRootObject: UIColor(secondaryColor), requiringSecureCoding: false) {
             UserDefaults.standard.set(encodedSecondaryColor, forKey: "secondaryColor")
         }
+       if let encodedHeaderColor = try? NSKeyedArchiver.archivedData(withRootObject: UIColor(headerColor), requiringSecureCoding: false) {
+           UserDefaults.standard.set(encodedHeaderColor, forKey: "headerColor")
+       }
 
         // Save moduleCornerRadius
         UserDefaults.standard.set(moduleCornerRadius, forKey: "moduleCornerRadius")
        
+       // Save moduleSpacing
+       UserDefaults.standard.set(moduleSpacing, forKey: "moduleSpacing")
+       
        // Save Header Font
        UserDefaults.standard.set(headerFont, forKey: "headerFont")
+       UserDefaults.standard.set(headerCase.rawValue, forKey: "headerCase")
     }
 
+    
     
     
     func loadImageFromDocumentsDirectory() -> Image? {
@@ -229,50 +277,61 @@ class AppModel: ObservableObject {
     }
     
     
-    private func loadSettings() {
+    func loadSettings() {
         // Load BackgroundType
         if let backgroundTypeRawValue = UserDefaults.standard.string(forKey: "backgroundType"),
            let savedBackgroundType = BackgroundType(rawValue: backgroundTypeRawValue) {
             backgroundType = savedBackgroundType
         }
-
+        
         // Load OverlayType
         if let overlayTypeRawValue = UserDefaults.standard.string(forKey: "overlayType"),
            let savedOverlayType = OverlayType(rawValue: overlayTypeRawValue) {
             overlayType = savedOverlayType
         }
-
+        
         // Load backgroundImage
-         let backgroundImage = UserDefaults.standard.string(forKey: "backgroundImage")
-         
+        if let loadedBackgroundImage = UserDefaults.standard.string(forKey: "backgroundImage") {
+            backgroundImage = loadedBackgroundImage
+        }
+        
+        
         //Load Photo Background
         if let imageName = UserDefaults.standard.string(forKey: "photoBackgroundKey") {
             let fullPath = getDocumentsDirectory().appendingPathComponent(imageName).path
-            if FileManager.default.fileExists(atPath: fullPath), let uiImage = UIImage(contentsOfFile: fullPath) {
-                let photoBackgroundPath = UserDefaults.standard.string(forKey: "photoBackgroundKey")
+            if FileManager.default.fileExists(atPath: fullPath), let photoBackgroundImage = UIImage(contentsOfFile: fullPath) {
+                photoBackgroundPath = UserDefaults.standard.string(forKey: "photoBackgroundKey")
             }
         }
-
+        
         // Load Color
         if let colorData = UserDefaults.standard.data(forKey: "color"),
            let decodedColor = try? NSKeyedUnarchiver.unarchivedObject(ofClass: UIColor.self, from: colorData) {
             color = Color(decodedColor)
         }
-
+        
         // Load SecondaryColor
         if let secondaryColorData = UserDefaults.standard.data(forKey: "secondaryColor"),
            let decodedSecondaryColor = try? NSKeyedUnarchiver.unarchivedObject(ofClass: UIColor.self, from: secondaryColorData) {
             secondaryColor = Color(decodedSecondaryColor)
         }
-
+        
         // Load moduleCornerRadius
         moduleCornerRadius = CGFloat(UserDefaults.standard.double(forKey: "moduleCornerRadius"))
+        moduleSpacing = CGFloat(UserDefaults.standard.double(forKey: "moduleSpacing"))
         
         // Load Header Font
         if let loadedHeaderFont = UserDefaults.standard.string(forKey: "headerFont") {
             headerFont = loadedHeaderFont
         }
+        if let savedValue = UserDefaults.standard.string(forKey: "headerCase") {
+            self.headerCase = HeaderCapitalization(rawValue: savedValue) ?? .capitalized
+        }
         
+        if let headerColorData = UserDefaults.standard.data(forKey: "headerColor"),
+           let decodedHeaderColor = try? NSKeyedUnarchiver.unarchivedObject(ofClass: UIColor.self, from: headerColorData) {
+            headerColor = Color(decodedHeaderColor)
+        }
         
         print("Settings loaded")
     }

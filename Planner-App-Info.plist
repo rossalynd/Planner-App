@@ -2,6 +2,8 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key></key>
+	<string></string>
 	<key>CFBundleURLTypes</key>
 	<array>
 		<dict>
@@ -57,6 +59,10 @@
 		<string>Super Dream.ttf</string>
 		<string>Take Coffee.otf</string>
 		<string>Wiggly Curves.ttf</string>
+	</array>
+	<key>UIBackgroundModes</key>
+	<array>
+		<string></string>
 	</array>
 </dict>
 </plist>

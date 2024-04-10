@@ -50,9 +50,6 @@ struct TasksView: View {
                                     Button(action: {
                                         markTaskAsCompleted(reminder: item.task)
                                         loadTodaysReminders()
-                                        DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
-                                        loadTodaysRemindersWithOverDueWithoutCompleted()
-                                        }
                                     }) {
                                         Image(systemName: item.task.isCompleted ? "button.programmable" : "circle")
                                             .foregroundColor(item.task.isCompleted ? .black : .black)
@@ -183,6 +180,7 @@ struct TasksView: View {
                                         Button("Add Task", systemImage: "plus.circle.fill") {
                                             saveTask()
                                             loadTodaysRemindersWithOverDueWithoutCompleted()
+                                            showingAddTaskView = false
                                            
                                         }
                                         .labelStyle(.iconOnly)
@@ -236,15 +234,20 @@ struct TasksView: View {
     
     
     func markTaskAsCompleted(reminder: EKReminder) {
-        DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
-            reminder.isCompleted.toggle()
-            do {
-                try appModel.eventStore.save(reminder, commit: true)
-            } catch {
-                print("Error saving reminder: \(error.localizedDescription)")
+        reminder.isCompleted.toggle() // Toggle completion status
+        do {
+            try appModel.eventStore.save(reminder, commit: true) // Save the reminder
+            if let index = tasks.firstIndex(where: { $0.task.calendarItemIdentifier == reminder.calendarItemIdentifier }) {
+                tasks[index].task.isCompleted = reminder.isCompleted // Update the task in the array
             }
+            withAnimation {
+                loadTodaysReminders() // Reload reminders to reflect changes
+            }
+        } catch {
+            print("Error saving reminder: \(error.localizedDescription)")
         }
     }
+
      
     
     func deleteTask(taskToDelete: EKReminder) {

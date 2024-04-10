@@ -76,26 +76,27 @@ struct ChooseThemeView: View {
                 
             }
                 if appModel.overlayType == .backgroundImage {
-                    GeometryReader { geometry in
-                        HStack {
-                            Spacer()
-                            ScrollView(.vertical) {
-                                LazyVGrid(columns: Array(repeating: .init(.flexible(minimum: 100, maximum: 300), spacing: gridSpacing), count: columnCount), spacing: gridSpacing) {
-                                    ForEach(backgrounds, id: \.self) { background in
-                                        
-                                        Image(background).resizable(resizingMode: .stretch).border(appModel.backgroundImage == background ? .green : .clear, width: 2).frame(maxWidth: 100, maxHeight: 100).onTapGesture {
-                                            appModel.backgroundImage = background
-                                            print("Set background image to \(background)")
-                                            print("Background image is now \(appModel.backgroundImage)")
-                                            appModel.saveSettings()
-                                        }
+                    ScrollView(.vertical) {
+                        LazyVGrid(columns: Array(repeating: .init(.flexible(), spacing: gridSpacing), count: columnCount), spacing: gridSpacing) {
+                            ForEach(backgrounds, id: \.self) { background in
+                                Image(background).resizable()
+                                    .aspectRatio(contentMode: .fill)
+                                    .frame(width: 100, height: 100)
+                                    .clipped()
+                                    .border(appModel.backgroundImage == background ? Color.green : Color.clear, width: 2)
+                                    .onTapGesture {
+                                        appModel.backgroundImage = background
+                                        appModel.saveSettings()
                                     }
-                                }
-                            }.frame(maxWidth: geometry.size.width / 2, maxHeight: geometry.size.height / 5).scrollIndicators(.hidden)
-                            Spacer()
+                            }
                         }
-                    }
+                    }.frame(height: 200) // Adjust this height as necessary
+                   
+
+
+
                 }
+
 
                 if appModel.overlayType == .photoBackground {
                     
@@ -117,16 +118,51 @@ struct ChooseThemeView: View {
                     FontsList()
                     
                 }
+                HStack {
+                    Text("Header Color")
+                    Spacer()
+                    ColorPickerView(selectedColor: $appModel.headerColor)
+                        .onChange(of: appModel.headerColor) {
+                            appModel.saveSettings()
+                        }
+                }
+                HStack {
+                    Text("Header Capitalization")
+                    Spacer()
+                    Picker("Header Capitalization", selection: $appModel.headerCase) {
+                        ForEach(AppModel.HeaderCapitalization.allCases, id: \.self) { option in
+                                    Text(option.rawValue).tag(option)
+                                }
+                            }
+                            .pickerStyle(SegmentedPickerStyle())
+                            .onChange(of: appModel.headerCase) {
+                                appModel.saveSettings()
+                            }
+                }
                 DisclosureGroup("Advanced Settings", isExpanded: $expandAdvanced) {
                     HStack {
-                        Text("Module Corner Radius")
+                        Text("Corner Roundness")
                         Spacer()
-                        HorizontalSlider(value: $appModel.moduleCornerRadius, range: 0...50, onEditingChanged: { editing in
-                            appModel.saveSettings()
-                        }).padding(30)
+                        Slider(value: $appModel.moduleCornerRadius,
+                               in: 0...50,
+                               step: 1,
+                        minimumValueLabel: Text("0"),
+                        maximumValueLabel: Text("50"),
+                               label: {
+                            Text("Section Spacing")
+                        })
                     }
                     HStack {
-                        Text("")
+                        Text("Section Spacing")
+                        Spacer()
+                        Slider(value: $appModel.moduleSpacing,
+                               in: 0...30,
+                               step: 1,
+                        minimumValueLabel: Text("0"),
+                        maximumValueLabel: Text("30"),
+                               label: {
+                            Text("Section Spacing")
+                        })
                     }
                     
                 }

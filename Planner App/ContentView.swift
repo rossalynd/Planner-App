@@ -16,6 +16,7 @@ import SwiftUI
 struct ContentView: View {
     @Environment(\.modelContext) private var context
     @EnvironmentObject var appModel: AppModel
+    @State private var selectedTab: String = "monthly"
 
     init() {
         UITabBar.appearance().unselectedItemTintColor = UIColor.gray
@@ -67,37 +68,56 @@ struct ContentView: View {
                     
                     AppHeader()
                     
-                    
-                    TabView {
+                    if appModel.mainView == "Planner" {
                         
+                        TabView {
+                            VStack {
+                                if currentDeviceType() == .iPhone {
+                                    iPhoneDayView()
+                                } else {
+                                    DayView()
+                                }
+                            }
+                            .tabItem{
+                                Label("Daily", systemImage: "sun.max.fill")
+                                
+                            }.background(BackgroundHelper()).transition(.opacity)
+                            WeekView().padding(.bottom, 10)
+                                .tabItem{
+                                    Label("Weekly", systemImage: "chart.bar.xaxis")
+                                }.background(BackgroundHelper()).transition(.opacity)
+                            MonthlyView(scale: .large, layoutType: .elsePortrait, appModel: appModel)
+                                .tabItem{
+                                    Label("Monthly", systemImage: "calendar")
+                                }.background(BackgroundHelper()).transition(.opacity)
+                            YearlyMoodView()
+                                .tabItem{
+                                    Label("Yearly", systemImage: "globe.desk.fill")
+                                }.background(BackgroundHelper()).transition(.opacity)
+                        }.tint(appModel.headerColor).shadow(color: .black.opacity(0.2), radius: 5, x: 5, y: 5)
                         
-                        VStack {
-                            DayView()
-                      
-                        }
-                        .tabItem{
-                            Label("Daily", systemImage: "sun.max.fill")
+                    } else if appModel.mainView == "Wellbeing" {
+                        
+                        TabView {
+                           
+                                YearlyMoodView()
+                                .tabItem{
+                                    Label("Moods", systemImage: "sun.max.fill")
+                                }.background(BackgroundHelper()).transition(.opacity)
                             
-                        }.background(BackgroundHelper()).transition(.opacity)
-                        WeekView().padding(.bottom, 10)
-                            .tabItem{
-                                Label("Weekly", systemImage: "chart.bar.xaxis")
-                            }.background(BackgroundHelper()).transition(.opacity)
-                        MiniMonthCalendarView(scale: .large, layoutType: .elsePortrait, appModel: appModel)
-                            .tabItem{
-                                Label("Monthly", systemImage: "calendar")
-                            }.background(BackgroundHelper()).transition(.opacity)
-                        YearlyMoodView()
-                            .tabItem{
-                                Label("Yearly", systemImage: "globe.desk.fill")
-                            }.background(BackgroundHelper()).transition(.opacity)
+                            MiniMonthCalendarView(scale: .large, layoutType: .elsePortrait, appModel: appModel)
+                                .tabItem{
+                                    Label("Calendar", systemImage: "calendar")
+                                }.background(BackgroundHelper()).transition(.opacity)
+                            
+                               
+                        }.tint(.defaultWhite).shadow(color: .black.opacity(0.2), radius: 5, x: 5, y: 5)
                         
-                        
-                        
-                        
-                        
-                    }.tint(.defaultWhite).shadow(color: .black.opacity(0.2), radius: 5, x: 5, y: 5)
-                }.padding([.top, .leading, .trailing])
+                    } else {
+                        TimelineView(layoutType: .elsePortrait, scale: .large)
+                    }
+                    
+                }.padding([.leading, .trailing])
 
                 
 
@@ -160,14 +180,16 @@ struct ContentView: View {
                 //END ZSTACK ^^
             
             
+        }.onAppear {
+            appModel.loadSettings()
         }
+          
                 
                 
             
             
             
-        }
-        
+    }
     
             
 }
