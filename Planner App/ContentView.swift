@@ -19,7 +19,8 @@ struct ContentView: View {
     @State private var selectedTab: String = "monthly"
 
     init() {
-        UITabBar.appearance().unselectedItemTintColor = UIColor.gray
+        UITabBar.appearance().unselectedItemTintColor = UIColor.white
+        UITabBar.appearance().backgroundColor = .white.withAlphaComponent(0.2)
     }
     private var padding: CGFloat {
             switch currentDeviceType() {
@@ -66,7 +67,7 @@ struct ContentView: View {
                 
                 VStack {
                     
-                    AppHeader()
+                    AppHeader().padding([.leading, .trailing])
                     
                     if appModel.mainView == "Planner" {
                         
@@ -77,20 +78,20 @@ struct ContentView: View {
                                 } else {
                                     DayView()
                                 }
-                            }
+                            }.padding([.leading, .trailing, .bottom])
                             .tabItem{
                                 Label("Daily", systemImage: "sun.max.fill")
                                 
                             }.background(BackgroundHelper()).transition(.opacity)
-                            WeekView().padding(.bottom, 10)
+                            WeekView().padding(.bottom, 10).padding([.leading, .trailing])
                                 .tabItem{
                                     Label("Weekly", systemImage: "chart.bar.xaxis")
                                 }.background(BackgroundHelper()).transition(.opacity)
-                            MonthlyView(scale: .large, layoutType: .elsePortrait, appModel: appModel)
+                            MonthlyView(scale: .large, layoutType: .elsePortrait, appModel: appModel).padding([.leading, .trailing])
                                 .tabItem{
                                     Label("Monthly", systemImage: "calendar")
                                 }.background(BackgroundHelper()).transition(.opacity)
-                            YearlyMoodView()
+                            YearlyMoodView().padding([.leading, .trailing, .bottom])
                                 .tabItem{
                                     Label("Yearly", systemImage: "globe.desk.fill")
                                 }.background(BackgroundHelper()).transition(.opacity)
@@ -111,13 +112,13 @@ struct ContentView: View {
                                 }.background(BackgroundHelper()).transition(.opacity)
                             
                                
-                        }.tint(.defaultWhite).shadow(color: .black.opacity(0.2), radius: 5, x: 5, y: 5)
+                        }.frame(maxWidth: .infinity).ignoresSafeArea(.all).tint(.defaultWhite).shadow(color: .black.opacity(0.2), radius: 5, x: 5, y: 5)
                         
                     } else {
                         TimelineView(layoutType: .elsePortrait, scale: .large)
                     }
                     
-                }.padding([.leading, .trailing])
+                }
 
                 
 
@@ -219,5 +220,5 @@ struct BackgroundHelper: UIViewRepresentable {
    ContentView()
         .environmentObject(AppModel())
         .environmentObject(TasksUpdateNotifier())
-        .modelContainer(for: MoodEntry.self)
+        .modelContainer(for: [MoodEntry.self, Note.self])
 }

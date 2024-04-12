@@ -49,11 +49,11 @@ struct TasksView: View {
                                 HStack {
                                     Button(action: {
                                         markTaskAsCompleted(reminder: item.task)
-                                        loadTodaysReminders()
+                                        loadTodaysRemindersWithCompleted()
                                     }) {
-                                        Image(systemName: item.task.isCompleted ? "button.programmable" : "circle")
-                                            .foregroundColor(item.task.isCompleted ? .black : .black)
-                                            .font(scale == .small ? .headline : .title3)
+                                        Image(systemName: item.task.isCompleted ? "largecircle.fill.circle" : "circle")
+                                            .foregroundColor(appModel.headerColor)
+                                            .font(scale == .small ? .headline : .subheadline)
                                             .background(.white).clipShape(Circle())
                                     }
                                     .buttonStyle(PlainButtonStyle())
@@ -61,10 +61,9 @@ struct TasksView: View {
                                     
                                     NavigationLink(destination: TaskView(task: item.task)) {
                                         HStack{
-                                            Text(item.task.title.uppercased())
+                                            Text(item.task.title)
                                                 .font(scale == .small ? .caption : .subheadline)
-                                                .foregroundStyle(isOverDue ? Color.red : Color.black)
-
+                                                .foregroundStyle(isOverDue ? Color.red : appModel.headerColor)
                                                 .fontWeight(item.task.isCompleted ? .regular : .semibold)
                                             
                                             Spacer()
@@ -117,11 +116,8 @@ struct TasksView: View {
                                     }.labelStyle(.titleAndIcon)
                                     .tint(.white)
                                 }
-                                .padding(scale == .small ? 5 : 10)
-                                .frame(maxWidth: .infinity)
-                                .background(item.task.isCompleted ? item.listColor.opacity(0.5) : item.listColor)
-                                .clipShape(RoundedRectangle(cornerRadius: 10))
-                                .shadow(radius: 3, x: 3, y: 3)
+                                
+                                
                                 
                         }
                     
@@ -130,7 +126,7 @@ struct TasksView: View {
                     .background(Color.clear)
                 
                 .onChange(of: appModel.displayedDate) {
-                     loadTodaysRemindersWithOverDueWithoutCompleted()
+                    loadTodaysRemindersWithCompleted()
                 }
                 
                 
@@ -179,7 +175,7 @@ struct TasksView: View {
                                             .padding()
                                         Button("Add Task", systemImage: "plus.circle.fill") {
                                             saveTask()
-                                            loadTodaysRemindersWithOverDueWithoutCompleted()
+                                            loadTodaysRemindersWithCompleted()
                                             showingAddTaskView = false
                                            
                                         }
@@ -198,7 +194,7 @@ struct TasksView: View {
                     }
                 }
             }.onChange(of: tasksUpdateNotifier.needsUpdate) {
-                loadTodaysRemindersWithOverDueWithoutCompleted()
+                loadTodaysRemindersWithCompleted()
             }
             
             } else {
@@ -211,12 +207,12 @@ struct TasksView: View {
                     .onAppear {
                         // Check if reminders permission is already granted
                         if appModel.remindersPermissionGranted {
-                            self.loadTodaysRemindersWithOverDueWithoutCompleted()
+                            self.loadTodaysRemindersWithCompleted()
                         } else {
                             // Request permission and then load the reminders if granted
                             appModel.requestRemindersAccess { granted in
                                 if granted {
-                                    self.loadTodaysRemindersWithOverDueWithoutCompleted()
+                                    self.loadTodaysRemindersWithCompleted()
                                 }
                             }
                         }
@@ -225,7 +221,7 @@ struct TasksView: View {
                     .onChange(of: appModel.remindersPermissionGranted) { oldValue, newValue in
                         // Load reminders when permission is granted
                         if newValue {
-                            self.loadTodaysRemindersWithOverDueWithoutCompleted()
+                            self.loadTodaysRemindersWithCompleted()
                         }
                     }
             }
@@ -322,6 +318,28 @@ struct TasksView: View {
                 DispatchQueue.main.async {
                     self.tasks = fetchedTasks.compactMap { task in
                         guard !task.isCompleted,
+                              let dueDate = task.dueDateComponents?.date,
+                              dueDate >= startOfDay,
+                              dueDate < endOfDay else {
+                            return nil
+                        }
+                        return (task, Color(task.calendar.cgColor))
+                    }
+                }
+            }
+        }
+    private func loadTodaysRemindersWithCompleted() {
+            let calendar = Calendar.current
+            let startOfDay = calendar.startOfDay(for: date)
+            let endOfDay = calendar.date(byAdding: .day, value: 1, to: startOfDay)!
+            let predicate = appModel.eventStore.predicateForReminders(in: nil)
+            
+            appModel.eventStore.fetchReminders(matching: predicate) { fetchedTasks in
+                guard let fetchedTasks = fetchedTasks else { return }
+                
+                DispatchQueue.main.async {
+                    self.tasks = fetchedTasks.compactMap { task in
+                        guard
                               let dueDate = task.dueDateComponents?.date,
                               dueDate >= startOfDay,
                               dueDate < endOfDay else {
@@ -451,3 +469,11 @@ struct TasksView: View {
 
 
 
+#Preview {
+
+       ContentView()
+            .environmentObject(AppModel())
+            .environmentObject(TasksUpdateNotifier())
+            .modelContainer(for:[ MoodEntry.self, Note.self])
+    
+}

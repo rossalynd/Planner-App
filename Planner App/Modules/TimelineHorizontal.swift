@@ -80,7 +80,7 @@ struct HorizontalTimelineView: View {
                             }
                     }
                 }
-            }
+            }.padding(.horizontal, 2)
             
         }
         
@@ -90,33 +90,42 @@ struct HorizontalTimelineView: View {
     
     // Helper function to determine if two events overlap
     private func eventsOverlap(_ event1: EKEvent, _ event2: EKEvent) -> Bool {
-        let endBuffer = event1.endDate.addingTimeInterval(3600) // Adding 1 hour buffer
-        return event1.startDate < endBuffer && event2.startDate < event1.endDate
+        // Ending time of the first event plus a 15-minute buffer.
+        let endBuffer = event1.endDate.addingTimeInterval(900) // 900 seconds = 15 minutes
+        // Checking if the start of the second event is before the endBuffer.
+        return event2.startDate > endBuffer
     }
 
-    
+   
+
     
     private func horizontalEventLayers(widthPerHour: CGFloat, height: CGFloat) -> some View {
-        ZStack(alignment: .topLeading) {
+        VStack(alignment: .leading) {
             ForEach(timedEvents, id: \.eventIdentifier) { event in
                 if let (startX, width) = calculateEventPositionHorizontally(event: event, widthPerHour: widthPerHour) {
-                    let verticalOffset = calculateVerticalOffset(event)
+                    let verticalOffset = calculateVerticalOffset(event, timedEvents, height: height)
                     let eventHeight = height / 8 // Adjust the height of each event rectangle
 
                     ZStack(alignment: .topLeading) {
                         Rectangle()
-                            .frame(width: width, height: eventHeight)
+                            .frame(maxWidth: width, maxHeight: eventHeight)
                             .foregroundStyle(Color(event.calendar.cgColor).opacity(0.5))
                             .clipShape(RoundedRectangle(cornerRadius: appModel.moduleCornerRadius))
 
                         Text("\(event.title)")
+                            .frame(width: width, alignment: .topLeading)
+                            .fixedSize()
+                            .font(.footnote)
+                            .lineLimit(1)
                             .foregroundStyle(Color(event.calendar.cgColor))
-                            .frame(maxWidth: .infinity, alignment: .topLeading)
-                            .padding([.leading, .bottom], 10)
+                            .padding([.leading, .top], 5)
+                        
                     }
                     .offset(x: startX, y: verticalOffset)
+                    
                 }
             }
+            
         }
         .frame(maxHeight: .infinity)
     }
@@ -124,56 +133,84 @@ struct HorizontalTimelineView: View {
 
     
     
-    private func ahorizontalEventLayers(widthPerHour: CGFloat, height: CGFloat) -> some View {
-        ZStack(alignment: .leading) {
-            ForEach(timedEvents, id: \.eventIdentifier) { event in
-                if let (startX, width) = calculateEventPositionHorizontally(event: event, widthPerHour: widthPerHour) {
-                    let overlapIndex = timedEvents.firstIndex { otherEvent in
-                        otherEvent.eventIdentifier != event.eventIdentifier && eventsOverlap(event, otherEvent)
-                    } ?? 0
-                    let verticalOffset = CGFloat(overlapIndex) * (height / 2 * 0.3)  // Adjust vertical offset based on overlap index
+    
+    private func calculateAllEventOffsets(_ timedEvents: [EKEvent]) -> [EKEvent: CGFloat] {
+        let lineHeight: CGFloat = 40  // Vertical space each line of events will occupy
+        var eventOffsets: [EKEvent: CGFloat] = [:]  // Dictionary to store calculated offsets
+        var offsetLevels: [CGFloat] = []  // List to track which levels (offsets) are currently occupied
 
-                    ZStack(alignment: .bottomLeading) {
-                        Rectangle()
-                            .frame(width: width, height: height / 2)
-                            .foregroundStyle(Color(event.calendar.cgColor).opacity(0.5))
-                            .clipShape(RoundedRectangle(cornerRadius: appModel.moduleCornerRadius))
+        // Sort events by start time
+        let sortedEvents = timedEvents.sorted(by: { $0.startDate <= $1.startDate })
 
-                        Text("\(event.title)").foregroundStyle(Color(event.calendar.cgColor))
-                            .frame(maxWidth: .infinity, alignment: .topLeading).fixedSize(horizontal: true, vertical: true)
-                            .padding([.leading, .bottom], 10)
+        for currentEvent in sortedEvents {
+            // Find the first available offset level that is not overlapping with other events
+            var foundFreeOffset = false
+            var currentOffset: CGFloat = 0
+
+            while !foundFreeOffset {
+                foundFreeOffset = true  // Assume the current offset is free until proven otherwise
+
+                for otherEvent in sortedEvents where otherEvent != currentEvent && otherEvent.endDate > currentEvent.startDate {
+                    let otherOffset = eventOffsets[otherEvent] ?? 0
+                    if otherOffset == currentOffset {
+                        foundFreeOffset = false  // This level is occupied, increment and check again
+                        currentOffset += lineHeight
+                        break
                     }
-                    .offset(x: startX, y: verticalOffset)  // Apply vertical offset here
                 }
             }
-        }
-        .frame(maxHeight: .infinity)
-    }
 
-
-
-
-
-
-    private func calculateVerticalOffset(_ currentEvent: EKEvent) -> CGFloat {
-        let lineHeight: CGFloat = 20 // Approximate line height
-        var occupiedLines: [CGFloat] = []
-
-        for event in timedEvents where event != currentEvent {
-            if eventsOverlap(currentEvent, event) {
-                if let index = timedEvents.firstIndex(of: event) {
-                    let pos = CGFloat(index) * lineHeight
-                    occupiedLines.append(pos)
-                }
+            // Assign the free offset to the current event
+            eventOffsets[currentEvent] = currentOffset
+            // Ensure this level is marked as occupied
+            if !offsetLevels.contains(currentOffset) {
+                offsetLevels.append(currentOffset)
             }
         }
 
-        var currentLine: CGFloat = 0
-        while occupiedLines.contains(currentLine) {
-            currentLine += lineHeight
-        }
-        return currentLine
+        return eventOffsets
     }
+
+    private func calculateVerticalOffsets(_ timedEvents: [EKEvent], height: CGFloat) -> [EKEvent: CGFloat] {
+        let lineHeight = height / 7  // Vertical space each line of events will occupy
+        var eventOffsets: [EKEvent: CGFloat] = [:]  // Dictionary to store calculated offsets
+        var activeEvents: [(event: EKEvent, offset: CGFloat)] = []  // List to keep track of active events and their offsets
+
+        // Sort events by start time
+        let sortedEvents = timedEvents.sorted { $0.startDate < $1.startDate }
+
+        for currentEvent in sortedEvents {
+            // Remove events that have ended 15 minutes before the current event's start
+            activeEvents = activeEvents.filter { $0.event.endDate.addingTimeInterval(900) > currentEvent.startDate }
+
+            // Determine the lowest free offset by checking currently active events
+            var currentOffset: CGFloat = 0
+            var offsetFound: Bool = false
+            while !offsetFound {
+                offsetFound = true
+                for (event, offset) in activeEvents {
+                    if offset == currentOffset {
+                        currentOffset += lineHeight
+                        offsetFound = false
+                        break  // Offset is occupied, try the next one
+                    }
+                }
+            }
+
+            // Assign the found free offset to the current event
+            eventOffsets[currentEvent] = currentOffset
+            // Add the current event to the list of active events
+            activeEvents.append((currentEvent, currentOffset))
+        }
+
+        return eventOffsets
+    }
+
+    private func calculateVerticalOffset(_ currentEvent: EKEvent, _ timedEvents: [EKEvent], height: CGFloat) -> CGFloat {
+        let offsets = calculateVerticalOffsets(timedEvents, height: height)
+        return offsets[currentEvent] ?? 0
+    }
+
 
 
 
@@ -218,7 +255,7 @@ struct HorizontalTimelineView: View {
                         Group {
                             if segment == 0 {
                                 // Only show text at the hour mark
-                                Text(formatHour(hour: hour, segment: segment))
+                                Text(formatHour(hour: hour, segment: segment)).fixedSize()
                                     .frame(width: width / CGFloat(segments), alignment: .leading)
                             } else {
                                 Color.clear
