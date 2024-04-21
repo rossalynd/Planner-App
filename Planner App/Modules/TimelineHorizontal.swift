@@ -23,6 +23,15 @@ struct HorizontalTimelineView: View {
     @State private var showingAddEventView = false
     @State private var expandedEventID: String? = nil
     @State private var startHour: Int = 8
+    @State private var currentScale: CGFloat = 1.0
+    
+    var defaultHourWidth: CGFloat = 60 // Default width of one hour column at scale 1.0
+    var minScale: CGFloat = 0.5
+    var maxScale: CGFloat = 3.0
+
+    var hourWidth: CGFloat {
+        max(minScale, min(maxScale, currentScale)) * defaultHourWidth
+    }
     
     private var eventFontSize: Font {
         switch layoutType {
@@ -50,25 +59,44 @@ struct HorizontalTimelineView: View {
 
 
     var body: some View {
-        GeometryReader { geometry in
-            HStack {
-               
-                ScrollViewReader { scrollView in
-                    VStack {
-                        
-                    ScrollView(.horizontal, showsIndicators: false) {
-                        
-                            HStack(spacing: 0) {
-                                ForEach(0..<24) { hour in
-                                    HourColumn(hour: hour, width: geometry.size.width / 8, segments: 2).font(.caption2).foregroundStyle(Color(appModel.headerColor))
-                                        .id(hour)
+        if appModel.calendarPermissionGranted {
+            GeometryReader { geometry in
+                let defaultHourWidth = geometry.size.width / 8  // Calculate default width dynamically
+                
+                var hourWidth: CGFloat {
+                    max(0.5 * defaultHourWidth, min(3.0 * defaultHourWidth, currentScale * defaultHourWidth))
+                }
+                HStack {
+                    
+                    ScrollViewReader { scrollView in
+                        VStack {
+                            
+                            ScrollView(.horizontal, showsIndicators: false) {
+                                
+                                HStack(spacing: 0) {
+                                    ForEach(0..<24) { hour in
+                                        HourColumn(hour: hour, width: hourWidth, segments: 2).font(.caption2).foregroundStyle(Color(appModel.headerColor))
+                                            .id(hour)
+                                    }
+                                }.frame(maxHeight: .infinity)
+                                    .overlay(
+                                        horizontalEventLayers(widthPerHour: hourWidth, height: geometry.size.height),
+                                        alignment: .topLeading
+                                    )
+                            }
+                            .frame(maxHeight: geometry.size.height)
+                            .gesture(MagnificationGesture()
+                                .onChanged { value in
+                                    currentScale = value.magnitude
                                 }
-                            }.frame(maxHeight: .infinity)
-                                .overlay(
-                                    horizontalEventLayers(widthPerHour: geometry.size.width / 8, height: geometry.size.height),
-                                    alignment: .topLeading
-                                )
-                        }.frame(maxHeight: geometry.size.height)
+                                .onEnded { value in
+                                    if abs(value - 1.0) < 0.1 { // Snap to default scale if close
+                                        currentScale = 1.0
+                                    } else {
+                                        currentScale = max(minScale, min(maxScale, value.magnitude))
+                                    }
+                                }
+                            )
                             .onAppear {
                                 loadEvents()
                                 
@@ -78,12 +106,21 @@ struct HorizontalTimelineView: View {
                             .onChange(of: appModel.displayedDate) {
                                 loadEvents()
                             }
+                        }
                     }
-                }
-            }.padding(.horizontal, 2)
-            
+                }.padding(.horizontal, 2)
+                
+            }
+        } else {
+            VStack {
+                Text("Unable to retrieve calendar events. Please enable access to Calendar in Settings")
+                Button("Open Settings", action: {
+                    UIApplication.shared.open(URL(string: UIApplication.openSettingsURLString)!)
+                })
+            } 
+            .padding()
+            .onAppear(perform: appModel.requestCalendarAccess)
         }
-        
     }
     
     
@@ -192,6 +229,7 @@ struct HorizontalTimelineView: View {
                     if offset == currentOffset {
                         currentOffset += lineHeight
                         offsetFound = false
+                        print(event)
                         break  // Offset is occupied, try the next one
                     }
                 }
@@ -251,7 +289,7 @@ struct HorizontalTimelineView: View {
         var body: some View {
             VStack(alignment: .leading) {
                 HStack(spacing: 0) {
-                    ForEach(0..<segments) { segment in
+                    ForEach(0..<2) { segment in
                         Group {
                             if segment == 0 {
                                 // Only show text at the hour mark

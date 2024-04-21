@@ -76,7 +76,6 @@
 		011DEC582BAF0C0D00B2249F /* ScheduleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 011DEC572BAF0C0D00B2249F /* ScheduleView.swift */; };
 		011DEC5A2BAF0C5600B2249F /* TasksView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 011DEC592BAF0C5600B2249F /* TasksView.swift */; };
 		011DEC5C2BAF0C7200B2249F /* WeatherView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 011DEC5B2BAF0C7200B2249F /* WeatherView.swift */; };
-		011DEC5E2BAF0C7B00B2249F /* GratitudeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 011DEC5D2BAF0C7B00B2249F /* GratitudeView.swift */; };
 		011DEC602BAF0C9A00B2249F /* NotesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 011DEC5F2BAF0C9A00B2249F /* NotesView.swift */; };
 		011DEC622BAF0CE200B2249F /* WaterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 011DEC612BAF0CE200B2249F /* WaterView.swift */; };
 		011DEC642BAF0CEC00B2249F /* MealsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 011DEC632BAF0CEC00B2249F /* MealsView.swift */; };
@@ -111,6 +110,8 @@
 		0185CBC82BB5EFBB00F7A2EC /* MoodModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0185CBC72BB5EFBB00F7A2EC /* MoodModel.swift */; };
 		0185CBCA2BB5F14D00F7A2EC /* Moods.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0185CBC92BB5F14D00F7A2EC /* Moods.xcassets */; };
 		0185CBCC2BB7ACF100F7A2EC /* NotesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0185CBCB2BB7ACF100F7A2EC /* NotesViewModel.swift */; };
+		01C07AE42BD571630075A1F7 /* CycleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01C07AE32BD571630075A1F7 /* CycleView.swift */; };
+		01C07AE62BD573E30075A1F7 /* MonthlyCalendarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01C07AE52BD573E30075A1F7 /* MonthlyCalendarView.swift */; };
 		01CFF6672BC5A86C005D6697 /* Note.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01CFF6662BC5A86C005D6697 /* Note.swift */; };
 		01CFF6692BC5AA05005D6697 /* UTType+Notes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01CFF6682BC5AA05005D6697 /* UTType+Notes.swift */; };
 		01CFF66B2BC6F85D005D6697 /* AllDayEvents.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01CFF66A2BC6F85D005D6697 /* AllDayEvents.swift */; };
@@ -118,6 +119,8 @@
 		01DC669D2BBE41240053E2B7 /* SeamlessPattern.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01DC669C2BBE41240053E2B7 /* SeamlessPattern.swift */; };
 		01DC66A12BBE47E00053E2B7 /* CreateSeamlessPattern.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01DC66A02BBE47E00053E2B7 /* CreateSeamlessPattern.swift */; };
 		01DD37272BBB4E3E00C3AD63 /* TimelineView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01DD37262BBB4E3E00C3AD63 /* TimelineView.swift */; };
+		01E9C8E92BD2F42B009E024B /* GratitudeManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01E9C8E62BD2F42B009E024B /* GratitudeManager.swift */; };
+		01E9C8EA2BD2F42B009E024B /* GratitudeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01E9C8E72BD2F42B009E024B /* GratitudeView.swift */; };
 		DC0FB8412BB090F600DB4ABB /* HorizontalSlider.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC0FB8402BB090F600DB4ABB /* HorizontalSlider.swift */; };
 /* End PBXBuildFile section */
 
@@ -222,7 +225,6 @@
 		011DEC572BAF0C0D00B2249F /* ScheduleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleView.swift; sourceTree = "<group>"; };
 		011DEC592BAF0C5600B2249F /* TasksView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TasksView.swift; sourceTree = "<group>"; };
 		011DEC5B2BAF0C7200B2249F /* WeatherView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherView.swift; sourceTree = "<group>"; };
-		011DEC5D2BAF0C7B00B2249F /* GratitudeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GratitudeView.swift; sourceTree = "<group>"; };
 		011DEC5F2BAF0C9A00B2249F /* NotesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotesView.swift; sourceTree = "<group>"; };
 		011DEC612BAF0CE200B2249F /* WaterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WaterView.swift; sourceTree = "<group>"; };
 		011DEC632BAF0CEC00B2249F /* MealsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MealsView.swift; sourceTree = "<group>"; };
@@ -262,6 +264,8 @@
 		0185CBC72BB5EFBB00F7A2EC /* MoodModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoodModel.swift; sourceTree = "<group>"; };
 		0185CBC92BB5F14D00F7A2EC /* Moods.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Moods.xcassets; sourceTree = "<group>"; };
 		0185CBCB2BB7ACF100F7A2EC /* NotesViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotesViewModel.swift; sourceTree = "<group>"; };
+		01C07AE32BD571630075A1F7 /* CycleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CycleView.swift; sourceTree = "<group>"; };
+		01C07AE52BD573E30075A1F7 /* MonthlyCalendarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonthlyCalendarView.swift; sourceTree = "<group>"; };
 		01CFF6662BC5A86C005D6697 /* Note.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Note.swift; sourceTree = "<group>"; };
 		01CFF6682BC5AA05005D6697 /* UTType+Notes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UTType+Notes.swift"; sourceTree = "<group>"; };
 		01CFF66A2BC6F85D005D6697 /* AllDayEvents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllDayEvents.swift; sourceTree = "<group>"; };
@@ -270,6 +274,8 @@
 		01DC669C2BBE41240053E2B7 /* SeamlessPattern.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeamlessPattern.swift; sourceTree = "<group>"; };
 		01DC66A02BBE47E00053E2B7 /* CreateSeamlessPattern.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateSeamlessPattern.swift; sourceTree = "<group>"; };
 		01DD37262BBB4E3E00C3AD63 /* TimelineView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimelineView.swift; sourceTree = "<group>"; };
+		01E9C8E62BD2F42B009E024B /* GratitudeManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GratitudeManager.swift; sourceTree = "<group>"; };
+		01E9C8E72BD2F42B009E024B /* GratitudeView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GratitudeView.swift; sourceTree = "<group>"; };
 		DC0FB8402BB090F600DB4ABB /* HorizontalSlider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HorizontalSlider.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -456,6 +462,7 @@
 		0134A9B02BACFD2700D5BB5C /* Modules */ = {
 			isa = PBXGroup;
 			children = (
+				01E9C8E82BD2F42B009E024B /* Gratitude */,
 				01CFF6652BC5A856005D6697 /* Notes */,
 				01DD37262BBB4E3E00C3AD63 /* TimelineView.swift */,
 				012D9F3F2BC43E55003E0246 /* TimelineHorizontal.swift */,
@@ -463,7 +470,6 @@
 				0185CBC52BB5EFA500F7A2EC /* Sliders */,
 				0134A9B32BAD1AA700D5BB5C /* AddModuleView.swift */,
 				0135C3BB2BAF68C600D60E30 /* CircleSlider.swift */,
-				011DEC5D2BAF0C7B00B2249F /* GratitudeView.swift */,
 				011DEC632BAF0CEC00B2249F /* MealsView.swift */,
 				0134A9AE2BACC7A900D5BB5C /* MiniMonthCalendarView.swift */,
 				0134A9B52BAD1B4900D5BB5C /* ModuleNames.swift */,
@@ -480,6 +486,8 @@
 				011DEC5B2BAF0C7200B2249F /* WeatherView.swift */,
 				016B52F22BB1F62E007DC286 /* AddEventView.swift */,
 				0100EADA2BB252EF00734275 /* RecurrenceRules.swift */,
+				01C07AE32BD571630075A1F7 /* CycleView.swift */,
+				01C07AE52BD573E30075A1F7 /* MonthlyCalendarView.swift */,
 			);
 			path = Modules;
 			sourceTree = "<group>";
@@ -589,6 +597,15 @@
 			children = (
 			);
 			path = Overlays;
+			sourceTree = "<group>";
+		};
+		01E9C8E82BD2F42B009E024B /* Gratitude */ = {
+			isa = PBXGroup;
+			children = (
+				01E9C8E62BD2F42B009E024B /* GratitudeManager.swift */,
+				01E9C8E72BD2F42B009E024B /* GratitudeView.swift */,
+			);
+			path = Gratitude;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -770,9 +787,11 @@
 				011DEC5C2BAF0C7200B2249F /* WeatherView.swift in Sources */,
 				01478CBA2BBA1FED002A57AD /* CanvasView.swift in Sources */,
 				0100EAED2BB38FC600734275 /* DateExtension.swift in Sources */,
+				01E9C8EA2BD2F42B009E024B /* GratitudeView.swift in Sources */,
 				0100EADB2BB252EF00734275 /* RecurrenceRules.swift in Sources */,
 				01DC66A12BBE47E00053E2B7 /* CreateSeamlessPattern.swift in Sources */,
 				01DC669D2BBE41240053E2B7 /* SeamlessPattern.swift in Sources */,
+				01C07AE42BD571630075A1F7 /* CycleView.swift in Sources */,
 				011DEC662BAF2E3800B2249F /* Modules.swift in Sources */,
 				012D9F3C2BC34DC9003E0246 /* EventExtension.swift in Sources */,
 				0100EAFE2BB48E5500734275 /* SettingsView.swift in Sources */,
@@ -780,7 +799,6 @@
 				011DEC502BAF048100B2249F /* DayView.swift in Sources */,
 				0100EB0D2BB4C1BB00734275 /* SpacedPattern.swift in Sources */,
 				01CFF66B2BC6F85D005D6697 /* AllDayEvents.swift in Sources */,
-				011DEC5E2BAF0C7B00B2249F /* GratitudeView.swift in Sources */,
 				0100EB152BB5D7D600734275 /* iPhoneWeekView.swift in Sources */,
 				0100EAF12BB46DDE00734275 /* ColorPicker.swift in Sources */,
 				011DEC622BAF0CE200B2249F /* WaterView.swift in Sources */,
@@ -799,6 +817,7 @@
 				0134A9B42BAD1AA700D5BB5C /* AddModuleView.swift in Sources */,
 				01CFF6692BC5AA05005D6697 /* UTType+Notes.swift in Sources */,
 				010E34792BC0B2DB00F67E4F /* ImageColors.swift in Sources */,
+				01E9C8E92BD2F42B009E024B /* GratitudeManager.swift in Sources */,
 				0100EAEA2BB3868700734275 /* iPhoneDayView.swift in Sources */,
 				011DEC602BAF0C9A00B2249F /* NotesView.swift in Sources */,
 				012D05522BBC9B4800202E0C /* YearlyMoodView.swift in Sources */,
@@ -814,6 +833,7 @@
 				016B52EF2BB1D05D007DC286 /* EventInfoView.swift in Sources */,
 				011DEC642BAF0CEC00B2249F /* MealsView.swift in Sources */,
 				0100EAEF2BB4533100734275 /* ColorExtension.swift in Sources */,
+				01C07AE62BD573E30075A1F7 /* MonthlyCalendarView.swift in Sources */,
 				0135C3BC2BAF68C600D60E30 /* CircleSlider.swift in Sources */,
 				010AB3322BBF3426007B3056 /* AppHeader.swift in Sources */,
 				0100EB132BB5D79D00734275 /* LandscapeView.swift in Sources */,
@@ -990,7 +1010,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Planner App/Preview Content\"";
-				DEVELOPMENT_TEAM = 9MVZ2B38J8;
+				DEVELOPMENT_TEAM = BC4WK26R2R;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -1036,7 +1056,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Planner App/Preview Content\"";
-				DEVELOPMENT_TEAM = 9MVZ2B38J8;
+				DEVELOPMENT_TEAM = BC4WK26R2R;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;

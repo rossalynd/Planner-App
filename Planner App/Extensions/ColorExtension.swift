@@ -25,6 +25,10 @@ extension Color {
         }
     
 
+
+        
+    
+    
     func toHex(alpha: Bool = false) -> String? {
         // Convert Color to PlatformColor (UIColor or NSColor)
         #if canImport(UIKit)

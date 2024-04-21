@@ -12,7 +12,7 @@ struct MiniMonthCalendarView: View {
    
     @EnvironmentObject var appModel: AppModel
     @StateObject private var viewModel: CalendarViewModel = CalendarViewModel(date: Date(), startOfWeek: .monday, dayColor: .pink) // Default values
-       
+    @State var showDatePicker: Bool = false
        var scale: SpaceView.Scale
        var layoutType: LayoutType
     
@@ -20,7 +20,7 @@ struct MiniMonthCalendarView: View {
     init(scale: SpaceView.Scale, layoutType: LayoutType, appModel: AppModel) {
            self.scale = scale
            self.layoutType = layoutType
-        _viewModel = StateObject(wrappedValue: CalendarViewModel(date: appModel.displayedDate, startOfWeek: appModel.startOfWeek, dayColor: appModel.color))
+        _viewModel = StateObject(wrappedValue: CalendarViewModel(date: appModel.displayedDate, startOfWeek: appModel.startOfWeek, dayColor: appModel.headerColor))
        }
     
     private var baseFontSize: CGFloat {
@@ -87,23 +87,45 @@ struct MiniMonthCalendarView: View {
                             Button("Previous Month", systemImage: "arrowshape.left.circle.fill", action: {
                                 previousMonth()
                                 
-                            }).labelStyle(.iconOnly).font(.title).background(.white).clipShape(Circle()).foregroundStyle(Color.black).shadow(radius: 2, x: 3, y: 3).padding([.leading, .bottom], 10)
+                            }).labelStyle(.iconOnly).font(.title).background(.white).clipShape(Circle()).foregroundStyle(appModel.headerColor).shadow(radius: 2, x: 3, y: 3).padding([.leading, .bottom], 10)
                             Spacer()
                 ZStack {
                     
                     
                     
                     
-                    Button("TODAY", action: {
-                        appModel.displayedDate = Date()
-                    }).font(.caption).padding(5).bold().background(.black).clipShape(RoundedRectangle(cornerRadius: 10)).foregroundStyle(.white).padding(.bottom, 10)
+                    Button("TODAY", systemImage: "calendar.circle.fill", action: {
+                       showDatePicker = true
+                        
+                    }).labelStyle(.iconOnly).font(.title).background(.white).clipShape(Circle()).foregroundStyle(appModel.headerColor).shadow(radius: 2, x: 3, y: 3).padding(.bottom, 10)
                 }
                             Spacer()
                             Button("Next Month", systemImage: "arrowshape.right.circle.fill", action: {
                                 nextMonth()
                                 
-                            }).labelStyle(.iconOnly).font(.title).background(.white).clipShape(Circle()).foregroundStyle(Color.black).shadow(radius: 2, x: 3, y: 3).padding([.bottom, .trailing], 10)
-                        }
+                            }).labelStyle(.iconOnly).font(.title).background(.white).clipShape(Circle()).foregroundStyle(appModel.headerColor).shadow(radius: 2, x: 3, y: 3).padding([.bottom, .trailing], 10)
+            }.popover(isPresented: $showDatePicker, content: {
+                
+                VStack {
+                    HStack {
+                        Button("Today", action: {
+                            appModel.displayedDate = Date().startOfDay
+                            
+                        })
+                        .font(Font.custom(appModel.headerFont, size: 20))
+                        .padding(10)
+                        .background(appModel.headerColor)
+                        .clipShape(RoundedRectangle(cornerRadius: 20))
+                        .foregroundStyle(appModel.headerColorContrast)
+                        .shadow(radius: 2, x: 3, y: 3)
+                        .padding([.top, .leading], 10)
+                        Spacer()
+                    }
+                    HStack{
+                        DatePicker("", selection: $appModel.displayedDate,displayedComponents: .date).datePickerStyle(.graphical)
+                    }.frame(width: 300)
+                }
+            })
 
 
             HStack(spacing: 0) {
@@ -126,8 +148,8 @@ struct MiniMonthCalendarView: View {
 
                 }
             }
-            .background(Color.black).clipShape(RoundedRectangle(cornerRadius: 20))
-            .foregroundColor(.white)
+            .background(appModel.headerColor).clipShape(RoundedRectangle(cornerRadius: 20))
+            .foregroundColor(appModel.headerColorContrast)
 
             let columns = Array(repeating: GridItem(.flexible(), spacing: spacingScale), count: 7) // Use spacingScale for grid spacing
             
@@ -140,14 +162,14 @@ struct MiniMonthCalendarView: View {
                         ZStack {
                             if day.isCurrentDay {
                                 Circle()
-                                    .foregroundStyle(day.isCurrentDay ? Color("DefaultBlack") : Color.clear)
+                                    .foregroundStyle(day.isCurrentDay ? appModel.headerColor : Color.clear)
                                     .padding(paddingScale).frame(maxWidth: circleSize)
                                     
                                     
                             }
                             Text("\(day.number)")
                                 .font(.system(size: baseFontSize))
-                                .foregroundColor(day.color)
+                                .foregroundColor(day.isCurrentDay ? appModel.headerColorContrast : day.color)
                                 .onTapGesture {
                                     let calendar = Calendar.current
                                     var dateComponents = DateComponents()
@@ -173,7 +195,7 @@ struct MiniMonthCalendarView: View {
                             // Adjust padding to scale with the text
                             .frame(maxWidth: 40, maxHeight: 20)
                             .padding(paddingScale)
-                            .background(day.isCurrentDay ? Color("DefaultBlack") : Color.clear)
+                            .background(day.isCurrentDay ? appModel.headerColor : Color.clear)
                             .clipShape(Circle())
                             .foregroundColor(day.color)
                             
@@ -218,3 +240,9 @@ struct MiniMonthCalendarView: View {
 }
 
 
+#Preview {
+   ContentView()
+        .environmentObject(AppModel())
+        .environmentObject(TasksUpdateNotifier())
+        .modelContainer(for: [MoodEntry.self, Note.self])
+}

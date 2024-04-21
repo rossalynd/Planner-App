@@ -65,7 +65,7 @@ struct ContentView: View {
                 
 
                 
-                VStack {
+                VStack(spacing: appModel.moduleSpacing) {
                     
                     AppHeader().padding([.leading, .trailing])
                     
@@ -78,16 +78,16 @@ struct ContentView: View {
                                 } else {
                                     DayView()
                                 }
-                            }.padding([.leading, .trailing, .bottom])
+                            }.padding([.leading, .trailing])
                             .tabItem{
                                 Label("Daily", systemImage: "sun.max.fill")
                                 
                             }.background(BackgroundHelper()).transition(.opacity)
-                            WeekView().padding(.bottom, 10).padding([.leading, .trailing])
+                            WeekView().padding([.leading, .trailing])
                                 .tabItem{
                                     Label("Weekly", systemImage: "chart.bar.xaxis")
                                 }.background(BackgroundHelper()).transition(.opacity)
-                            MonthlyView(scale: .large, layoutType: .elsePortrait, appModel: appModel).padding([.leading, .trailing])
+                            MonthlyCalendarView(year: appModel.displayedDate.yearInt, month: appModel.displayedDate.monthInt)
                                 .tabItem{
                                     Label("Monthly", systemImage: "calendar")
                                 }.background(BackgroundHelper()).transition(.opacity)
@@ -95,7 +95,7 @@ struct ContentView: View {
                                 .tabItem{
                                     Label("Yearly", systemImage: "globe.desk.fill")
                                 }.background(BackgroundHelper()).transition(.opacity)
-                        }.tint(appModel.headerColor).shadow(color: .black.opacity(0.2), radius: 5, x: 5, y: 5)
+                        }.tint(appModel.headerColor).font(Font.custom(appModel.headerFont, size: 20))
                         
                     } else if appModel.mainView == "Wellbeing" {
                         
@@ -183,6 +183,7 @@ struct ContentView: View {
             
         }.onAppear {
             appModel.loadSettings()
+            
         }
           
                 
@@ -217,8 +218,9 @@ struct BackgroundHelper: UIViewRepresentable {
 }
 
 #Preview {
-   ContentView()
+    ContentView()
         .environmentObject(AppModel())
         .environmentObject(TasksUpdateNotifier())
         .modelContainer(for: [MoodEntry.self, Note.self])
+       
 }

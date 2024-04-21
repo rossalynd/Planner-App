@@ -119,7 +119,7 @@ class AppModel: ObservableObject {
     
     //THEMES
     @Published var backgroundType: BackgroundType = .bluePurpleGradient
-    @Published var overlayType: OverlayType = .none
+    @Published var overlayType: OverlayType = .color
     @Published var backgroundImage: String = "celestial"
     @Published var imageColors: ImageColors?
     @Published var photoBackgroundImage: UIImage?
@@ -129,6 +129,7 @@ class AppModel: ObservableObject {
     @Published var headerFont: String = ""
     @Published var headerCase: HeaderCapitalization = .capitalized
     @Published var headerColor: Color = .black
+    @Published var headerColorContrast: Color = .white
     
     
     enum HeaderCapitalization: String, CaseIterable, Identifiable {
@@ -163,7 +164,6 @@ class AppModel: ObservableObject {
         case hearts = "Transparent Hearts"
         case backgroundImage = "Image"
         case photoBackground = "Photo"
-        case none = "None"
         
         var id: Self { self }
     }
@@ -203,8 +203,7 @@ class AppModel: ObservableObject {
                     print("No image name in UserDefaults")
                     return AnyView(Image(systemName: "questionmark"))
                 }
-            case .none:
-                return AnyView(Text(""))
+            
                 
             }
         }
@@ -300,6 +299,7 @@ class AppModel: ObservableObject {
         if let imageName = UserDefaults.standard.string(forKey: "photoBackgroundKey") {
             let fullPath = getDocumentsDirectory().appendingPathComponent(imageName).path
             if FileManager.default.fileExists(atPath: fullPath), let photoBackgroundImage = UIImage(contentsOfFile: fullPath) {
+                print(photoBackgroundImage)
                 photoBackgroundPath = UserDefaults.standard.string(forKey: "photoBackgroundKey")
             }
         }
@@ -317,13 +317,18 @@ class AppModel: ObservableObject {
         }
         
         // Load moduleCornerRadius
-        moduleCornerRadius = CGFloat(UserDefaults.standard.double(forKey: "moduleCornerRadius"))
-        moduleSpacing = CGFloat(UserDefaults.standard.double(forKey: "moduleSpacing"))
+        if let loadedCornerRadius = UserDefaults.standard.string(forKey: "moduleCornerRadius") {
+            moduleCornerRadius = CGFloat(Double(loadedCornerRadius)!)
+        }
         
+        if let loadedModuleSpacing = UserDefaults.standard.string(forKey: "moduleSpacing") {
+            moduleSpacing = CGFloat(Double(loadedModuleSpacing)!)
+        }
         // Load Header Font
         if let loadedHeaderFont = UserDefaults.standard.string(forKey: "headerFont") {
             headerFont = loadedHeaderFont
         }
+        
         if let savedValue = UserDefaults.standard.string(forKey: "headerCase") {
             self.headerCase = HeaderCapitalization(rawValue: savedValue) ?? .capitalized
         }

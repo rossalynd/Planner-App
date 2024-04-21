@@ -16,7 +16,6 @@ class TasksUpdateNotifier: ObservableObject {
 
 struct TasksView: View {
     @EnvironmentObject var tasksUpdateNotifier: TasksUpdateNotifier
-    
     @EnvironmentObject var appModel: AppModel
     var date: Date
     var scale: SpaceView.Scale
@@ -56,7 +55,7 @@ struct TasksView: View {
                                             .font(scale == .small ? .headline : .subheadline)
                                             .background(.white).clipShape(Circle())
                                     }
-                                    .buttonStyle(PlainButtonStyle())
+                                 
                                     .padding(.trailing, 8)
                                     
                                     NavigationLink(destination: TaskView(task: item.task)) {
@@ -64,28 +63,23 @@ struct TasksView: View {
                                             Text(item.task.title)
                                                 .font(scale == .small ? .caption : .subheadline)
                                                 .foregroundStyle(isOverDue ? Color.red : appModel.headerColor)
-                                                .fontWeight(item.task.isCompleted ? .regular : .semibold)
+                                                .fontWeight(item.task.isCompleted ? .light : .regular)
+                                                .strikethrough(item.task.isCompleted)
                                             
-                                            Spacer()
+                                          
                                         }
                                     }
                                     
                                     Spacer()
-                                    if showingTaskMenu == true {
-                                        HStack {
-                                            Image(systemName: "arrow.triangle.turn.up.right.circle.fill").foregroundStyle(.black).font(scale == .small ? .headline : .title3).background(.white).clipShape(Circle())
-                                            Image(systemName: "minus.circle.fill").foregroundStyle(.black).font(scale == .small ? .headline : .title3).background(.white).clipShape(Circle())
-                                            Button(action: { deleteTask(taskToDelete: item.task)
-                                            }, label: {Image(systemName: "trash.circle.fill").foregroundStyle(.black).font(scale == .small ? .headline : .title3).background(.white).clipShape(Circle())})
-                                            
-                                        }.padding(.leading, 10)
-                                    }
+                                    
                                     
                                 } .listRowSeparator(.hidden)
-                                .listRowInsets(EdgeInsets(top: 5, leading: 5, bottom: 5, trailing: 5))// Hide the row separators
+                                .listRowInsets(EdgeInsets(top: 1, leading: 5, bottom: 1, trailing: 5))// Hide the row separators
                                 .listRowBackground(Color.clear)
+                                .listRowSpacing(-10)
                                 
                                 .padding(.horizontal, 5)
+                                .padding(.vertical, 0)
                                 .swipeActions(edge: .leading, allowsFullSwipe: true) {
                                     // Swipe left to delete
                                     Button(role: .destructive) {
@@ -105,8 +99,6 @@ struct TasksView: View {
                                     } label: {
                                         Label("Move Date", systemImage: "calendar.circle.fill")
                                     }
-                                    .tint(.white)
-                                    
                                     // Swipe right to remove date
                                     Button {
                                         // Your remove date action goes here
@@ -114,12 +106,40 @@ struct TasksView: View {
                                     } label: {
                                         Label("Remove Date", systemImage: "calendar.badge.minus")
                                     }.labelStyle(.titleAndIcon)
-                                    .tint(.white)
+                                   
                                 }
                                 
                                 
                                 
                         }
+                  
+                        HStack {
+                            Image(systemName: "circle")
+                                .foregroundColor(appModel.headerColor)
+                                .font(scale == .small ? .headline : .subheadline)
+                                .background(.white).clipShape(Circle()).padding(.trailing, 8)
+                            TextField("", text: $reminderTitle).background(Color.clear).font(.subheadline)
+                                .onSubmit {
+                                    saveTask()
+                                    loadTodaysRemindersWithCompleted()
+                                    reminderTitle = ""
+                                }
+                            Button("Add Task", systemImage: "plus.circle.fill") {
+                                saveTask()
+                                loadTodaysRemindersWithCompleted()
+                                reminderTitle = ""
+                               
+                            }
+                            .labelStyle(.iconOnly) .foregroundColor(appModel.headerColor)
+                   
+                        }.listRowSeparator(.hidden)
+                        .listRowInsets(EdgeInsets(top: 5, leading: 5, bottom: 5, trailing: 5))// Hide the row separators
+                        .listRowBackground(Color.clear).padding(.horizontal, 5)
+                       
+                        
+                        
+                        
+               
                     
                     
                 }.listStyle(PlainListStyle()) // Use a plain list style
@@ -138,60 +158,26 @@ struct TasksView: View {
                   
                         if showDeletedTask, let taskToUndo = previouslyDeletedTask {
                             VStack {
-                                Text("Deleted task: \(taskToUndo.title)").font(.caption)
+                                Text("Deleted task: \(taskToUndo.title)") .font(scale == .small ? .caption : .subheadline)
+                                    .foregroundStyle(appModel.headerColor)
                                 Button(action: {
                                     undoDeleteTask()
                                 }, label: {
                                     Text("Undo Delete")
                                 })
                                 .font(.caption2)
-                            }.background(.white)
+                            }.padding().background(.white)
                                 .clipShape(RoundedRectangle(cornerRadius: 20))
                         }
                     }.onAppear {
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 10) {
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 8) {
                             withAnimation(.easeInOut) {
                                 self.showDeletedTask = false
                             }
                         }
                     }
                         
-                    
-                    HStack {
-                       
-                        Button("Edit Tasks", systemImage: "ellipsis.circle.fill", action: {
-                            showingTaskMenu.toggle()
-                        }).labelStyle(.iconOnly).font(.title).background(.white).clipShape(Circle()).foregroundStyle(Color.black).padding(.leading, 5).shadow(radius: 2, x: 3, y: 3)
-                        Spacer()
-                        Button("Add Task", systemImage: "plus.circle.fill", action: {
-                            showingAddTaskView.toggle()
-                        }).labelStyle(.iconOnly).font(.title).background(.white).clipShape(Circle()).foregroundStyle(Color.black).padding(.trailing, 5).shadow(radius: 2, x: 3, y: 3)
-                            .popover(isPresented: $showingAddTaskView) {
-                                
-                                
-                                VStack{
-                                    HStack {
-                                        TextField("Task", text: $reminderTitle)
-                                            .padding()
-                                        Button("Add Task", systemImage: "plus.circle.fill") {
-                                            saveTask()
-                                            loadTodaysRemindersWithCompleted()
-                                            showingAddTaskView = false
-                                           
-                                        }
-                                        .labelStyle(.iconOnly)
-                                        .padding()
-                                    }
-                                    .padding()
-                                    .clipShape(RoundedRectangle(cornerRadius: 20))
-                                    
-                                    
-                                    
-                                }.padding()
-                                
-                            }.clipShape(RoundedRectangle(cornerRadius: 20))
-                        
-                    }
+                  
                 }
             }.onChange(of: tasksUpdateNotifier.needsUpdate) {
                 loadTodaysRemindersWithCompleted()

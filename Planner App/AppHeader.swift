@@ -48,12 +48,12 @@ struct AppHeader: View {
                         withAnimation {
                             appModel.isMenuVisible.toggle()
                         }
-                    }).foregroundStyle(Color("DefaultBlack")).font(.title).padding(2).background(Color("DefaultWhite")).cornerRadius(appModel.moduleCornerRadius).shadow(radius: 5, x: 5, y: 5).labelStyle(.iconOnly)
+                    }).foregroundStyle(appModel.headerColor).font(.title).padding(2).background(Color("DefaultWhite")).cornerRadius(appModel.moduleCornerRadius).shadow(radius: 5, x: 5, y: 5).labelStyle(.iconOnly)
                     
                     HStack {
                         Button("Previous Day", systemImage: "arrowshape.backward.circle.fill", action: {
                             appModel.displayedDate = Calendar.current.date(byAdding: .day, value: -1, to: appModel.displayedDate)!
-                        }).foregroundStyle(Color("DefaultBlack")).font(.title).padding(2).labelStyle(.iconOnly)
+                        }).foregroundStyle(appModel.headerColor).font(.title).padding(2).labelStyle(.iconOnly)
                         
                         Spacer()
                         
@@ -65,7 +65,7 @@ struct AppHeader: View {
                         
                         Button("Next Day", systemImage: "arrowshape.forward.circle.fill", action: {
                             appModel.displayedDate = Calendar.current.date(byAdding: .day, value: 1, to: appModel.displayedDate)!
-                        }).foregroundStyle(Color("DefaultBlack")).font(.title).padding(2).labelStyle(.iconOnly)
+                        }).foregroundStyle(appModel.headerColor).font(.title).padding(2).labelStyle(.iconOnly)
                         
                         
                         
@@ -74,7 +74,7 @@ struct AppHeader: View {
                     
                     
                     NavigationLink(destination: SettingsView(appModel: appModel)) {
-                        Image(systemName: "gearshape.circle.fill").foregroundStyle(Color("DefaultBlack")).font(.title).padding(2).background(Color("DefaultWhite")).cornerRadius(appModel.moduleCornerRadius).shadow(radius: 5, x: 5, y: 5).labelStyle(.iconOnly)
+                        Image(systemName: "gearshape.circle.fill").foregroundStyle(appModel.headerColor).font(.title).padding(2).background(Color("DefaultWhite")).cornerRadius(appModel.moduleCornerRadius).shadow(radius: 5, x: 5, y: 5).labelStyle(.iconOnly)
                     }
                 }
                     

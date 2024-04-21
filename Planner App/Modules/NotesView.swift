@@ -117,6 +117,7 @@ struct NotesView: View {
                 CanvasView(drawing: $drawing, tool: $tool, isMenuVisible: $isMenuVisible)
                             .edgesIgnoringSafeArea(.all)
                             .border(Color(hue: 1.0, saturation: 0.01, brightness: 0.546, opacity: 0.553), width: 1)
+                            .padding(.horizontal, 2)
                             .onAppear {
                                
                                 DispatchQueue.main.async {

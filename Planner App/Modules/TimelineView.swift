@@ -96,9 +96,7 @@ struct TimelineView: View {
                     }
                 }
             }.padding()
-            .alert("Need Calendar Access", isPresented: $showingAlert) {
-                Button("OK", role: .cancel) {}
-            }
+            
         }
         .onAppear {
             loadEvents()

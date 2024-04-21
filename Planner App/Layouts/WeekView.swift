@@ -25,7 +25,7 @@ struct WeekView: View {
                 if appModel.isLandscape {
                     VStack {
                         // Dynamic generation of dates in the week
-                        HStack(spacing: 10) {
+                        HStack(spacing: appModel.moduleSpacing) {
                             SpaceView(type: smallSpaceLeft, scale: .small, layoutType: .elseLandscape)
                             SpaceView(type: smallSpaceLeftMiddle, scale: .small, layoutType: .elseLandscape)
                             SpaceView(type: smallSpaceRightMiddle, scale: .small, layoutType: .elseLandscape)
@@ -34,20 +34,20 @@ struct WeekView: View {
                         HStack(alignment: .top) {
                             ForEach(datesInWeekList, id: \.self) { date in
                                 
-                                VStack(spacing: 10) {
+                                VStack(spacing: appModel.moduleSpacing) {
                                     // Format the date to display however you prefer
                                     HStack{
                                         Text(date.dayOfWeekFirstLetter).padding([.leading, .top]).font(.title).bold()
                                         Text(date.dateNum).padding([.trailing, .top]).font(.title).bold()
                                     }
-                                    TimelineView(layoutType: .elsePortrait, scale: .small)
+                                    TimelineView(layoutType: .elseLandscape, scale: .small)
                                     TasksView(date: date, scale: .small)
                                     
                                     
                                     
                                     Spacer()
                                     
-                                }.frame(maxWidth: .infinity)
+                                }.frame(maxWidth: .infinity, maxHeight: .infinity)
                                 
                                 
                                 
@@ -72,18 +72,21 @@ struct WeekView: View {
                     }
                 } else {
                     //if portrait
-                    HStack(spacing: 10) {
+                    HStack(spacing: appModel.moduleSpacing) {
                         // Dynamic generation of dates in the week
-                        VStack(spacing: 10) {
+                        VStack(spacing: appModel.moduleSpacing) {
+                            
                             SpaceView(type: smallSpaceLeft, scale: .small, layoutType: .elsePortrait)
                             SpaceView(type: smallSpaceLeftMiddle, scale: .small, layoutType: .elsePortrait)
                             SpaceView(type: smallSpaceRightMiddle, scale: .small, layoutType: .elsePortrait)
                             SpaceView(type: smallSpaceRight, scale: .small, layoutType: .elsePortrait)
+                            
                         }.frame(maxWidth: geometry.size.width * 0.3)
-                        VStack(spacing: 10) {
+                        
+                        VStack(spacing: appModel.moduleSpacing) {
                             ForEach(datesInWeekList, id: \.self) { date in
                                 
-                                HStack(spacing: 10) {
+                                HStack(spacing: appModel.moduleSpacing) {
                                     VStack{
                                         HStack{
                                             Text(date.dayOfWeekFirstLetter).padding([.leading, .top]).font(.title).bold()
@@ -92,7 +95,7 @@ struct WeekView: View {
                                         AllDayEventsView(date: date)
                                     }.frame(maxWidth: geometry.size.width / 5)
                                     HorizontalTimelineView(layoutType: .elsePortrait, scale: .small, date: date)
-                                }
+                                }.frame(maxHeight: .infinity)
                                 
                                 
                                 

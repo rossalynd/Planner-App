@@ -35,7 +35,7 @@ struct SpaceView: View {
                         if type != "Calendar" {
                             HStack {
                                 
-                                Text(appModel.headerCase.apply(to:type)).font(Font.custom("\(appModel.headerFont)", size: 20)).foregroundColor(appModel.headerColor)
+                                Text(appModel.headerCase.apply(to:type)).font(Font.custom("\(appModel.headerFont)", size: 30)).foregroundColor(appModel.headerColor)
                                     
                             }.frame(maxHeight: 30)
                             .onLongPressGesture(perform:{
@@ -44,8 +44,8 @@ struct SpaceView: View {
                         } else {
                             HStack {
                                 Text(appModel.headerCase.apply(to: appModel.displayedDate.monthName))
-                                    .font(Font.custom("\(appModel.headerFont)", size: 20)).foregroundColor(appModel.headerColor)
-                                Text(appModel.headerCase.apply(to: appModel.displayedDate.year)).font(Font.custom("\(appModel.headerFont)", size: 20)).foregroundColor(appModel.headerColor)
+                                    .font(Font.custom("\(appModel.headerFont)", size: 30)).foregroundColor(appModel.headerColor)
+                                Text(appModel.headerCase.apply(to: appModel.displayedDate.year)).font(Font.custom("\(appModel.headerFont)", size: 30)).foregroundColor(appModel.headerColor)
                             }
                             .onLongPressGesture(perform:{
                                 showingAssignView = true

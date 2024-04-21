@@ -40,10 +40,18 @@ extension Date {
         dateFormatter.dateFormat = "MMM"
         return dateFormatter.string(from: self)
     }
+    var monthInt: Int {
+            let calendar = Calendar.current
+            return calendar.component(.month, from: self)
+        }
     var year: String {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "YYYY"
         return dateFormatter.string(from: self)
+    }
+    var yearInt: Int {
+        let calendar = Calendar.current
+        return calendar.component(.year, from: self)
     }
     var shortDate: String {
         let dateFormatter = DateFormatter()

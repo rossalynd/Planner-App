@@ -83,8 +83,7 @@ class CalendarViewModel: ObservableObject {
             let isSelectedDate = selectedDate == day
             let dayComponents = calendar.dateComponents([.year, .month], from: dayDate)
             
-            if let year = components.year, let month = components.month {
-                
+            if (components.year != nil), (components.month != nil) {
                 let color: Color
                 if isSelectedDate {
                     color = dayColor// Highlight day color
@@ -145,6 +144,7 @@ class CalendarViewModel: ObservableObject {
         self.startOfWeek = newStartOfWeek
         self.days = self.generateDaysInMonth()
     }
+    
 }
 
 struct Day: Identifiable, Hashable {

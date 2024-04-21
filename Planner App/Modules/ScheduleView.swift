@@ -10,7 +10,6 @@ import EventKitUI
 
 struct ScheduleView: View {
     @EnvironmentObject var appModel: AppModel
-    
     var layoutType: LayoutType
     var scale: SpaceView.Scale
     var date: Date

@@ -109,8 +109,8 @@ struct SettingsView: View {
             ZStack(alignment: .center) {
                 
                 ZStack {
-                    getBackgroundView(for: appModel.backgroundType).frame(maxWidth: geometry.size.width, maxHeight: geometry.size.height).ignoresSafeArea()
-                    appModel.getOverlayView().frame(maxWidth: geometry.size.width, maxHeight: geometry.size.height).ignoresSafeArea()
+                    getBackgroundView(for: backgroundType)
+                    getOverlayView().frame(maxWidth: geometry.size.width, maxHeight: geometry.size.height).ignoresSafeArea()
                 }
                 
                 VStack {
@@ -294,6 +294,7 @@ struct SettingsView: View {
         }
         
     }
+    
     func saveCustomizationSettings() {
         appModel.startOfWeek = startOfWeek
         appModel.overlayType = overlayType
@@ -305,6 +306,7 @@ struct SettingsView: View {
         appModel.headerCase = headerCase
         appModel.headerFont = headerFont
         appModel.headerColor = headerColor
+        appModel.headerColorContrast = getContrastColor(backgroundColor: headerColor)
         appModel.color = color
         appModel.secondaryColor = secondaryColor
         appModel.saveSettings()
@@ -342,12 +344,17 @@ struct SettingsView: View {
                     return AnyView(Image(systemName: "questionmark"))
                 }
                
-            case .none:
-                return AnyView(Text(""))
-                
+            
             }
         }
     
+    func getContrastColor(backgroundColor: Color) -> Color {
+        var r, g, b, a: CGFloat
+        (r, g, b, a) = (0, 0, 0, 0)
+        UIColor(backgroundColor).getRed(&r, green: &g, blue: &b, alpha: &a)
+        let luminance = 0.2126 * r + 0.7152 * g + 0.0722 * b
+        return  luminance < 0.8 ? .white : .black
+    }
     
     
     func loadImage(from item: PhotosPickerItem) async {

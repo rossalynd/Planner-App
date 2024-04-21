@@ -30,36 +30,77 @@ struct DayView: View {
                 .background(.clear)
             
             GeometryReader { geometry in
-                HStack(spacing: appModel.moduleSpacing) {
+                
+                if appModel.isLandscape {
                     
-                    VStack(spacing: appModel.moduleSpacing) {
-                        VStack {
-                            SpaceView(type: smallSpaceTop, scale: .small, layoutType: .elsePortrait)
-                        }
-                        VStack {
-                            SpaceView(type: smallSpaceMiddleTop, scale: .small, layoutType: .elsePortrait)
-                        }
-                        VStack {
-                            SpaceView(type: smallSpaceMiddleBottom, scale: .small, layoutType: .elsePortrait)
-                        }
-                        VStack {
-                            SpaceView(type: smallSpaceBottom, scale: .small, layoutType: .elsePortrait)
-                        }
+                    HStack(spacing: appModel.moduleSpacing) {
                         
-                    }.frame(maxWidth: geometry.size.width / 3.5, maxHeight: geometry.size.height)
+                        VStack(spacing: appModel.moduleSpacing) {
+                            VStack {
+                                SpaceView(type: smallSpaceTop, scale: .small, layoutType: .elsePortrait)
+                            }
+                            VStack {
+                                SpaceView(type: smallSpaceMiddleTop, scale: .small, layoutType: .elsePortrait)
+                            }
+                            VStack {
+                                SpaceView(type: smallSpaceMiddleBottom, scale: .small, layoutType: .elsePortrait)
+                            }
+                            VStack {
+                                SpaceView(type: smallSpaceBottom, scale: .small, layoutType: .elsePortrait)
+                            }
+                            
+                        }.frame(maxWidth: geometry.size.width / 3.5, maxHeight: geometry.size.height)
+                        
+                        VStack(spacing: appModel.moduleSpacing) {
+                            SpaceView(type: largeSpaceTop, scale: .medium, layoutType: .elsePortrait)
+                            SpaceView(type: largeSpaceBottom, scale: .medium, layoutType: .elsePortrait)
+                            
+                            HStack(spacing: appModel.moduleSpacing) {
+                                SpaceView(type: mediumSpaceLeft, scale: .medium, layoutType: .elsePortrait)
+                                SpaceView(type: mediumSpaceRight, scale: .medium, layoutType: .elsePortrait)
+                            }
+                            
+                            
+                        }.frame(maxWidth: .infinity, maxHeight: geometry.size.height).background(.clear)
+                    }
                     
-                    VStack(spacing: appModel.moduleSpacing) {
-                        SpaceView(type: largeSpaceTop, scale: .medium, layoutType: .elsePortrait)
-                        SpaceView(type: largeSpaceBottom, scale: .medium, layoutType: .elsePortrait)
+                } else {
+                    
+                    HStack(spacing: appModel.moduleSpacing) {
                         
-                        HStack(spacing: appModel.moduleSpacing) {
-                            SpaceView(type: mediumSpaceLeft, scale: .medium, layoutType: .elsePortrait)
-                            SpaceView(type: mediumSpaceRight, scale: .medium, layoutType: .elsePortrait)
-                        }
+                        VStack(spacing: appModel.moduleSpacing) {
+                            VStack {
+                                SpaceView(type: smallSpaceTop, scale: .small, layoutType: .elsePortrait)
+                            }
+                            VStack {
+                                SpaceView(type: smallSpaceMiddleTop, scale: .small, layoutType: .elsePortrait)
+                            }
+                            VStack {
+                                SpaceView(type: smallSpaceMiddleBottom, scale: .small, layoutType: .elsePortrait)
+                            }
+                            VStack {
+                                SpaceView(type: smallSpaceBottom, scale: .small, layoutType: .elsePortrait)
+                            }
+                            
+                        }.frame(maxWidth: geometry.size.width / 3.5, maxHeight: geometry.size.height)
                         
-                        
-                    }.frame(maxWidth: .infinity, maxHeight: geometry.size.height).background(.clear)
+                        VStack(spacing: appModel.moduleSpacing) {
+                            SpaceView(type: largeSpaceTop, scale: .medium, layoutType: .elsePortrait)
+                            SpaceView(type: largeSpaceBottom, scale: .medium, layoutType: .elsePortrait)
+                            
+                            HStack(spacing: appModel.moduleSpacing) {
+                                SpaceView(type: mediumSpaceLeft, scale: .medium, layoutType: .elsePortrait)
+                                SpaceView(type: mediumSpaceRight, scale: .medium, layoutType: .elsePortrait)
+                            }
+                            
+                            
+                        }.frame(maxWidth: .infinity, maxHeight: geometry.size.height).background(.clear)
+                    }
+                    
+                    
                 }
+                
+                
             }
             
         }.background(.clear)
@@ -73,5 +114,5 @@ struct DayView: View {
    ContentView()
         .environmentObject(AppModel())
         .environmentObject(TasksUpdateNotifier())
-        .modelContainer(for: MoodEntry.self)
+        .modelContainer(for: [MoodEntry.self, Note.self])
 }
