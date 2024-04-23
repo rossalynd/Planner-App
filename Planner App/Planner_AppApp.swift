@@ -7,11 +7,21 @@
 
 import SwiftUI
 import SwiftData
+import Firebase
+
+class AppDelegate: NSObject, UIApplicationDelegate {
+  func application(_ application: UIApplication,
+                   didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
+    FirebaseApp.configure()
+
+    return true
+  }
+}
 
 @main
 struct Planner_App: App {
     @EnvironmentObject var appModel: AppModel
-
+    @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
     
 
 
@@ -21,8 +31,6 @@ struct Planner_App: App {
                 .environmentObject(AppModel())
                 .environmentObject(TasksUpdateNotifier())
                 .modelContainer(for: [MoodEntry.self, Note.self])
-                
-                
         }
         
         

@@ -24,10 +24,7 @@ struct DayView: View {
     var body: some View {
         
         ZStack(alignment: .leading) {
-            VStack {
-                
-            }.frame(maxWidth: .infinity, maxHeight: .infinity)
-                .background(.clear)
+          
             
             GeometryReader { geometry in
                 
@@ -66,7 +63,7 @@ struct DayView: View {
                     
                 } else {
                     
-                    HStack(spacing: appModel.moduleSpacing) {
+                   
                         
                         VStack(spacing: appModel.moduleSpacing) {
                             VStack {
@@ -94,8 +91,8 @@ struct DayView: View {
                             }
                             
                             
-                        }.frame(maxWidth: .infinity, maxHeight: geometry.size.height).background(.clear)
-                    }
+                        }.frame(maxWidth: geometry.size.width, maxHeight: geometry.size.height).background(.clear)
+                    
                     
                     
                 }

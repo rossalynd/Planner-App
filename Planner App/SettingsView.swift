@@ -15,8 +15,6 @@ struct SettingsView: View {
     @State var expandAdvanced: Bool = false
     @State var isGradient: Bool = false
     @State private var image: Image? = nil
-    
-    
     @State var startOfWeek: WeekStartDay = .monday
     @State var overlayType: AppModel.OverlayType = .color
     @State var backgroundType: AppModel.BackgroundType = .bluePurpleGradient
@@ -159,7 +157,7 @@ struct SettingsView: View {
                             if isGradient {
                                 HStack {
                                     Text("Choose Gradient Color")
-                                    ColorPickerView(selectedColor: $appModel.secondaryColor)
+                                    ColorPickerView(selectedColor: $secondaryColor)
                                 }
                             }
                             Toggle("Gradient", isOn: $isGradient).onChange(of: isGradient) { oldValue, newValue in
@@ -318,7 +316,26 @@ struct SettingsView: View {
         case .beige:
             return AnyView(BeigeBackground())
         case .custom:
-            return AnyView(CustomBackground())
+            return AnyView(
+                ZStack {
+                    
+                    
+                    Group {
+                        if secondaryColor != color {
+                            // If secondaryColor is not nil, create a LinearGradient with both colors
+                            LinearGradient(gradient: Gradient(colors: [color, secondaryColor]), startPoint: .top, endPoint: .bottom)
+                                .edgesIgnoringSafeArea(.all)
+                        } else {
+                            // If secondaryColor is nil, use mainColor as a solid background
+                            color
+                                .edgesIgnoringSafeArea(.all)
+                        }
+                    }
+                    
+                    Color.defaultClear.frame(maxWidth: .infinity, maxHeight: .infinity).ignoresSafeArea()
+                    
+                }
+            )
             
         }
     }

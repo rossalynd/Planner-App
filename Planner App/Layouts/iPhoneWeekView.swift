@@ -14,6 +14,7 @@
 import SwiftUI
 
 struct iPhoneWeekView: View {
+    @EnvironmentObject private var appModel: AppModel
     private var smallSpaceTop: String = "Calendar"
     private var smallSpaceMiddleTop: String = "Schedule"
     private var smallSpaceMiddleBottom: String = "Tasks"
@@ -45,7 +46,7 @@ struct iPhoneWeekView: View {
                     SpaceView(type: largeSpaceTop, scale: .small, layoutType: .iphoneLandscape)
                     SpaceView(type: largeSpaceBottom, scale: .small, layoutType: .iphoneLandscape)
                     
-                }.frame(maxWidth: .infinity, maxHeight: .infinity)
+                }.frame(maxWidth: .infinity, maxHeight: .infinity).padding(.bottom, appModel.moduleSpacing)
             }
         .shadow(radius: 4, x:3,y:3)
         

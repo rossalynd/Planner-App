@@ -24,7 +24,22 @@ extension Color {
             return Color(uiColor)
         }
     
-
+    func darker(by percentage: CGFloat = 30.0) -> Color {
+            // Convert Color to UIColor
+            let uiColor = UIColor(self)
+            
+            // Get RGB components from UIColor
+            var r: CGFloat = 0, g: CGFloat = 0, b: CGFloat = 0, a: CGFloat = 0
+            uiColor.getRed(&r, green: &g, blue: &b, alpha: &a)
+            
+            // Modify RGB components to make color darker
+            r = max(r - percentage / 100, 0)
+            g = max(g - percentage / 100, 0)
+            b = max(b - percentage / 100, 0)
+            
+            // Create and return the new darker Color
+            return Color(UIColor(red: r, green: g, blue: b, alpha: a))
+        }
 
         
     
@@ -86,3 +101,4 @@ extension Color {
         }
     }
 }
+

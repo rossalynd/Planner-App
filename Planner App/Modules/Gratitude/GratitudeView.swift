@@ -17,20 +17,19 @@ struct GratitudeView: View {
     var body: some View {
         ScrollView {
             VStack(alignment: .center) {
-                
-                if gratitudeText.isEmpty {
-                    Text(appModel.headerCase.apply(to:"What are you grateful for?")).font(Font.custom(appModel.headerFont, size: 20)).foregroundColor(appModel.headerColor).multilineTextAlignment(.center).lineSpacing(-200)
+                Spacer()
+                if gratitudeText.isEmpty && !isEditing {
+                    Text("What are you grateful for?").font(Font.custom(appModel.headerFont, size: 20)).foregroundColor(appModel.headerColor).multilineTextAlignment(.center)
                 }
                     if isEditing {
                         
-                        TextField("", text: $gratitudeText)
+                        TextField("What are you grateful for?", text: $gratitudeText)
                             .onSubmit {
                                 gratitudeManager.saveGratitude(text: gratitudeText, for: appModel.displayedDate)
                                 isEditing = false
                             }
                             .textFieldStyle(.plain).background(Color.clear).multilineTextAlignment(.center).submitLabel(.done)
                             .padding()
-                        
                             .onAppear {
                                 self.gratitudeText = gratitudeManager.gratitudeText(for: appModel.displayedDate)
                             }
@@ -40,7 +39,7 @@ struct GratitudeView: View {
                         Text(appModel.headerCase.apply(to: gratitudeText.isEmpty ? "" : gratitudeText)).font(Font.custom(appModel.headerFont, size: 20)).foregroundColor(appModel.headerColor).multilineTextAlignment(.center).lineSpacing(-200)
                     }
                 
-           
+           Spacer()
             }
             .onKeyPress(.return, action: {
                 self.isEditing = false

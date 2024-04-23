@@ -74,14 +74,7 @@ struct WeekView: View {
                     //if portrait
                     HStack(spacing: appModel.moduleSpacing) {
                         // Dynamic generation of dates in the week
-                        VStack(spacing: appModel.moduleSpacing) {
-                            
-                            SpaceView(type: smallSpaceLeft, scale: .small, layoutType: .elsePortrait)
-                            SpaceView(type: smallSpaceLeftMiddle, scale: .small, layoutType: .elsePortrait)
-                            SpaceView(type: smallSpaceRightMiddle, scale: .small, layoutType: .elsePortrait)
-                            SpaceView(type: smallSpaceRight, scale: .small, layoutType: .elsePortrait)
-                            
-                        }.frame(maxWidth: geometry.size.width * 0.3)
+                        
                         
                         VStack(spacing: appModel.moduleSpacing) {
                             ForEach(datesInWeekList, id: \.self) { date in
@@ -90,10 +83,10 @@ struct WeekView: View {
                                     VStack{
                                         HStack{
                                             Text(date.dayOfWeekFirstLetter).padding([.leading, .top]).font(.title).bold()
-                                            Text(date.dateNum).padding([.trailing, .top]).font(.title).bold()
+                                            Text(date.dateNum).padding([.trailing, .top]).font(.title2).bold()
                                         }
                                         AllDayEventsView(date: date)
-                                    }.frame(maxWidth: geometry.size.width / 5)
+                                    }.frame(maxWidth: geometry.size.width / 4)
                                     HorizontalTimelineView(layoutType: .elsePortrait, scale: .small, date: date)
                                 }.frame(maxHeight: .infinity)
                                 

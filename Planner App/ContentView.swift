@@ -19,8 +19,8 @@ struct ContentView: View {
     @State private var selectedTab: String = "monthly"
 
     init() {
-        UITabBar.appearance().unselectedItemTintColor = UIColor.white
-        UITabBar.appearance().backgroundColor = .white.withAlphaComponent(0.2)
+        
+        
     }
     private var padding: CGFloat {
             switch currentDeviceType() {
@@ -63,7 +63,19 @@ struct ContentView: View {
                 }.frame(maxWidth: .infinity, maxHeight: .infinity)
                 .themedBackground(appModel: appModel)
                 
-
+                
+                        GeometryReader { geometry in
+                            VStack(alignment: .center){
+                            Spacer()
+                            HStack{
+                                
+                            }.frame(maxWidth: geometry.size.width, minHeight: 64, maxHeight: 64 + appModel.moduleSpacing).background(.defaultWhite).clipShape(RoundedRectangle(cornerRadius: appModel.moduleCornerRadius)).padding(.bottom, 5)
+                                
+                        
+                            
+                        }.frame(maxWidth: .infinity, maxHeight: .infinity).padding(.bottom, 25).ignoresSafeArea(.all)
+                        }.frame(maxWidth: .infinity, maxHeight: .infinity).padding(.horizontal)
+               
                 
                 VStack(spacing: appModel.moduleSpacing) {
                     
@@ -78,12 +90,12 @@ struct ContentView: View {
                                 } else {
                                     DayView()
                                 }
-                            }.padding([.leading, .trailing])
+                            }.padding([.leading, .trailing]).padding(.bottom, 10)
                             .tabItem{
                                 Label("Daily", systemImage: "sun.max.fill")
                                 
                             }.background(BackgroundHelper()).transition(.opacity)
-                            WeekView().padding([.leading, .trailing])
+                            WeekView().padding([.leading, .trailing]).padding(.bottom, 10)
                                 .tabItem{
                                     Label("Weekly", systemImage: "chart.bar.xaxis")
                                 }.background(BackgroundHelper()).transition(.opacity)
@@ -91,11 +103,11 @@ struct ContentView: View {
                                 .tabItem{
                                     Label("Monthly", systemImage: "calendar")
                                 }.background(BackgroundHelper()).transition(.opacity)
-                            YearlyMoodView().padding([.leading, .trailing, .bottom])
+                            YearlyMoodView().padding([.leading, .trailing]).padding(.bottom, 10)
                                 .tabItem{
                                     Label("Yearly", systemImage: "globe.desk.fill")
                                 }.background(BackgroundHelper()).transition(.opacity)
-                        }.tint(appModel.headerColor).font(Font.custom(appModel.headerFont, size: 20))
+                        }.tint(appModel.headerColor).font(Font.custom(appModel.headerFont, size: 20)).shadow(color: .black.opacity(0.1), radius: 5, x: 5, y: 5)
                         
                     } else if appModel.mainView == "Wellbeing" {
                         
@@ -118,7 +130,7 @@ struct ContentView: View {
                         TimelineView(layoutType: .elsePortrait, scale: .large)
                     }
                     
-                }
+                }.padding(.bottom, appModel.moduleSpacing)
 
                 
 
@@ -138,7 +150,7 @@ struct ContentView: View {
                                                                    // Check if the drag is from trailing to leading
                                                                    if drag.translation.width < 0 {
                                                                        // This means the user swiped from trailing to leading
-                                                                       withAnimation {
+                                                                       withAnimation(.spring) {
                                                                            appModel.isMenuVisible = false
                                                                        }
                                                                    }
@@ -148,11 +160,13 @@ struct ContentView: View {
                             Spacer()
                         }.frame(maxWidth:  UIDevice.current.userInterfaceIdiom != .phone ? geometry.size.width / 3 : geometry.size.width / 1.25, maxHeight: .infinity).shadow(radius: 10, x: 10, y: 10).ignoresSafeArea()
                             
+                            
                     }.frame(maxHeight: geometry.size.height)
                         
                     
                 }
 
+                
                 
                 HStack(spacing: 0) {
                     Rectangle()
@@ -164,7 +178,7 @@ struct ContentView: View {
                                 .onEnded { drag in
                                     if drag.translation.width > 0 {
                                         // Detect swipe right
-                                        withAnimation {
+                                        withAnimation(.spring) {
                                             appModel.isMenuVisible = true
                                         }
                                     }
@@ -180,14 +194,23 @@ struct ContentView: View {
             
                 //END ZSTACK ^^
             
-            
+        
         }.onAppear {
             appModel.loadSettings()
+          
+            UITabBar.appearance().unselectedItemTintColor = UIColor(appModel.headerColor.darker(by: 15.0)).withAlphaComponent(0.4)
+            UITabBar.appearance().backgroundColor = .clear
             
         }
+        .onChange(of: appModel.headerColor) {
+            UITabBar.appearance().unselectedItemTintColor = UIColor(Color(appModel.headerColor).darker(by: 15.0)).withAlphaComponent(0.4)
+        }
+        
           
+        
                 
                 
+        
             
             
             

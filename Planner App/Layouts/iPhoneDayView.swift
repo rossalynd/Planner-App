@@ -8,38 +8,54 @@
 import SwiftUI
 
 struct iPhoneDayView: View {
-
-    private var mediumSpaceTop: String = "Timeline (Horizontal)"
+    @EnvironmentObject private var appModel: AppModel
+    private var mediumSpaceTop: String = "Schedule"
     
     private var smallSpaceMiddleLeft: String = "Mood"
     private var smallSpaceMiddleRight: String = "Gratitude"
     
     private var largeSpaceBottom: String = "Tasks"
+    private var smallSpaceBottomLeft: String = "Water"
+    private var smallSpaceBottomRight: String = "Meals"
     
    
 
     var body: some View {
         GeometryReader { geometry in
-            HStack(spacing: 15) {
             
-                
-                VStack(spacing: 15) {
-                    SpaceView(type: mediumSpaceTop, scale: .medium, layoutType: .iphonePortrait)
+            ScrollView(.vertical) {
+                VStack(spacing: appModel.moduleSpacing) {
                     
-                    HStack {
+                    SpaceView(type: mediumSpaceTop, scale: .medium, layoutType: .iphonePortrait)
+                        .frame(minHeight: (geometry.size.height / 3) - appModel.moduleSpacing)
+                    
+                    HStack(spacing: appModel.moduleSpacing) {
                         SpaceView(type: smallSpaceMiddleLeft, scale: .small, layoutType: .iphonePortrait)
                         SpaceView(type: smallSpaceMiddleRight, scale: .small, layoutType: .iphonePortrait)
                     }
+                    .frame(minHeight: (geometry.size.height / 3) - appModel.moduleSpacing)
+                    SpaceView(type: largeSpaceBottom, scale: .large, layoutType: .iphonePortrait)
+                        .frame(minHeight: (geometry.size.height / 3) - appModel.moduleSpacing)
+                    HStack(spacing: appModel.moduleSpacing) {
+                        SpaceView(type: smallSpaceBottomLeft, scale: .small, layoutType: .iphonePortrait)
+                        SpaceView(type: smallSpaceBottomRight, scale: .small, layoutType: .iphonePortrait)
+                    }
+                    .frame(minHeight: (geometry.size.height / 3) - appModel.moduleSpacing)
                     
-                   
-                        
-                        SpaceView(type: largeSpaceBottom, scale: .large, layoutType: .iphonePortrait)
                     
-                    
-                    
-                }.frame(maxWidth: .infinity, maxHeight: geometry.size.height)
-            }
-        }.shadow(radius: 4, x:3,y:3)
+                }.padding(.bottom, appModel.moduleSpacing)
+                
+            
+            }.frame(minWidth: geometry.size.width, minHeight: geometry.size.height).scrollIndicators(.hidden)
+        }
         
     }
+}
+
+#Preview {
+    ContentView()
+        .environmentObject(AppModel())
+        .environmentObject(TasksUpdateNotifier())
+        .modelContainer(for: [MoodEntry.self, Note.self])
+       
 }
